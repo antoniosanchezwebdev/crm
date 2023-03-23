@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('presupuestos', function (Blueprint $table) {
+        Schema::create('orden_comentarios', function (Blueprint $table) {
             $table->id();
-            $table->string('numpero_presupuesto')->nullable();
+            $table->string('numero_presupuesto')->nullable();
             $table->timestamp('fecha_emision')->nullable();
-            $table->integer('alumno_id')->nullable();
-            $table->integer('curso_id')->nullable();
-            $table->string('detalles')->nullable();
-            $table->decimal('total_sin_iva')->nullable();
-            $table->decimal('iva')->nullable();
-            $table->decimal('descuento')->nullable();
+            $table->integer('cliente_id')->nullable();
+            $table->string('matricula')->nullable();
+            $table->integer('kilometros')->nullable();
+            $table->integer('trabajador_id')->nullable();
+            $table->decimal('linea_producto_asociado')->nullable();
             $table->decimal('precio')->nullable();
             $table->string('estado')->nullable();
             $table->string('observaciones')->nullable();
@@ -38,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('presupuestos');
+        Schema::dropIfExists('orden_comentarios');
     }
 };

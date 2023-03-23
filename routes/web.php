@@ -13,6 +13,7 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\PresupuestoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\FacturasController;
 use App\Http\Controllers\SettingsController;
@@ -77,6 +78,11 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     /* --------------------------------------- */
 
     // RECORDATORIO: IMPORTAR CONTROLADORES NUEVOS
+
+    Route::get('proveedores', [ProveedoresController::class, 'index'])->name('proveedores.index');
+    Route::get('proveedores/create', [ProveedoresController::class, 'create'])->name('proveedores.create');
+    Route::get('proveedores/edit/{id}', [ProveedoresController::class, 'edit'])->name('proveedores.edit');
+
     // Alumnos
     Route::get('alumnos', [AlumnoController::class, 'index'])->name('alumnos.index');
     Route::get('alumnos-create', [AlumnoController::class, 'create'])->name('alumnos.create');
@@ -189,4 +195,6 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('clients/create', [ClientsController::class, 'create'])->name('clients.create');
     Route::get('clients/edit/{id}', [ClientsController::class, 'edit'])->name('clients.edit');
 
+    //Proveedores
+    
 });

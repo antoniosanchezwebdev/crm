@@ -13,18 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('tipo_productos', function (Blueprint $table) {
             $table->id();
-            $table->string('dni')->nullable();
-            $table->string('nombre')->nullable();
-            $table->string('email')->nullable();
-            $table->string('direccion')->nullable();
-            $table->string('telefono')->nullable();
-            $table->string('observaciones')->nullable();
+            $table->string('tipo_producto');
             $table->timestamps();
-            $table->softDeletes();
         });
-
     }
 
     /**
@@ -34,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('tipo_productos');
     }
 };

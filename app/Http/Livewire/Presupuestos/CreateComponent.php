@@ -16,32 +16,24 @@ class CreateComponent extends Component
 
     public $numero_presupuesto;
     public $fecha_emision;
-    public $alumno_id = 0; // 0 por defecto por si no se selecciona ninguna
-    public $curso_id = 0; // 0 por defecto por si no se selecciona ninguna
-    public $detalles;
-    public $total_sin_iva;
-    public $iva = 21;
-    public $descuento = 0;
-    public $precio;
-    public $estado;
+    public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $matricula;
+    public $kilometros;
+    public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $precio = 0;
     public $observaciones = "";
 
-    public $alumnosSinEmpresa;
-    public $alumnosConEmpresa;
-    public $cursos;
 
-    public $tipoCliente; // Se usa para generar factura de cliente o particular
-    public $stateAlumno = 0; // Para mostrar los inputs del alumno o empresa
-    public $stateCurso = 0; // Para mostrar los inputs del alumno o empresa
+    public $clientes;
+    public $trabajadores;
+    
+    public $clienteSeleccionado;
+    public $trabajadorSeleccionado;
 
-    public $alumnoSeleccionado;
-    public $empresaDeAlumno;
-    public $cursoSeleccionado;
 
     public function mount(){
-        $this->alumnosSinEmpresa = Alumno::where('empresa_id', 0)->get(); // datos que se envian al select2
-        $this->alumnosConEmpresa = Alumno::where('empresa_id', '>', 0)->get();
-        $this->cursos = Cursos::all(); // datos que se envian al select2
+        $this->clientes = Cliente::all(); // datos que se envian al select2
+        $this->trabajadores = Trabajador::all(); // datos que se envian al select2
 
     }
 
@@ -58,10 +50,10 @@ class CreateComponent extends Component
         $validatedData = $this->validate([
             'numero_presupuesto' => 'required',
             'fecha_emision' => 'required',
-            'alumno_id' => 'required',
-            'curso_id' => 'required',
-            'detalles' => 'required',
-            'total_sin_iva' => '',
+            'cliente_id' => 'required',
+            'matricula' => 'required',
+            'kilometros' => 'required',
+            'trabajador_id' => 'required',
             'iva' => '',
             'descuento' => '',
             'precio' => 'required',
@@ -73,10 +65,10 @@ class CreateComponent extends Component
             [
                 'numero_presupuesto' => 'El número de presupuesto es obligatorio.',
                 'fecha_emision.required' => 'La fecha de emision es obligatoria.',
-                'alumno_id.required' => 'El alumno es obligatorio.',
-                'curso_id.required' => 'El curso es obligatorio.',
-                'detalles.required' => 'Los detalles son obligatorios',
-                'total_sin_iva.required' => '',
+                'cliente_id.required' => 'El cliente es obligatorio.',
+                'matricula.required' => 'La matricula del coche es obligatoria.',
+                'kilometros.required' => 'Los kilometros del coche son obligatorios',
+                'trabajador_id.required' => 'El trabajador es obligatorio.',
                 'iva.required' => '',
                 'descuento.required' => '',
                 'precio.required' => 'El precio es obligaorio',

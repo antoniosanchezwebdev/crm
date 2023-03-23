@@ -12,12 +12,18 @@ class Productos extends Model
     protected $table = "productos";
 
     protected $fillable = [
-        'id_categoria',
-        'id_tipo_iva',
         'cod_producto',
-        'nombre',
         'descripcion',
-        'precio',
+        'tipo_producto',
+        'ecotasa',
+        'fabricante',
+        'etiquetado_eu',
+        'estado',
+        'categoria',
+        'precio_baremo',
+        'descuento',
+        'precio_costo-neto',
+        'precio_venta',
         'stock',
 
     ];

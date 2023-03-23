@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Clients;
+namespace App\Http\Livewire\Proveedores;
 
 use Livewire\Component;
-use App\Models\Clients;
+use App\Models\Proveedores;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EditComponent extends Component
@@ -19,19 +19,19 @@ class EditComponent extends Component
     public $observaciones;
 
     public function mount(){
-        $cliente = Clients::find($this->identificador);
+        $proveedor = Proveedores::find($this->identificador);
 
-        $this->dni = $cliente->dni;
-        $this->nombre = $cliente->nombre;
-        $this->direccion = $cliente->direccion;
-        $this->telefono = $cliente->telefono;
-        $this->email = $cliente->email;
+        $this->dni = $proveedor->dni;
+        $this->nombre = $proveedor->nombre;
+        $this->direccion = $proveedor->direccion;
+        $this->telefono = $proveedor->telefono;
+        $this->email = $proveedor->email;
         }
 
     public function render()
     {
         
-        return view('livewire.clients.edit-component');
+        return view('livewire.proveedores.edit-component');
     }
 
     public function update()
@@ -56,10 +56,10 @@ class EditComponent extends Component
 
         // Guardar datos validados
         // Encuentra el alumno identificado
-        $cliente = Clients::find($this->identificador);
+        $proveedor = Proveedores::find($this->identificador);
 
         // Guardar datos validados
-        $clientesSave = $cliente->update([
+        $proveedoresSave = $proveedor->update([
             'dni' => $this->dni,
             'nombre' => $this->nombre,
             'email' => $this->email,
@@ -70,8 +70,8 @@ class EditComponent extends Component
         ]);
 
         // Alertas de guardado exitoso
-        if ($clientesSave) {
-            $this->alert('success', '¡Cliente actualizado correctamente!', [
+        if ($proveedoresSave) {
+            $this->alert('success', '¡Proveedor actualizado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -81,7 +81,7 @@ class EditComponent extends Component
                 'timerProgressBar' => true,
             ]);
         } else {
-            $this->alert('error', '¡No se ha podido guardar la información del cliente!', [
+            $this->alert('error', '¡No se ha podido guardar la información del proveedor!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -93,7 +93,7 @@ class EditComponent extends Component
         // $product = Productos::find($this->identificador);
         // $product->delete();
 
-        $this->alert('warning', '¿Seguro que desea borrar el cliente? No hay vuelta atrás', [
+        $this->alert('warning', '¿Seguro que desea borrar el proveedor? No hay vuelta atrás', [
             'position' => 'center',
             'timer' => 3000,
             'toast' => false,
@@ -119,15 +119,15 @@ class EditComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('clients.index');
+        return redirect()->route('proveedores.index');
 
     }
     // Función para cuando se llama a la alerta
     public function confirmDelete()
     {
-        $cliente = Clients::find($this->identificador);
-        $cliente->delete();
-        return redirect()->route('clients.index');
+        $proveedor = Proveedores::find($this->identificador);
+        $proveedor->delete();
+        return redirect()->route('proveedores.index');
 
     }
 }

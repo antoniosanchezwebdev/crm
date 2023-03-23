@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Presupuestos extends Model
+class Presupuesto extends Model
 {
     use HasFactory;
 
     protected $table = "presupuestos";
 
     protected $fillable = [
-        'numpero_presupuesto',
+        'numero_presupuesto',
         'fecha_emision',
-        'alumno_id',
-        'curso_id',
-        'detalles',
-        'total_sin_iva',
-        'iva',
-        'descuento',
+        'cliente_id',
+        'matricula',
+        'kilometros',
+        'trabajador_id',
         'precio',
-        'estado',
         'observaciones',
+
     ];
 
     /**

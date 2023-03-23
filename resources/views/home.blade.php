@@ -2,7 +2,7 @@
 
 @section('title', 'Dashboard')
 @section('content')
-
+    
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -18,7 +18,7 @@
 
 
                     <h2>Bienvenido, {{ $user->name }}</h2>
-                    {{ __('¡Estás logeado!') }}
+                    {{ __('¡Has iniciado sesión!') }}
                 </div>
             </div>
         </div>

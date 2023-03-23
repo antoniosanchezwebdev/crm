@@ -15,31 +15,12 @@ class Client extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'name',
-        'company',
+        'dni',
+        'nombre',
         'email',
-        'industry',
-        'activity',
-        'identifier',
-        'cif',
-        'birthdate',
-        'country',
-        'city',
-        'province',
-        'address',
-        'zipcode',
-        'fax',
-        'phone',
-        'web',
-        'facebook',
-        'instagram',
-        'pinterest',
-        'is_client',
-        'cookies_accepted',
-        'privacy_policy_accepted',
-        'newsletters_sending_accepted',
-        'notes',
+        'telefono', 
+        'direccion', 
+        'observaciones'
     ];
     
     /**

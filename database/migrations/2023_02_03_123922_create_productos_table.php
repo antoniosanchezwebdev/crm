@@ -15,15 +15,20 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_categoria')->nullable();
-            $table->integer('id_tipo_iva')->nullable();
-            $table->string('cod_producto')->unique();
-            $table->string('nombre')->nullable();
+            $table->integer('cod_producto')->nullable();
             $table->string('descripcion')->nullable();
-            $table->decimal('precio')->nullable();
+            $table->string('tipo_producto')->nullable();
+            $table->integer('ecotasa')->nullable();
+            $table->string('fabricante')->nullable();
+            $table->string('etiquetado_eu')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('categoria')->nullable();
+            $table->integer('precio_baremo')->nullable();
+            $table->integer('descuento')->nullable();
+            $table->integer('precio_costo-neto')->nullable();
+            $table->integer('precio_venta')->nullable();
             $table->integer('stock')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -34,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('productos');
     }
 };

@@ -8,14 +8,14 @@
 @section('content')
     <div class="container mx-auto">
         <div class="d-flex justify-content-left align-items-center">
-            <h1 class="me-5">Clientes</h1>
-            <a href="{{route('clients.create')}}" class="btn btn-info text-white rounded-circle"><i class="fa-solid fa-plus"></i></a>
+            <h1 class="me-5">Proveedores</h1>
+            <a href="{{route('proveedores.create')}}" class="btn btn-info text-white rounded-circle"><i class="fa-solid fa-plus"></i></a>
         </div>
 
         <br>
         <!-- Creamos tabla si existe componentes -->
-        @if (count($clientes) > 0)
-            <table class="table" id="tableCliente">
+        @if (count($proveedores) > 0)
+            <table class="table" id="tableProveedor">
                 <thead>
                 <tr>
                     <th scope="col">ID del cliente</th>
@@ -30,24 +30,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach ($clientes as $cliente)
+                    @foreach ($proveedores as $proveedor)
                         <tr>
-                            <th scope="row">{{$cliente->id}}</th>
-                            <td>{{$cliente->dni}}</td>
-                            <td>{{$cliente->nombre}}</td>
-                            <td>{{$cliente->nombre}}</td>
-                            <td>{{$cliente->email}}</td>
-                            <td>{{$cliente->direccion}}</td>
-                            <td>{{$cliente->telefono}}</td>
-                            <td>{{$cliente->observaciones}}</td>
-                            <td><a href="/admin/clients/edit/{{$cliente->id}}" class="btn btn-primary">Editar</a></td>
+                            <th scope="row">{{$proveedor->id}}</th>
+                            <td>{{$proveedor->dni}}</td>
+                            <td>{{$proveedor->nombre}}</td>
+                            <td>{{$proveedor->nombre}}</td>
+                            <td>{{$proveedor->email}}</td>
+                            <td>{{$proveedor->direccion}}</td>
+                            <td>{{$proveedor->telefono}}</td>
+                            <td>{{$proveedor->observaciones}}</td>
+                            <td><a href="/admin/proveedores/edit/{{$proveedor->id}}" class="btn btn-primary">Editar</a></td>
                         </tr>
 
                     @endforeach                
                 </tbody>
             </table>
         @else
-        <h5>No hay clientes en la base de datos</h5>
+        <h5>No hay proveedores en la base de datos</h5>
         @endif
     </div>
 
@@ -64,7 +64,7 @@
     <script>
         $(document).ready( function () {
             console.log('entro');
-            $('#tableCliente').DataTable({
+            $('#tableProveedor').DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
                 // buttons: [

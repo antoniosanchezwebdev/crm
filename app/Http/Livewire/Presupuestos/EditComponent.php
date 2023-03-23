@@ -15,30 +15,26 @@ class EditComponent extends Component
 
     public $identificador;
 
-
     public $numero_presupuesto;
+
     public $fecha_emision;
-    public $alumno_id = 0; // 0 por defecto por si no se selecciona ninguna
-    public $curso_id = 0; // 0 por defecto por si no se selecciona ninguna
-    public $detalles;
-    public $total_sin_iva;
-    public $iva;
-    public $descuento;
-    public $precio;
+    public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $matricula;
+    public $kilometros;
+    public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $precio = 0;
     public $estado;
     public $observaciones = "";
 
-    public $alumnosSinEmpresa;
-    public $alumnosConEmpresa;
-    public $cursos;
+    public $clientes;
+    public $trabajadores;
 
     public $tipoCliente; // Se usa para generar factura de cliente o particular
     public $stateAlumno = 0; // Para mostrar los inputs del alumno o empresa
     public $stateCurso = 0; // Para mostrar los inputs del alumno o empresa
 
-    public $alumnoSeleccionado;
-    public $empresaDeAlumno;
-    public $cursoSeleccionado;
+    public $clienteSeleccionado;
+    public $trabajadorSeleccionado;
 
 
     public function mount()

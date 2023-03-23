@@ -13,18 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('presupuestos', function (Blueprint $table) {
             $table->id();
-            $table->string('dni')->nullable();
-            $table->string('nombre')->nullable();
-            $table->string('email')->nullable();
-            $table->string('direccion')->nullable();
-            $table->string('telefono')->nullable();
+            $table->string('numero_presupuesto')->nullable();
+            $table->timestamp('fecha_emision')->nullable();
+            $table->integer('cliente_id')->nullable();
+            $table->string('matricula')->nullable();
+            $table->integer('kilometros')->nullable();
+            $table->integer('trabajador_id')->nullable();
+            $table->decimal('precio')->nullable();
             $table->string('observaciones')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 
     /**
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('presupuestos');
     }
 };

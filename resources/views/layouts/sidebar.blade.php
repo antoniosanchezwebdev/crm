@@ -7,7 +7,7 @@
     }
     .boton {
         font-size: 201%;
-        position: absolute;
+        position: relative;
         top: 30;
         left: 280;
     }
@@ -114,12 +114,24 @@
         <div class="sidebar-menu">
             <ul>
                 <li class="header-menu">
-                    <span>General</span>
+                    <span>Módulos</span>
                 </li>
                 <li class="">
-                    <a href="/admin/alumnos">
+                    <a href="/../home">
+                        <i class="fa fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/admin/clients">
                         <i class="fa-solid fa-user"></i>
-                        <span>Alumnos</span>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/admin/proveedores">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Proveedores</span>
                     </a>
                 </li>
                 <li class="">
@@ -131,31 +143,37 @@
                 <li class="">
                     <a href="/admin/cursos">
                         <i class="fas fa-book"></i>
-                        <span>Cursos</span>
+                        <span>Presupuestos</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="/admin/presupuestos">
                         <i class="fas fa-hand-holding-usd"></i>
-                        <span>Presupuestos</span>
+                        <span>Orden de trabajo</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="/admin/facturas">
                         <i class="fas fa-file-invoice"></i>
-                        <span>Facturas</span>
+                        <span>Productos</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="/admin/usuarios">
                         <i class="fa-solid fa-users"></i>
-                        <span>Usuarios</span>
+                        <span>Informes</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="/../home">
                         <i class="fa fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                        <span>Newsletter</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/../home">
+                        <i class="fa fa-tachometer-alt"></i>
+                        <span>Caja</span>
                     </a>
                 </li>
                 {{-- <li class="">

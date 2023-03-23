@@ -6,7 +6,7 @@
 
 
 <div>
-    @livewire('clients.create-component')
+    @livewire('proveedores.create-component')
 </div>
 
 @endsection

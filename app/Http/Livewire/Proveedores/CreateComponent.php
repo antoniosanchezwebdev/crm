@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Clients;
+namespace App\Http\Livewire\Proveedores;
 
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use App\Models\Clients;
+use App\Models\Proveedores;
 
 class CreateComponent extends Component
 {
@@ -23,7 +23,7 @@ class CreateComponent extends Component
     // Renderizado del Componente
     public function render()
     {      
-        return view('livewire.clients.create-component');
+        return view('livewire.proveedores.create-component');
     }
 
     public function submit()
@@ -47,10 +47,10 @@ class CreateComponent extends Component
             ]);
 
         // Guardar datos validados
-        $clientesSave = Clients::create($validatedData);
+        $proveedoresSave = Proveedores::create($validatedData);
 
         // Alertas de guardado exitoso
-        if ($clientesSave) {
+        if ($proveedoresSave) {
             $this->alert('success', '¡Alumno registrado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
@@ -78,7 +78,7 @@ class CreateComponent extends Component
 
     public function confirmed()
     {
-        return redirect()->route('clients.index');
+        return redirect()->route('proveedores.index');
     }
 
 }
