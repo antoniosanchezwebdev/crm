@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('cod_producto')->nullable();
             $table->string('descripcion')->nullable();
-            $table->string('tipo_producto')->nullable();
+            $table->integer('tipo_producto')->nullable();
             $table->integer('ecotasa')->nullable();
             $table->string('fabricante')->nullable();
             $table->string('etiquetado_eu')->nullable();

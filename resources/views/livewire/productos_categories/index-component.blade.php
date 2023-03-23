@@ -24,6 +24,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Tipo de producto</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                     @foreach ($productosCategories as $producto)
                         <tr>
                             <td>{{ $producto->nombre }}</td>
+                            <td>{{ $tipos_producto->find($producto->tipo_producto)->tipo_producto}}</td>
                             <td> <a href="productos-categories-edit/{{ $producto->id }}" class="btn btn-primary">Editar</a>
                             </td>
                         </tr>

@@ -10,12 +10,18 @@
         <h2>Crear Productos</h2>
         <br>
 
-
+      {{-- Usar wire:model para modificar el tipo de producto en la misma página --}}
                 <form wire:submit.prevent="submit">
                     <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
                     <div class="mb-3 row d-flex align-items-center">
                       <label for="stock" class="col-sm-2 col-form-label">Categoria</label>
                       <div class="col-sm-10">
+                        <select name="categoriaProducto" id="id_categoria" wire:model="id_categoria" class="form-control">
+                          <option value="">-- Selecciona tipo de producto --</option>
+                          @foreach ($categorias as $categoria)
+                            <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                          @endforeach
+                        </select>
                         <select name="categoriaProducto" id="id_categoria" wire:model="id_categoria" class="form-control">
                           <option value="">-- Selecciona Categoria --</option>
                           @foreach ($categorias as $categoria)

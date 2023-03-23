@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Productos;
 
 use App\Models\Productos;
 use App\Models\ProductosCategories;
-
+use App\Models\TipoProducto;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -13,15 +13,25 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
-    public $cod_producto;
-    public $nombre;
-    public $descripcion;
-    public $precio;
-    public $stock;
+    public $tipos_producto;
     public $categorias;
-    public $id_categoria;
+    public $cod_producto;
+    public $descripcion;
+    public $nombre;
+    public $tipo_producto;
+    public $ecotasa;
+    public $fabricante;
+    public $etiquetado_eu;
+    public $estado;
+    public $categoria;
+    public $precio_baremo;
+    public $descuento;
+    public $precio_costo_neto;
+    public $precio_venta;
+    public $stock;
 
     public function mount(){
+        $this->tipos_producto = TipoProducto::all();
         $this->categorias = ProductosCategories::all();
     }
 

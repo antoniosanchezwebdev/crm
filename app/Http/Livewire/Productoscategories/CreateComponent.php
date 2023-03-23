@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Productoscategories;
 
 use App\Models\Productos;
+use App\Models\TipoProducto;
 use App\Models\ProductosCategories;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -12,7 +13,14 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
+    public $tipos_producto;
+    public $tipo_producto;
     public $nombre;
+
+    public function mount()
+    {
+        $this->tipos_producto = TipoProducto::all();
+    }
 
     public function render()
     {
@@ -25,9 +33,13 @@ class CreateComponent extends Component
         // Validación de datos
         $validatedData = $this->validate([
             'nombre' => 'required',
+            'tipo_producto' => 'required|min:1|max:5',
         ],
             // Mensajes de error
             [
+                'tipo_producto.required' => 'El tipo de producto es necesario.',
+                'tipo_producto.min' => "Error de tipo de producto.",
+                'tipo_producto.max' => "Error de tipo de producto.",
                 'nombre.required' => 'El nombre es obligatorio.',
             ]);
 

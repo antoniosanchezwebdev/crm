@@ -12,7 +12,9 @@
             <h1 class="me-5">Productos</h1>
             <a href="{{route('productos.create')}}" class="btn btn-info text-white rounded-circle"><i class="fa-solid fa-plus"></i></a>
             <div>&nbsp;&nbsp;&nbsp;</div>
-            <a href="{{route('productos.pdf')}}" class="btn btn-info text-white rounded-circle">PDF</a>
+            <a href="{{route('productos.pdf')}}" class="btn btn-info text-white rounded-pill">PDF</a>
+            <div>&nbsp;&nbsp;&nbsp;</div>
+            <a href="{{route('productos-categories.index')}}" class="btn btn-info text-white rounded-pill">Categorías</a>
         </div>
         <h2>Todos los productos</h2>
         <br>

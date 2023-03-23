@@ -141,37 +141,37 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="/admin/cursos">
+                    <a href="/admin/presupuestos">
                         <i class="fas fa-book"></i>
                         <span>Presupuestos</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="/admin/presupuestos">
+                    <a href="/admin/orden-trabajo">
                         <i class="fas fa-hand-holding-usd"></i>
                         <span>Orden de trabajo</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="/admin/facturas">
+                    <a href="/admin/productos">
                         <i class="fas fa-file-invoice"></i>
                         <span>Productos</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="/admin/usuarios">
+                    <a href="/admin/informes">
                         <i class="fa-solid fa-users"></i>
                         <span>Informes</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="/../home">
+                    <a href="/admin/newsletter">
                         <i class="fa fa-tachometer-alt"></i>
                         <span>Newsletter</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="/../home">
+                    <a href="/admin/caja">
                         <i class="fa fa-tachometer-alt"></i>
                         <span>Caja</span>
                     </a>
