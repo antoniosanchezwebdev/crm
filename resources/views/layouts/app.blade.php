@@ -49,6 +49,7 @@
             <div class="container-fluid pt-4">
                 @livewire('container-component')
                 @yield('content-factura')
+                @yield('content-producto')
 
                 {{-- @yield('content') --}}
             </div>

@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_productos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('productos', function (Blueprint $table) {
+            $table->float("precio_costoNeto")->after("descuento");
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_productos');
+        //
     }
 };

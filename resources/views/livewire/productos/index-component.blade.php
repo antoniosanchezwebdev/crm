@@ -5,9 +5,7 @@
     @vite(['resources/sass/productos.scss'])
 
 @endsection
-
-@section('content')
-    <div class="container mx-auto">
+    <div class="container">
         <div class="d-flex justify-content-left align-items-center">
             <h1 class="me-5">Productos</h1>
             <a href="{{route('productos.create')}}" class="btn btn-info text-white rounded-circle"><i class="fa-solid fa-plus"></i></a>
@@ -20,27 +18,44 @@
         <br>
         <br><br><br>
 
+        <div class="mb-3 row d-flex align-items-center">
+            <label for="tipo_producto" class="col-sm-2 col-form-label">Tipo de producto</label>
+            <div class="col-sm-10">
+              <select name="tipo_producto" id="tipo_producto" wire:model="tipo_producto" wire:change="tipo_producto" class="form-control">
+                <option selected value="">Todos los productos</option>
+                @foreach ($tipos_producto as $tipos)
+                  <option value="{{$tipos->id}}">{{$tipos->tipo_producto}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
         @if (count($productos) > 0)
             <table class="table" id="tableProductos">
                 <thead>
                     <tr>
                         <th scope="col">Código</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Stock</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($productos as $producto)
                         <tr>
-                            <td>{{ $producto->cod_producto }}</th>
-                            <td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->descripcion }}</td>
-                            <td> <a href="productos-edit/{{ $producto->id }}" class="btn btn-primary">Editar</a> </td>
+                            <td>{{$producto->cod_producto }}</th>
+                            <td>{{$producto->descripcion }}</td>
+                            <td>{{$producto->precio_venta }}</td>
+                            <td>{{$categorias->where('id', $producto->categoria)->first()->nombre}}</td>
+                            <td>{{$producto->stock}}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        @else
+        <h3>No existen productos de este tipo.</h3>
         @endif
 
     </div>
@@ -57,6 +72,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             console.log('entro');
@@ -102,5 +118,4 @@
             })
         });
     </script>
-@endsection
 @endsection

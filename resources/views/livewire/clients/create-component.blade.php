@@ -82,13 +82,19 @@
         </div>
 
         <div class="mb-3 row d-flex align-items-center">
-            <button type="submit" class="btn btn-outline-info">Guardar</button>
+            <button type="submit" class="btn btn-outline-info" onclick="click">Guardar</button>
         </div>
 
 
     </form>
 </div>
 </div>
-
+<script>
+    function click (){
+        let info = @json($tipo_producto);
+        console.log(info);
+    }
+    
+</script>
 </tbody>
 </table>

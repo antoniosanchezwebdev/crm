@@ -4,16 +4,23 @@ namespace App\Http\Livewire\Productos;
 
 use Livewire\Component;
 use App\Models\Productos;
+use App\Models\TipoProducto;
+use App\Models\ProductosCategories;
 use PDF;
 
 class IndexComponent extends Component
 
 {
-
+    public $tipos_producto;
+    public $categorias;
+    public $tipo_producto = "";
     public $productos;
+
 
     public function mount()
     {
+        $this->categorias = ProductosCategories::all();
+        $this->tipos_producto = TipoProducto::all();
         $this->productos = Productos::all();
     }
     public function render()
@@ -21,6 +28,7 @@ class IndexComponent extends Component
         return view('livewire.productos.index-component', [
             'productos' => $this->productos,
         ]);
+        
     }
 
     public function pdf()
@@ -34,5 +42,11 @@ class IndexComponent extends Component
 
     }
 
-
+    public function tipo_producto(){
+        if($this->tipo_producto == ""){
+            $this->productos = Productos::all();
+        } else{
+            $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get();
+        }
+    }
 }

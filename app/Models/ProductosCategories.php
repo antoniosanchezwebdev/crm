@@ -24,4 +24,8 @@ class ProductosCategories extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function tipo(){
+        return $this->belongsTo("App\TipoProducto");
+    }
 }

@@ -22,7 +22,7 @@ class Productos extends Model
         'categoria',
         'precio_baremo',
         'descuento',
-        'precio_costo-neto',
+        'precio_costoNeto',
         'precio_venta',
         'stock',
 

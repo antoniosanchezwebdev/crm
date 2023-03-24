@@ -19,6 +19,8 @@ h2{
     width: 100%;
     text-align: left;
 }
+
+
 .btn-export:hover {
     background-color: #AEB6BF;
     color: white;
@@ -38,3 +40,16 @@ h2{
 div#tableCliente_paginate, div#tableCliente_info {
     margin-top: 1rem;
 }
+
+@mixin make-container($padding-x: $container-padding-x) {
+    width: 100%;
+    padding-right: $padding-x;
+    padding-left: $padding-x;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  // Usage
+  .custom-container {
+    @include make-container();
+  }

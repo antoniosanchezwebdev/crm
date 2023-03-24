@@ -26,9 +26,9 @@ class CreateComponent extends Component
     public $categoria;
     public $precio_baremo;
     public $descuento;
-    public $precio_costo_neto;
+    public $precio_costoNeto;
     public $precio_venta;
-    public $stock;
+    public $stock = "1";
 
     public function mount(){
         $this->tipos_producto = TipoProducto::all();
@@ -43,26 +43,32 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
-        // Validación de datos
         $validatedData = $this->validate([
-            'id_categoria' => 'required',
             'cod_producto' => 'required',
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'precio' => 'required|numeric',
+            'descripcion'  => 'required',
+            'tipo_producto' => 'required',
+            'ecotasa' => 'required',
+            'fabricante' => 'required',
+            'etiquetado_eu' => 'nullable',
+            'estado' => 'nullable',
+            'categoria' => 'nullable',
+            'precio_baremo' => 'required',
+            'descuento' => 'required',
+            'precio_costoNeto' => 'required',
+            'precio_venta' => 'required',
             'stock' => 'required|numeric',
-        ],
-            // Mensajes de error
-            [
-                'id_categoria.required' => 'La Categoria es obligatoria.',
-                'cod_producto.required' => 'El código de producto es obligatorio.',
-                'nombre.required' => 'El nombre es obligatorio.',
-                'descripcion.required' => 'La descripción es obligatoria.',
-                'precio.required' => 'El precio es obligatorio.',
-                'precio.numeric' => 'El precio debe ser un número con decimales.',
-                'stock.required' => 'El stock es obligatorio.',
-                'stock.numeric' => 'El precio es obligatorio.',
-            ]);
+        ], [
+            'cod_producto.required' => 'required',
+            'descripcion.required'  => 'required',
+            'tipo_producto.required' => 'required',
+            'ecotasa.required' => 'required|numeric',
+            'fabricante.required' => 'required',
+            'precio_baremo.required' => 'required|numeric',
+            'descuento.required' => 'required|numeric',
+            'precio_costoNeto.required' => 'required|numeric',
+            'precio_venta.required' => 'required|numeric',
+            'stock.required' => 'required|numeric',
+        ]);
 
         // Guardar datos validados
         $productosSave = Productos::create($validatedData);
@@ -102,4 +108,10 @@ class CreateComponent extends Component
         return redirect()->route('productos.index');
 
     }
+
+    public function precio_costo() 
+    {
+        $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+    }
+
 }
