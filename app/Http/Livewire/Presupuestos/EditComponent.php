@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Presupuestos;
 
-use App\Models\Presupuestos;
-use App\Models\Cursos;
-use App\Models\Alumno;
-use App\Models\Empresa;
+use App\Models\Presupuesto;
+use Carbon\Carbon;
+use App\Models\Clients;
+use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -39,44 +39,23 @@ class EditComponent extends Component
 
     public function mount()
     {
-        $presupuestos = Presupuestos::find($this->identificador);
-
-        $this->alumnosSinEmpresa = Alumno::where('empresa_id', 0)->get(); // datos que se envian al select2
-        $this->alumnosConEmpresa = Alumno::where('empresa_id', '>', 0)->get();
-        $this->cursos = Cursos::all(); // datos que se envian al select2
-
+        $presupuestos = Presupuesto::find($this->identificador);
+        $this->clientes = Clients::all(); // datos que se envian al select2
+        $this->trabajadores = Trabajador::all(); // datos que se envian al select2
 
         $this->numero_presupuesto = $presupuestos->numero_presupuesto;
         $this->fecha_emision = $presupuestos->fecha_emision;
-        $this->alumno_id = $presupuestos->alumno_id;
-        $this->curso_id = $presupuestos->curso_id;
-        $this->detalles = $presupuestos->detalles;
-        $this->total_sin_iva = $presupuestos->total_sin_iva;
-        $this->iva = $presupuestos->iva;
-        $this->decuento = $presupuestos->decuento;
+        $this->cliente_id = $presupuestos->cliente_id;
+        $this->trabajador_id = $presupuestos->trabajador_id;
+        $this->kilometros = $presupuestos->kilometros;
+        $this->matricula = $presupuestos->matricula;
         $this->precio = $presupuestos->precio;
-        $this->estado = $presupuestos->estado;
         $this->observaciones = $presupuestos->observaciones;
-
-        // Si el alumno presupuestado tiene empresa, por defecto saldrá el form de empresa
-        $alumnoPresupuestado = Alumno::where('id', $presupuestos->alumno_id)->first();
-        if($alumnoPresupuestado->empresa_id > 0){
-            $this->tipoCliente = 2;
-
-        } else{
-            $this->tipoCliente = 1;
-        }
-
-        // Se llama a las funciones que cambian los estados según los datos traidos
-        $this->listarUsuario();
-        $this->listarCurso();
 
     }
 
     public function render()
     {
-
-        // $this->tipoCliente == 0;
         return view('livewire.presupuestos.edit-component');
     }
 
@@ -87,15 +66,12 @@ class EditComponent extends Component
         $this->validate([
             'numero_presupuesto' => 'required',
             'fecha_emision' => 'required',
-            'alumno_id' => 'required',
-            'curso_id' => 'required',
-            'detalles' => 'required',
-            'total_sin_iva' => '',
-            'iva' => '',
-            'descuento' => '',
+            'cliente_id' => 'required',
+            'trabajador_id' => 'required',
+            'matricula' => 'required',
             'precio' => 'required',
-            'estado' => 'required',
-            'observaciones' => '',
+            'kilometros' => 'required',
+            'observaciones' => 'required',
         ],
             // Mensajes de error
             [
@@ -110,17 +86,17 @@ class EditComponent extends Component
             ]);
 
         // Encuentra el identificador
-        $presupuestos = Presupuestos::find($this->identificador);
+        $presupuestos = Presupuesto::find($this->identificador);
 
         // Guardar datos validados
         $presupuestosSave = $presupuestos->update([
             'numero_presupuesto' => $this->numero_presupuesto,
             'fecha_emision' => $this->fecha_emision,
-            'alumno_id' => $this->alumno_id,
-            'curso_id' => $this->curso_id,
-            'detalles' => $this->detalles,
+            'cliente_id' => $this->cliente_id,
+            'trabajador_id' => $this->trabajador_id,
+            'matricula' => $this->matricula,
             'precio' => $this->precio,
-            'estado' => $this->estado,
+            'kilometros' => $this->kilometros,
             'observaciones' => $this->observaciones,
 
         ]);
@@ -184,51 +160,54 @@ class EditComponent extends Component
     // Función para cuando se llama a la alerta
     public function confirmDelete()
     {
-        $presupuesto = Presupuestos::find($this->identificador);
+        $presupuesto = Presupuesto::find($this->identificador);
         $presupuesto->delete();
         return redirect()->route('presupuestos.index');
 
     }
 
-    // Función que cambia el estado si hay un usuario seleccionado
-    public function listarUsuario(){
-        if ($this->alumno_id != null) {
-            $this->stateAlumno = 1;
-            $this->alumnoSeleccionado = Alumno::where('id', $this->alumno_id)->first();
+    public function listarCliente(){
+        if ($this->cliente_id != null) {
+            $this->stateCliente = 1;
+            $this->clienteSeleccionado = Clients::where('id', $this->cliente_id)->first();
+        }else {
+            $this->stateCliente = 0;
+            $this->clienteSeleccionado = [];
+        }
 
-            if ($this->alumnoSeleccionado->empresa_id > 0){
-                $this->empresaDeAlumno = Empresa::where('id', $this->alumnoSeleccionado->empresa_id)->first();
+    }
+
+    public function listarTrabajador(){
+
+
+        if ($this->trabajador_id != null) {
+            $this->stateTrabajador = 1;
+            $this->trabajadorSeleccionado = Clients::where('id', $this->cliente_id)->first();
+        }else {
+            $this->stateTrabajador = 0;
+            $this->trabajadorSeleccionado = [];
+        }
+
+
+    }
+
+    public function numeroPresupuesto(){
+        $fecha = new Carbon($this->fecha_emision);
+        $year = $fecha->year;
+        $presupuestos = Presupuesto::all();
+        $contador = 1;
+        foreach($presupuestos as $presupuesto){
+            $fecha2 = new Carbon($presupuesto->fecha_emision);
+            $year2 = $fecha2->year;
+            if($year == $year2){
+                $contador++;
             }
-
-        }else {
-            $this->stateAlumno = 0;
-            $this->alumnoSeleccionado = [];
+        }
+        
+        if($contador < 10){
+            $this->numero_presupuesto = "0" . $contador . "/" . $year;
+        } else{
+            $this->numero_presupuesto = $contador . "/" . $year;
         }
     }
-
-    // Función que cambia el estado si hay un usuario seleccionado
-    public function listarCurso(){
-        if ($this->curso_id != null) {
-            $this->stateCurso = 1;
-            $this->cursoSeleccionado = Cursos::where('id', $this->curso_id)->first();
-            $this->precio = $this->cursoSeleccionado->precio;
-        }else {
-            $this->stateCurso = 0;
-            $this->cursoSeleccionado = [];
-        }
-        $this->calcularPrecio();
-
-    }
-
-    // Calcula el precio total, con el descuento
-    public function calcularPrecio(){
-        if($this->descuento < 0 || $this->descuento > 100 || $this->descuento == null){
-            $this->descuento = 0;
-        }
-        $iva = $this->iva / 100;
-        $descuento = $this->descuento / 100;
-        $precioSinIva = $this->total_sin_iva * (1 - $descuento);
-        $precio = $precioSinIva * (1 + $iva);
-        $this->precio = round($precio, 2);
-}
 }

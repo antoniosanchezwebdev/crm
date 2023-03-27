@@ -2,27 +2,23 @@
 
 namespace App\Http\Livewire\Presupuestos;
 
-use App\Models\Alumno;
-use App\Models\Cursos;
-use App\Models\Empresa;
-use App\Models\Presupuestos;
+use App\Models\Trabajador;
+use App\Models\Clients;
+use App\Models\Presupuesto;
 use Livewire\Component;
 
 class IndexComponent extends Component
 {
     // public $search;
     public $presupuestos;
-    public $alumnos;
-    public $cursos;
-    public $empresas;
-
+    public $clientes;
+    public $trabajadores;
 
     public function mount()
     {
-        $this->presupuestos = Presupuestos::all();
-        $this->alumnos = Alumno::all();
-        $this->cursos = Cursos::all();
-        $this->empresas = Empresa::all();
+        $this->presupuestos = Presupuesto::all();
+        $this->clientes = Clients::all();
+        $this->trabajadores = Trabajador::all();
     }
 
     public function render()

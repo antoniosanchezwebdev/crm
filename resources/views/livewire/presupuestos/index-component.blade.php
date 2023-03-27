@@ -23,12 +23,12 @@
                     <tr>
                         <th scope="col">Número</th>
                         <th scope="col">Fecha emisión</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Tipo presupuesto</th>
-                        <th scope="col">Curso</th>
-                        <th scope="col">Detalles</th>
+                        <th scope="col">ID de cliente</th>
+                        <th scope="col">Nombre de cliente</th>
+                        <th scope="col">Marca vehículo</th>
+                        <th scope="col">Modelo vehículo</th>
+                        <th scope="col">Matrícula</th>
                         <th scope="col">Precio</th>
-                        <th scope="col">Estado</th>
 
                         <th scope="col">Acciones</th>
                     </tr>
@@ -40,33 +40,18 @@
                             <td>{{ $presup->numero_presupuesto }}</th>
 
                             <td>{{ $presup->fecha_emision }}</th>
-                                @if ($presup->alumno_id == 0)
-                            <td>Sin Cliente</td>
-                        @else
-                            {{-- Si el alumno de presupuesto tiene una empresa asignada --}}
-                            @foreach ($alumnos as $alumno)
-                                @if ($alumno->id == $presup->alumno_id)
-                                    <td>{{ $alumno->nombre }}</td>
-                                    @if ($alumno->empresa_id > 0)
-                                        <td>Para empresa</td>
-                                    @else
-                                        <td>Particular</td>
-                                    @endif
-                                @endif
-                            @endforeach
-                    @endif
-                    @if ($presup->curso_id == 0)
-                        <td>Sin Curso</td>
-                    @else
-                        @foreach ($cursos as $curso)
-                            @if ($curso->id == $presup->curso_id)
-                                <td>{{ $curso->nombre }}</td>
-                            @endif
-                        @endforeach
-                    @endif
-                    <td>{{ $presup->detalles }}</th>
-                    <td>{{ $presup->precio }}</td>
-                    <td>{{ $presup->estado }}</td>
+                            
+                            <td>{{ $clientes->where('id', $presup->cliente_id)->first()->id}} </td>
+
+                            <td>{{ $clientes->where('id', $presup->cliente_id)->first()->nombre}} </td>
+
+                            <td>{{ $presup->precio}} </td>
+
+                            <td>{{ $presup->precio}} </td>
+
+                            <td>{{ $presup->matricula}} </td>
+                            
+                            <td>{{ $presup->precio}} </td>
 
                     <td> <a href="presupuestos-edit/{{ $presup->id }}" class="btn btn-primary">Ver/Editar</a> </td>
                     </tr>
