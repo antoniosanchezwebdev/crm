@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Trabajador;
 use App\Http\Requests\StoreTrabajadorRequest;
 use App\Http\Requests\UpdateTrabajadorRequest;
+use Illuminate\Http\Request;
 
 class TrabajadorController extends Controller
 {
@@ -15,7 +16,10 @@ class TrabajadorController extends Controller
      */
     public function index()
     {
-        //
+        $response = '';
+        // $user = Auth::user();
+
+        return view('trabajadores.index', compact('response'));
     }
 
     /**
@@ -25,16 +29,17 @@ class TrabajadorController extends Controller
      */
     public function create()
     {
-        //
+        return view('trabajadores.create');
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreTrabajadorRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTrabajadorRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -42,10 +47,10 @@ class TrabajadorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Trabajador  $trabajador
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Trabajador $trabajador)
+    public function show($id)
     {
         //
     }
@@ -53,22 +58,23 @@ class TrabajadorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Trabajador  $trabajador
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Trabajador $trabajador)
+    public function edit($id)
     {
-        //
+        return view('trabajadores.edit', compact('id'));
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateTrabajadorRequest  $request
-     * @param  \App\Models\Trabajador  $trabajador
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTrabajadorRequest $request, Trabajador $trabajador)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +82,10 @@ class TrabajadorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Trabajador  $trabajador
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Trabajador $trabajador)
+    public function destroy($id)
     {
         //
     }

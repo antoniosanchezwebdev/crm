@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\FacturasController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\IvaController;
 use App\Http\Controllers\ProductosCategoriesController;
@@ -97,6 +98,12 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
     Route::get('usuarios-create', [UsuarioController::class, 'create'])->name('usuarios.create');
     Route::get('usuarios-edit/{id}', [UsuarioController::class, 'edit'])->name('usuarios.edit');
+
+    // Registrar usuarios
+    Route::get('trabajadores', [TrabajadorController::class, 'index'])->name('trabajadores.index');
+    Route::get('trabajadores-create', [TrabajadorController::class, 'create'])->name('trabajadores.create');
+    Route::get('trabajadores-edit/{id}', [TrabajadorController::class, 'edit'])->name('trabajadores.edit');
+    
 
     // Cursos
     Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
