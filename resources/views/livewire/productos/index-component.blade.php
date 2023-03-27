@@ -44,12 +44,14 @@
                 </thead>
                 <tbody>
                     @foreach ($productos as $producto)
-                        <tr>
+                        <tr id={{$producto->id}}>
                             <td>{{$producto->cod_producto }}</th>
                             <td>{{$producto->descripcion }}</td>
-                            <td>{{$producto->precio_venta }}</td>
+                            <td>{{$producto->precio_venta }}€</td>
                             <td>{{$categorias->where('id', $producto->categoria)->first()->nombre}}</td>
                             <td>{{$producto->stock}}</td>
+                            <td><button class="btn btn-primary" wire:click="alerta({{$producto->id}})">Mostrar todo</button>
+                                <a href="productos-edit/{{ $producto->id }}" class="btn btn-primary">Editar</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -62,6 +64,7 @@
 
     </tbody>
     </table>
+
 
 @section('scripts')
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
@@ -118,4 +121,7 @@
             })
         });
     </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.min.js"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
 @endsection
