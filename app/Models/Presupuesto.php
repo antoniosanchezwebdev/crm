@@ -18,7 +18,9 @@ class Presupuesto extends Model
         'matricula',
         'kilometros',
         'trabajador_id',
+        'listaArticulos',
         'precio',
+        'origen',
         'observaciones',
 
     ];

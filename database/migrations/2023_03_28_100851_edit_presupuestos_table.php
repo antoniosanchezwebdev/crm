@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('productos', function (Blueprint $table) {
-            $table->float("precio_costoNeto")->after("descuento");
+        Schema::table('presupuestos', function (Blueprint $table) {
+            $table->string("listaArticulos")->after("trabajador_id");
         });
+        
     }
 
     /**

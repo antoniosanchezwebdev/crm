@@ -7,7 +7,7 @@
     }
     .boton {
         font-size: 201%;
-        position: relative;
+        position: absolute;
         top: 30;
         left: 280;
     }
@@ -280,7 +280,8 @@
 
 <input type="checkbox" id="check">
 <label for="check">
-    <span class="fas fa-bars boton" id="bars" ></span>
+    <button class="fas fa-bars" id="bars" style="position:static;"></button>
+
 </label>
 <!-- sidebar-wrapper  -->
 </div>
