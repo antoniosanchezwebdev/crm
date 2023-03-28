@@ -131,6 +131,14 @@
                 </div>
 
                 <div class="mb-3 row d-flex align-items-center">
+                  <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                  <div class="col-sm-10">
+                    <input type="text" wire:model="stock" class="form-control" name="stock" id="stock" placeholder="Stock">
+                    @error('stock') <span class="text-danger">{{ $message }}</span> @enderror
+                  </div>
+                </div>
+
+                <div class="mb-3 row d-flex align-items-center">
                   <button type="submit" class="btn btn-outline-info">Guardar</button>
               </div>
         @endif

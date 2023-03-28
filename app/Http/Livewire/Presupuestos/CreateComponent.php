@@ -32,17 +32,18 @@ class CreateComponent extends Component
 
     public $lista = [];
     public $listaArticulos;
-    
+
     public $clienteSeleccionado;
     public $trabajadorSeleccionado;
     public $producto;
     public $cantidad;
 
 
-    public function mount(){
+    public function mount()
+    {
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
-        $this->productos = Productos::all(); 
+        $this->productos = Productos::all();
         $this->añadirProducto();
         $this->reducir();
 
@@ -56,22 +57,30 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
-        $this->listaArticulos = json_encode($this->lista);
-    
-        // Validación de datos
-        $validatedData = $this->validate([
-            'numero_presupuesto' => 'required',
-            'fecha_emision' => 'required',
-            'cliente_id' => 'required',
-            'matricula' => 'required',
-            'kilometros' => 'required',
-            'trabajador_id' => 'required',
-            'listaArticulos' => 'required',
-            'precio' => 'required',
-            'origen' => 'required',
-            'observaciones' => 'required',
+        foreach ($this->lista as $pro => $cantidad) {
+            $articulo = Productos::where('id', $pro)->first();
+            $articulo->update([
+                'stock' => ($articulo->stock -= $cantidad),
+            ]);
 
-        ],
+        }
+        $this->listaArticulos = json_encode($this->lista);
+
+        // Validación de datos
+        $validatedData = $this->validate(
+            [
+                'numero_presupuesto' => 'required',
+                'fecha_emision' => 'required',
+                'cliente_id' => 'required',
+                'matricula' => 'required',
+                'kilometros' => 'required',
+                'trabajador_id' => 'required',
+                'listaArticulos' => 'required',
+                'precio' => 'required',
+                'origen' => 'required',
+                'observaciones' => 'required',
+
+            ],
             // Mensajes de error
             [
                 'numero_presupuesto.required' => 'El número de presupuesto es obligatorio.',
@@ -82,7 +91,8 @@ class CreateComponent extends Component
                 'trabajador_id.required' => 'El trabajador es obligatorio.',
                 'precio.required' => 'El precio es obligatorio',
                 'observaciones.required' => 'La observación es obligatoria',
-            ]);
+            ]
+        );
 
         // Guardar datos validados
         $presupuesosSave = Presupuesto::create($validatedData);
@@ -130,73 +140,86 @@ class CreateComponent extends Component
 
     }
 
-    public function listarCliente(){
+    public function listarCliente()
+    {
         if ($this->cliente_id != null) {
             $this->clienteSeleccionado = Clients::where('id', $this->cliente_id)->first();
-        }else {
+        } else {
             $this->clienteSeleccionado = [];
         }
 
     }
 
-    public function listarTrabajador(){
+    public function listarTrabajador()
+    {
         if ($this->trabajador_id != null) {
             $this->trabajadorSeleccionado = Clients::where('id', $this->trabajador_id)->first();
-        }else {
+        } else {
             $this->trabajadorSeleccionado = [];
         }
 
 
     }
 
-    public function numeroPresupuesto(){
+    public function numeroPresupuesto()
+    {
         $fecha = new Carbon($this->fecha_emision);
         $year = $fecha->year;
         $presupuestos = Presupuesto::all();
         $contador = 1;
-        foreach($presupuestos as $presupuesto){
+        foreach ($presupuestos as $presupuesto) {
             $fecha2 = new Carbon($presupuesto->fecha_emision);
             $year2 = $fecha2->year;
-            if($year == $year2){
-                if($fecha->gt($fecha2)){
+            if ($year == $year2) {
+                if ($fecha->gt($fecha2)) {
                     $contador++;
                 }
             }
         }
-        
-        if($contador < 10){
+
+        if ($contador < 10) {
             $this->numero_presupuesto = "0" . $contador . "/" . $year;
-        } else{
+        } else {
             $this->numero_presupuesto = $contador . "/" . $year;
         }
 
     }
 
-    public function añadirProducto(){
-        if($this->producto !=null){
-            if(isset($this->lista[$this->producto])){
-                $this->lista[$this->producto] += $this->cantidad;
-            } else{
-                $this->lista[$this->producto] = $this->cantidad;
+    public function añadirProducto()
+    {
+        if ($this->producto != null) {
+            if (Productos::where('id', $this->producto)->first()->stock > 0) {
+                    if (Productos::where('id', $this->producto)->first()->stock - $this->cantidad >= 0) {
+                    if (isset($this->lista[$this->producto])) {
+                        $this->lista[$this->producto] += $this->cantidad;
+                    } else {
+                        $this->lista[$this->producto] = $this->cantidad;
+                    }
+                    $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
+                    $this->producto = "";
+                    $this->cantidad = 0;
+                } else{
+                    $this->alert('warning', "¡Cantidad de productos por encima del stock!");
+                }
+            } else {
+                $this->alert('warning', "Producto sin stock!");
             }
-            $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
-            $this->producto = "";
-            $this->cantidad = 0;
         }
-        
+
     }
 
-    public function reducir(){
-        if(isset($this->lista[$this->producto])){
-            if($this->lista[$this->producto] - $this->cantidad <= 0){
+    public function reducir()
+    {
+        if (isset($this->lista[$this->producto])) {
+            if ($this->lista[$this->producto] - $this->cantidad <= 0) {
                 $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->lista[$this->producto]);
                 unset($this->lista[$this->producto]);
-            } else{
+            } else {
                 $this->lista[$this->producto] -= $this->cantidad;
                 $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
             }
-        } else{
-            $this->alert('warning',"Este producto no está en la lista");
+        } else {
+            $this->alert('warning', "Este producto no está en la lista");
         }
         $this->producto = "";
         $this->cantidad = 0;

@@ -42,10 +42,8 @@
         $user = Auth::user();
     @endphp
     <div id="app">
+        @include('layouts.header')
         <div class="page-wrapper chiller-theme toggled ">
-            @include('layouts.header')
-            @include('layouts.sidebar')
-
             <div class="container-fluid pt-4">
                 @livewire('container-component')
                 @yield('content-factura')
