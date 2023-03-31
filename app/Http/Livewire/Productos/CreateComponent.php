@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Productos;
 
+use App\Models\Almacen;
+use App\Models\Neumatico;
 use App\Models\Productos;
 use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
@@ -13,26 +15,45 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
-    public $tipos_producto;
+    
+    public $productos;
     public $categorias;
+    public $tipos_producto;
+    public $almacenes;
+    public $neumaticos;
+    
     public $cod_producto;
     public $descripcion;
-    public $nombre;
     public $tipo_producto;
     public $ecotasa;
     public $fabricante;
-    public $etiquetado_eu;
-    public $estado;
     public $categoria_id;
     public $precio_baremo;
     public $descuento;
+    public $coeficiente;
     public $precio_costoNeto;
     public $precio_venta;
-    public $stock = "1";
+    public $stock;
+
+    public $articulo_id;
+    public $resistencia_rodadura;
+    public $agarre_mojado;
+    public $emision_ruido;
+    public $uso;
+    public $ancho;
+    public $serie;
+    public $llanta;
+    public $indice_carga;
+    public $codigo_velocidad;
+
+    public $existencias;
+
 
     public function mount(){
         $this->tipos_producto = TipoProducto::all();
         $this->categorias = ProductosCategories::all();
+        $this->neumaticos = Neumatico::all();
+        $this->almacenes = Almacen::all();
     }
 
     public function render()

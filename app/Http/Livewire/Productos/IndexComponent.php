@@ -4,11 +4,16 @@ namespace App\Http\Livewire\Productos;
 
 use Livewire\Component;
 use App\Models\Productos;
+use App\Models\Neumatico;
+use App\Models\Almacen;
 use App\Models\TipoProducto;
 use App\Models\ProductosCategories;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use PDF;
 
+/**
+ * Summary of IndexComponent
+ */
 class IndexComponent extends Component
 
 {
@@ -17,6 +22,8 @@ class IndexComponent extends Component
     public $categorias;
     public $tipo_producto = "";
     public $productos;
+    public $neumaticos;
+    public $almacenes;
 
 
     public function mount()
@@ -24,10 +31,12 @@ class IndexComponent extends Component
         $this->categorias = ProductosCategories::all();
         $this->tipos_producto = TipoProducto::all();
         $this->productos = Productos::all();
+        $this->neumaticos = Neumatico::all();
+        $this->almacenes = Almacen::all();
     }
     public function render()
     {
-        return view('livewire.productos.index-component', [$tipo_producto = $this->tipo_producto]);
+        return view('livewire.productos.index-component');
         
     }
 
@@ -58,7 +67,10 @@ class IndexComponent extends Component
         ]);
     }
 
-    public function tipo_producto(){
+    /**
+     * @return void
+     */
+    public function select_producto(){
         if($this->tipo_producto == ""){
             $this->productos = Productos::all();
         } else{

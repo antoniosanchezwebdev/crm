@@ -4,27 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Productos extends Model
+class Neumatico extends Model
 {
     use HasFactory;
-
     protected $table = "productos";
 
     protected $fillable = [
-        'cod_producto',
-        'descripcion',
-        'tipo_producto',
-        'ecotasa',
-        'fabricante',
-        'categoria_id',
-        'precio_baremo',
-        'descuento',
-        'precio_costoNeto',
-        'coeficiente',
-        'precio_venta',
-        'stock',
+        'articulo_id',
+        'resistencia_rodadura',
+        'agarre_mojado',
+        'emision_ruido',
+        'uso',
+        'ancho',
+        'serie',
+        'llanta',
+        'indice_carga',
+        'codigo_velocidad',
 
     ];
 
@@ -42,3 +38,4 @@ class Productos extends Model
         return $this->belongsTo("App\Models\ProductosCategories");
     }
 }
+
