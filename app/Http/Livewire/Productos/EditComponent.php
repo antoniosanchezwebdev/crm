@@ -23,7 +23,7 @@ class EditComponent extends Component
     public $fabricante;
     public $etiquetado_eu;
     public $estado;
-    public $categoria;
+    public $categoria_id;
     public $precio_baremo;
     public $descuento;
     public $precio_costoNeto;
@@ -41,7 +41,7 @@ class EditComponent extends Component
         $this->fabricante = $product->fabricante;
         $this->etiquetado_eu = $product->etiquetado_eu;
         $this->estado = $product->estado;
-        $this->categoria = $product->categoria;
+        $this->categoria_id = $product->categoria_id;
         $this->precio_baremo = $product->precio_baremo;
         $this->descuento = $product->descuento;
         $this->precio_costoNeto = $product->precio_costoNeto;
@@ -68,7 +68,7 @@ class EditComponent extends Component
             'fabricante' => 'required',
             'etiquetado_eu' => 'nullable',
             'estado' => 'nullable',
-            'categoria' => 'nullable',
+            'categoria_id' => 'nullable',
             'precio_baremo' => 'required',
             'descuento' => 'required',
             'precio_costoNeto' => 'required',
@@ -99,7 +99,7 @@ class EditComponent extends Component
             'fabricante' => $this->fabricante,
             'etiquetado_eu' => $this->etiquetado_eu,
             'estado' => $this->estado,
-            'categoria' => $this->categoria,
+            'categoria_id' => $this->categoria_id,
             'precio_baremo' => $this->precio_baremo,
             'descuento' => $this->descuento,
             'precio_costoNeto' => $this->precio_costoNeto,

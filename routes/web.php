@@ -201,7 +201,5 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('clients', [ClientsController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientsController::class, 'create'])->name('clients.create');
     Route::get('clients/edit/{id}', [ClientsController::class, 'edit'])->name('clients.edit');
-
-    //Proveedores
     
 });

@@ -4,34 +4,24 @@
     "src": "resources/image/background-login-3.svg",
     "isEntry": true
   },
-  "resources/image/pic-login-3.svg": {
-    "file": "assets/pic-login-3.3a843ab5.js",
-    "src": "resources/image/pic-login-3.svg",
-    "isEntry": true
-  },
   "resources/image/IVAN.jpg": {
     "file": "assets/IVAN.700ba807.js",
     "src": "resources/image/IVAN.jpg",
     "isEntry": true
   },
+  "resources/image/pic-login-3.svg": {
+    "file": "assets/pic-login-3.3a843ab5.js",
+    "src": "resources/image/pic-login-3.svg",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app.30e33596.js",
+    "file": "assets/app.d1ef9cf7.js",
     "src": "resources/js/app.js",
     "isEntry": true
   },
   "resources/js/bootstrap.js": {
-    "file": "assets/bootstrap.0d04a5d2.js",
+    "file": "assets/bootstrap.bfd089e7.js",
     "src": "resources/js/bootstrap.js",
-    "isEntry": true
-  },
-  "resources/sass/login.scss": {
-    "file": "assets/login.f374b21b.css",
-    "src": "resources/sass/login.scss",
-    "isEntry": true
-  },
-  "resources/sass/alumnos.scss": {
-    "file": "assets/alumnos.89b8cdaa.css",
-    "src": "resources/sass/alumnos.scss",
     "isEntry": true
   },
   "resources/sass/settings.scss": {
@@ -39,13 +29,13 @@
     "src": "resources/sass/settings.scss",
     "isEntry": true
   },
-  "resources/sass/productos.scss": {
-    "file": "assets/productos.89b8cdaa.css",
-    "src": "resources/sass/productos.scss",
+  "resources/sass/login.scss": {
+    "file": "assets/login.f374b21b.css",
+    "src": "resources/sass/login.scss",
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app.eb3c523f.css",
+    "file": "assets/app.4c974ae2.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   }

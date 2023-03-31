@@ -1,3 +1,2 @@
-<div>
-    @livewire('presupuestos.index-component')
-</div>
+@livewire('presupuestos.index-component')
+

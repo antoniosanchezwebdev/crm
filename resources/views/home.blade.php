@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
 
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('Operaciones en curso') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -17,7 +17,7 @@
                     @endif
 
 
-                    <h2>Bienvenido, {{ $user->name }}</h2>
+                    <h2></h2>
                     {{ __('¡Has iniciado sesión!') }}
                 </div>
             </div>

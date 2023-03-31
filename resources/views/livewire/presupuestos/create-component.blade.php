@@ -1,17 +1,17 @@
 @section('head')
-    @vite(['resources/sass/productos.scss'])
-    @vite(['resources/sass/alumnos.scss'])
+    @vite(['resources/sass/app.scss'])
 @endsection
 
+@section('encabezado', 'Presupuestos')
+@section('subtitulo', 'Crear presupuesto')
+
+
 <div class="container mx-auto">
-    <h1>Presupuestos</h1>
-    <h2>Crear presupuesto</h2>
-    <br>
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
         <div class="mb-3 row d-flex align-items-center">
-            <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de emisión </label>
+            <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de emisión</label>
             <div class="col-sm-10">
                 <input type="datetime-local" wire:model="fecha_emision" wire:change="numeroPresupuesto"
                     class="form-control" name="fecha_emision" id="fecha_emision">

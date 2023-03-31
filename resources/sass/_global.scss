@@ -1,3 +1,61 @@
+body{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1{
+  font-size: 2.5rem;
+}
+
+h2{
+  font-size: 1rem;
+  color: #565656;
+}
+.btn-export {
+  display: block;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  background-color: transparent;
+  color: #7FB3D5;
+  width: 100%;
+  text-align: left;
+}
+
+
+.btn-export:hover {
+  background-color: #AEB6BF;
+  color: white;
+}
+.dt-button-collection {
+  margin-top: -3px !important;
+}
+
+.dt-button-collection div{
+  background-color: #F3F3F3;
+  width: 120px;
+  padding: 0.8rem 0.8rem;
+}
+.dt-down-arrow {
+  margin-left: 0.5rem;
+}
+div#tableCliente_paginate, div#tableCliente_info {
+  margin-top: 1rem;
+}
+
+@mixin make-container($padding-x: $container-padding-x) {
+  width: 100%;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Usage
+.custom-container {
+  @include make-container();
+}
+
+//
+
 @keyframes swing {
     0% {
       transform: rotate(0deg);
@@ -480,3 +538,5 @@
   .chiller-theme .sidebar-footer>a:last-child {
       border-right: none;
   }
+
+

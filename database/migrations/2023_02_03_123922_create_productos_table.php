@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('fabricante')->nullable();
             $table->string('etiquetado_eu')->nullable();
             $table->string('estado')->nullable();
-            $table->string('categoria')->nullable();
+            $table->string('categoria_id    ')->nullable();
             $table->integer('precio_baremo')->nullable();
             $table->integer('descuento')->nullable();
             $table->integer('precio_costo-neto')->nullable();

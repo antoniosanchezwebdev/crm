@@ -23,7 +23,7 @@ class CreateComponent extends Component
     public $fabricante;
     public $etiquetado_eu;
     public $estado;
-    public $categoria;
+    public $categoria_id;
     public $precio_baremo;
     public $descuento;
     public $precio_costoNeto;
@@ -51,7 +51,7 @@ class CreateComponent extends Component
             'fabricante' => 'required',
             'etiquetado_eu' => 'nullable',
             'estado' => 'nullable',
-            'categoria' => 'nullable',
+            'categoria_id' => 'nullable',
             'precio_baremo' => 'required',
             'descuento' => 'required',
             'precio_costoNeto' => 'required',

@@ -1,6 +1,6 @@
 
 @section('head')
-    @vite(['resources/sass/productos.scss'])
+  @vite(['resources/sass/app.scss'])
 @endsection
 
     <div class="container mx-auto">
@@ -83,7 +83,7 @@
                   <div class="mb-3 row d-flex align-items-center">
                     <label for="categoria" class="col-sm-2 col-form-label">Categoría</label>
                     <div class="col-sm-10">
-                      <select name="categoria" id="categoria" wire:model="categoria" class="form-control" required>
+                      <select name="categoria" id="categoria" wire:model="categoria_id" class="form-control" required>
                           <option selected value="">-- Selecciona Categoria --</option>
                           @php
                             $categoriasFinales = $tipos_producto->find($tipo_producto)->categorias;

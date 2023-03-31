@@ -1,7 +1,7 @@
 
 
 @section('head')
-    @vite(['resources/sass/productos.scss'])
+    @vite(['resources/sass/app.scss'])
 @endsection
 <div class="container mx-auto">
     <h1>Empresas</h1>

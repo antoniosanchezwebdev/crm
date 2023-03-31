@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Productos extends Model
 {
@@ -19,7 +20,7 @@ class Productos extends Model
         'fabricante',
         'etiquetado_eu',
         'estado',
-        'categoria',
+        'categoria_id',
         'precio_baremo',
         'descuento',
         'precio_costoNeto',
@@ -36,4 +37,9 @@ class Productos extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function categoria(): BelongsTo
+    {
+        return $this->belongsTo("App\Models\ProductosCategories");
+    }
 }

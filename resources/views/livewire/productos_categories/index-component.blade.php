@@ -4,7 +4,7 @@
 @section('head')
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.css">
-    @vite(['resources/sass/productos.scss'])
+    @vite(['resources/sass/app.scss'])
 
 @endsection
 

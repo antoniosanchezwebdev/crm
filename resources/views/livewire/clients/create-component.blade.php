@@ -1,6 +1,5 @@
 @section('head')
-    @vite(['resources/sass/productos.scss'])
-    @vite(['resources/sass/alumnos.scss'])
+    @vite(['resources/sass/app.scss'])
 @endsection
 
 

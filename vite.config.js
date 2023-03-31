@@ -7,9 +7,7 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/sass/login.scss',
-                'resources/sass/productos.scss',
                 'resources/sass/settings.scss',
-                'resources/sass/alumnos.scss',
                 'resources/js/app.js',
                 'resources/js/bootstrap.js',
                 'resources/image/background-login-3.svg',
