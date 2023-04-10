@@ -1,17 +1,27 @@
 @extends('layouts.app')
 
 @section('head')
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.css">
     @vite(['resources/sass/app.scss'])
+    <style>
+        div.dataTables_wrapper div.dataTables_filter label {
+            display: flex;
+        }
+
+        div.dataTables_wrapper div.dataTables_filter input {
+            width: 70%;
+            margin-left: 10px;
+            margin-top: -5px;
+        }
+    </style>
 @endsection
 
 @section('content')
-    @section('encabezado', 'Productos')
-    @section('subtitulo', 'Vista de productos')
-    <livewire:productos.index-component>
-        @hasSection('filtros')
-            @include('layouts.sidebar')
-        @endif
+@section('encabezado', 'Inventario')
+@section('subtitulo', 'Consultar artículos')
+<br>
+<livewire:productos.index-component>
 @endsection
 
 @section('scripts')
@@ -19,40 +29,21 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var table = $('#tableProductos').DataTable({
             responsive: true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            buttons: [{
-                extend: 'collection',
-                text: 'Export',
-                buttons: [{
-                        extend: 'pdf',
-                        className: 'btn-export'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'btn-export'
-                    }
-                ],
-                className: 'btn btn-info text-white'
-            }],
+            dom: 'frtip',
+            ordering: false,
             "language": {
                 "lengthMenu": "Mostrando _MENU_ registros por página",
                 "zeroRecords": "Nothing found - sorry",
                 "info": "Mostrando página _PAGE_ of _PAGES_",
                 "infoEmpty": "No hay registros disponibles",
                 "infoFiltered": "(filtrado de _MAX_ total registros)",
-                "search": "Buscar:",
+                "search": "Buscar artículo:",
                 "paginate": {
                     "first": "Primero",
                     "last": "Ultimo",
@@ -61,30 +52,6 @@
                 },
                 "zeroRecords": "No se encontraron registros coincidentes",
             }
-        });
-
-        table.columns().flatten().each(function(colIdx) {
-            // Create the select list and search operation
-            var select = $('<br> <select class="form-select"/>')
-                .appendTo(
-                    "#botones"
-                )
-                .on('change', function() {
-                    table
-                        .column(colIdx)
-                        .search($(this).val())
-                        .draw();
-                });
-
-            // Get the search data for the first column and add to the select list
-            table
-                .column(colIdx)
-                .cache('search')
-                .sort()
-                .unique()
-                .each(function(d) {
-                    select.append($('<option value="' + d + '">' + d + '</option>'));
-                });
         });
     </script>
 

@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('almacenes', function (Blueprint $table) {
-            $table->decimal("existencias_almacenes")->after('existencias');
-            $table->decimal("existencias_depositos")->after('existencias_almacenes');
+        Schema::table('productos', function (Blueprint $table) {
+            $table->boolean("mueve_existencias")->after("descuento");
         });
     }
 

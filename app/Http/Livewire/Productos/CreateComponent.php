@@ -33,7 +33,6 @@ class CreateComponent extends Component
     public $coeficiente;
     public $precio_costoNeto;
     public $precio_venta;
-    public $stock;
 
     public $articulo_id;
     public $resistencia_rodadura;
@@ -47,6 +46,11 @@ class CreateComponent extends Component
     public $codigo_velocidad;
 
     public $existencias;
+    public $mueve_existencias = false;
+
+    public $nombre;
+
+    public $existencias_almacenes;
 
 
     public function mount(){
@@ -68,35 +72,69 @@ class CreateComponent extends Component
             'cod_producto' => 'required',
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
-            'ecotasa' => 'required',
             'fabricante' => 'required',
-            'etiquetado_eu' => 'nullable',
-            'estado' => 'nullable',
+            'coeficiente' => 'nullable',
             'categoria_id' => 'nullable',
             'precio_baremo' => 'required',
             'descuento' => 'required',
             'precio_costoNeto' => 'required',
             'precio_venta' => 'required',
-            'stock' => 'required|numeric',
+            'mueve_existencias' => 'required',
         ], [
             'cod_producto.required' => 'required',
             'descripcion.required'  => 'required',
             'tipo_producto.required' => 'required',
-            'ecotasa.required' => 'required|numeric',
             'fabricante.required' => 'required',
             'precio_baremo.required' => 'required|numeric',
             'descuento.required' => 'required|numeric',
             'precio_costoNeto.required' => 'required|numeric',
             'precio_venta.required' => 'required|numeric',
-            'stock.required' => 'required|numeric',
+            'mueve_existencias.required' => 'required'
         ]);
+
+
 
         // Guardar datos validados
         $productosSave = Productos::create($validatedData);
 
+        if($productosSave){
+            if($this->tipo_producto == 2){
+                $this->articulo_id = $this->cod_producto;
+                $validateData2 = $this->validate([
+                    'articulo_id' => 'required',
+                    'resistencia_rodadura' => 'required',
+                    'agarre_mojado' => 'required',
+                    'emision_ruido' => 'required',
+                    'ancho' => 'required',
+                    'serie' => 'required',
+                    'uso' => 'nullable',
+                    'llanta' => 'required',
+                    'indice_carga' => 'required',
+                    'codigo_velocidad' => 'required',
+                ]);
+        
+                $neumaticosSave = Neumatico::create($validateData2);
+            }
+            
+            if($this->mueve_existencias == true){
+                $this->existencias_almacenes = $this->existencias;
+                $validateData3 = $this->validate([
+                    'nombre' => 'required',
+                    'cod_producto' => 'required',
+                    'existencias' => 'required',
+                    'existencias_almacenes' =>  'required',
+                ]);
+    
+                $almacenSave = Almacen::create($validateData3);
+            }
+        }
+        
+
+        
+
         // Alertas de guardado exitoso
         if ($productosSave) {
-            $this->alert('success', '¡Produco registrado correctamente!', [
+            $this->alert('success', '¡Producto registrado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -134,7 +172,10 @@ class CreateComponent extends Component
 
     public function precio_costo() 
     {
+        $this->coeficiente = 1.6;
         $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+        $this->precio_venta = $this->precio_costoNeto * $this->coeficiente;
+
     }
 
 }

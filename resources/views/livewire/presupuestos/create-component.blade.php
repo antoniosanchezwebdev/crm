@@ -135,14 +135,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($lista as $productoE => $cantidad)
+                        @foreach ($lista as $productoID => $cantidad)
                             @if ($cantidad > 0)
-                                <tr id={{ $productos->where('id', $productoE)->first()->id }}>
-                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}</th>
-                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}</th>
-                                    <td>{{ $productos->where('id', $productoE)->first()->precio_venta }}€</td>
+                                @php
+                                    $productoLista = $productos->where('id', $productoID)->first();
+                                @endphp
+                                <tr id={{ $productoLista->id }}>
+                                    <td>{{ $productoLista->cod_producto }}</th>
+                                    <td>{{ $productoLista->descripcion }}</th>
+                                    <td>{{ $productoLista->precio_venta }}€</td>
                                     <td>{{ $cantidad }}</td>
-                                    <td>{{ $productos->where('id', $productoE)->first()->precio_venta * $cantidad }}€
+                                    <td>{{ $productoLista->precio_venta * $cantidad }}€
                                     </td>
                                 <tr>
                             @endif

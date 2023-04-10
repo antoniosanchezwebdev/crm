@@ -21,6 +21,7 @@ class Productos extends Model
         'categoria_id',
         'precio_baremo',
         'descuento',
+        'mueve_existencias',
         'precio_costoNeto',
         'coeficiente',
         'precio_venta',
