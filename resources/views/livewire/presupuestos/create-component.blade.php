@@ -5,10 +5,29 @@
 @section('encabezado', 'Presupuestos')
 @section('subtitulo', 'Crear presupuesto')
 
-
 <div class="container mx-auto">
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+        <br>
+        <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+            <h1>Datos básicos</h1>
+        </div>
+
+        <div class="mb-3 row d-flex align-items-center">
+            <label for="servicio" class="col-sm-2 col-form-label">Cliente</label>
+            <div class="col-sm-10" wire:ignore.self>
+                <select id="servicio" class="form-control seleccion" wire:model="servicio">
+                    <option value="">-- Seleccione una opción --</option>
+                    @foreach ($almacenes as $almacen)
+                        <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>
+                    @endforeach
+
+                </select>
+                @error('servicio')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
 
         <div class="mb-3 row d-flex align-items-center">
             <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de emisión</label>
@@ -30,6 +49,11 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
+        </div>
+
+        <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+        <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+            <h1>Datos del cliente</h1>
         </div>
 
         <div class="mb-3 row d-flex align-items-center">
@@ -56,7 +80,8 @@
                     wire:change="listarTrabajador()">
                     <option value="">-- Seleccione un cliente --</option>
                     @foreach ($trabajadores as $trabajador)
-                        <option value="{{ $trabajador->id }}">{{ $trabajador->id }} - {{ $trabajador->nombre }}</option>
+                        <option value="{{ $trabajador->id }}">{{ $trabajador->id }} - {{ $trabajador->nombre }}
+                        </option>
                     @endforeach
 
                 </select>
@@ -86,38 +111,90 @@
             </div>
         </div>
 
-        --
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="producto" class="col-sm-2 col-form-label">Lista de productos</label>
-            <div class="col-sm-10" wire:ignore.self>
-                <select id="producto" class="form-control seleccion" wire:model="producto">
-                    <option selected="selected" value="">-- Seleccione un producto --</option>
-                    @foreach ($productos as $product)
-                        <option value="{{ $product->id }}">{{ $product->cod_producto }} -
-                            {{ $product->descripcion }}</option>
-                    @endforeach
-                </select>
-                @error('denominacion')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
+        <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+        <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+            <h1>Artículos</h1>
         </div>
 
-        @if ($producto != null)
-            <div class="mb-3 row d-flex align-items-center">
-                <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                <div class="col-sm-10">
-                    <input type="number" wire:model="cantidad" class="form-control" name="cantidad" id="cantidad">
-                    @error('fecha_emision')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+        <a href="#modalProductos" class="btn btn-primary" data-bs-toggle="modal" onclick="if($.fn.dataTable.isDataTable('#tableProductos')){
+            table.state.load();
+        }
+        else {
+            table = $('#tableProductos').DataTable({
+                    responsive: true,
+                    stateSave: true,
+                    ordering: false,
+                    select: true,
+                    dom: 'lfrtip',                    
+                    'language': {
+                        select:{
+                            rows:{
+                                _: '%d artículos seleccionados.',
+                                1: '1 artículo seleccionado.'
+                            }
+                        },
+                        'lengthMenu': 'Mostrando _MENU_ registros por página',
+                        'zeroRecords': 'Nothing found - sorry',
+                        'info': '',
+                        'infoEmpty': 'No hay registros disponibles',
+                        'infoFiltered': '(filtrado de _MAX_ total registros)',
+                        'search': 'Buscar artículo:',
+                        'paginate': {
+                            'first': 'Primero',
+                            'last': 'Ultimo',
+                            'next': 'Siguiente',
+                            'previous': 'Anterior'
+                        },
+                        'zeroRecords': 'No se encontraron registros coincidentes',
+                    }
+                }); 
+                table.state.save();
+        }">
+            Añadir producto </a>
+
+
+        <div class="modal fade" id="modalProductos" tabindex="-1" aria-labelledby="tituloModalProductos"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalProductos">Lista de artículos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table" id="tableProductos">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">S1</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($productos as $productE)
+                                    <tr id={{ $productE->id }}>
+                                        <td>{{ $productE->cod_producto }}</th>
+                                        <td>{{ $productE->descripcion }}</td>
+                                        <td>
+                                            @if ($existencias_productos->where('cod_producto', $productE->cod_producto)->first() != null)
+                                                {{ $existencias_productos->where('cod_producto', $productE->cod_producto)->first()->existencias }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <h1 class="counter-display"></h1>
+                        <button class="counter-minus" wire:click.prevent="">-</button>
+                        <button class="counter-plus" wire:click.prevent="">+</button>
+                        <button type="button" class="btn btn-primary" id="botonProducto"
+                            data-bs-dismiss="modal">Añadir producto</button>
+                    </div>
                 </div>
             </div>
-
-            <button class="btn btn-outline-info" wire:click.prevent="añadirProducto">Añadir producto</button>
-            <button class="btn btn-outline-info" wire:click.prevent="reducir">Reducir/Eliminar producto</button>
-        @endif
+        </div>
 
 
 
@@ -135,16 +212,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($lista as $productoID => $cantidad)
-                            @if ($cantidad > 0)
+                        @foreach ($lista as $productoID => $pCantidad)
+                            @if ($pCantidad > 0)
                                 @php
                                     $productoLista = $productos->where('id', $productoID)->first();
                                 @endphp
                                 <tr id={{ $productoLista->id }}>
-                                    <td>{{ $productoLista->cod_producto }}</th>
-                                    <td>{{ $productoLista->descripcion }}</th>
+                                    <td>{{ $productoLista->cod_producto }}</td>
+                                    <td>{{ $productoLista->descripcion }}</td>
                                     <td>{{ $productoLista->precio_venta }}€</td>
-                                    <td>{{ $cantidad }}</td>
+                                    <td> <button class="btn btn-sm btn-primary"
+                                            wire:click.prevent="reducir({{ $productoLista->id }})">-</button>
+                                        {{ $pCantidad }}
+                                        <button class="btn btn-sm btn-primary"
+                                            wire:click.prevent="aumentar({{ $productoLista->id }})">+</button>
+                                    </td>
                                     <td>{{ $productoLista->precio_venta * $cantidad }}€
                                     </td>
                                 <tr>
@@ -193,7 +275,9 @@
                     <option value="Email">Email</option>
                     <option value="Whatsapp">Whatsapp</option>
                 </select>
-                @error('denominacion') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('denominacion')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
         </div>
 
@@ -226,8 +310,54 @@
                 var data = $(this).select2("val");
                 @this.set('producto', data);
             });
+
         });
+
+        $('#modalProductos').on('hide.bs.modal', function() {
+            table.destroy();
+        });
+
+
+        $('#botonProducto').click(function() {
+            var data = document.getElementsByClassName("selected")[0].id;
+            console.log(data);
+            Livewire.emit('añadirProducto', data, count);
+            count = 1;
+        });
+
+
+        let counterDisplayElem = document.querySelector('.counter-display');
+        let counterMinusElem = document.querySelector('.counter-minus');
+        let counterPlusElem = document.querySelector('.counter-plus');
+
+        let count = 1;
+
+        updateDisplay();
+
+        counterPlusElem.addEventListener("click", () => {
+            count++;
+            updateDisplay();
+        });
+
+        counterMinusElem.addEventListener("click", () => {
+            count--;
+            updateDisplay();
+        });
+
+        function updateDisplay() {
+            counterDisplayElem.innerHTML = count;
+        };
     </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.js"></script>
+    <script src="https://cdn.datatables.net/select/1.6.2/js/select.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/select/1.6.2/js/select.dataTables.js"></script>
 @endsection
 
 {{-- , precio => {

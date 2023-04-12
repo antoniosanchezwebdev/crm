@@ -20,7 +20,9 @@
         </div>
 
         @if ($tipo_producto != null)
-            <h1> Datos básicos </h1>
+            <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+                <h1>Datos básicos</h1>
+            </div>
 
             <div class="mb-3 row d-flex align-items-center">
                 <label for="cod_producto" class="col-sm-2 col-form-label">Código del producto</label>
@@ -77,8 +79,10 @@
                     </div>
                 </div>
             @else
-                <h1>Datos neumático</h1>
-                <h3>Etiquetado europeo</h3>
+                <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+                <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+                    <h1>Características del neumático</h1>
+                </div>
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="resistencia_rodadura" class="col-sm-2 col-form-label">Resistencia rodadura</label>
@@ -128,7 +132,6 @@
                     </div>
                 </div>
 
-                <h3>Datos neumático</h3>
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="ancho" class="col-sm-2 col-form-label">Ancho</label>
                     <div class="col-sm-10">
@@ -199,8 +202,10 @@
                 </div>
 
             @endif
-
-            <h1>Precio</h1>
+            <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+            <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+                <h1>Precio</h1>
+            </div>
 
             <div class="mb-3 row d-flex align-items-center">
                 <label for="precio_baremo" class="col-sm-2 col-form-label">Precio baremo</label>
@@ -245,26 +250,32 @@
                     @enderror
                 </div>
             </div>
+            <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+            <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+                <h1>Existencias</h1>
+            </div>
 
-            <div class="mb-3 row d-flex align-items-center">
+            <div class="mb-3 row d-flex align-items-left">
                 <label for="mueve_existencias" class="col-sm-2 col-form-label">¿Este artículo mueve
                     existencias?</label>
-                <input class="form-check" type="checkbox" wire:model="mueve_existencias" name="mueve_existencias"
-                    id="mueve_existencias"/>
+                <input class="col-sm-2 form-check" type="checkbox" wire:model="mueve_existencias"
+                    name="mueve_existencias" id="mueve_existencias" />
                 @error('mueve_existencias')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             @if ($mueve_existencias == true)
-                <h1>Datos de existencias</h1>
+
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="nombre" class="col-sm-2 col-form-label">
                         <h5>Selecciona el almacén</h5>
                     </label>
                     <div class="col-sm-10">
-                      <select wire:model="nombre" id="nombre" name="nombre">
-                        <option selected value="">-- Selecciona almacén --</option>
-                          <option value="ALGECIRAS">ALGECIRAS</option>
+                        <select wire:model="nombre" id="nombre" name="nombre">
+                            <option selected value="">-- Selecciona una opción --</option>
+                            @foreach ($almacenes as $almacen)
+                                <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>
+                            @endforeach
                         </select>
                         @error('tipo_producto')
                             <span class="text-danger">{{ $message }}</span>
@@ -283,10 +294,12 @@
                     </div>
                 </div>
             @endif
-
+            <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
             <div class="mb-3 row d-flex align-items-center">
                 <button type="submit" class="btn btn-outline-info">Guardar</button>
             </div>
+            <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
+
         @endif
 
     </form>

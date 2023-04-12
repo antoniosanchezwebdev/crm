@@ -9,12 +9,15 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Productos;
+use App\Models\ListaAlmacen;
+use App\Models\Almacen;
 
 class CreateComponent extends Component
 {
 
     use LivewireAlert;
 
+    public $servicio;
     public $numero_presupuesto;
     public $fecha_emision;
     public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
@@ -29,6 +32,9 @@ class CreateComponent extends Component
     public $clientes;
     public $trabajadores;
     public $productos;
+    public $almacenes;
+
+    public $existencias_productos;
 
     public $lista = [];
     public $listaArticulos;
@@ -44,8 +50,8 @@ class CreateComponent extends Component
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->productos = Productos::all();
-        $this->añadirProducto();
-        $this->reducir();
+        $this->almacenes = ListaAlmacen::all();
+        $this->existencias_productos = Almacen::all();
 
     }
 
@@ -125,6 +131,7 @@ class CreateComponent extends Component
             'calcularPrecio',
             'listarCliente',
             'listarTrabajador',
+            'listarAlmacen',
             'numeroPresupuesto',
             'añadirProducto',
             'reducir',
@@ -185,44 +192,58 @@ class CreateComponent extends Component
 
     }
 
-    public function añadirProducto()
+    
+    public function añadirProducto($id_producto, $cantidad_producto)
     {
-        if ($this->producto != null) {
-            if (Productos::where('id', $this->producto)->first()->stock > 0) {
-                    if (Productos::where('id', $this->producto)->first()->stock - $this->cantidad >= 0) {
-                    if (isset($this->lista[$this->producto])) {
-                        $this->lista[$this->producto] += $this->cantidad;
+        if ($id_producto != null) {
+            $producto = Productos::where('id', $id_producto)->first();
+            if(Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias != null || Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias > 0 ){
+                    $existencias = Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias;
+                    if ($existencias < $cantidad_producto) {
+                    if (isset($this->lista[$id_producto])) {
+                        $this->lista[$id_producto] += $cantidad_producto;
                     } else {
-                        $this->lista[$this->producto] = $this->cantidad;
+                        $this->lista[$id_producto] = $cantidad_producto;
                     }
-                    $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
-                    $this->producto = "";
-                    $this->cantidad = 0;
+                    $this->precio += (($producto->precio_venta) * $cantidad_producto);
                 } else{
                     $this->alert('warning', "¡Cantidad de productos por encima del stock!");
                 }
             } else {
-                $this->alert('warning', "Producto sin stock!");
+                $this->alert('warning', "¡Producto sin stock!");
             }
         }
 
     }
 
-    public function reducir()
+    public function reducir($id)
     {
-        if (isset($this->lista[$this->producto])) {
-            if ($this->lista[$this->producto] - $this->cantidad <= 0) {
-                $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->lista[$this->producto]);
-                unset($this->lista[$this->producto]);
+        if (isset($this->lista[$id])) {
+            if ($this->lista[$id] - 1 <= 0) {
+                $this->precio -= ((Productos::where('id', $id)->first()->precio_venta) * $this->lista[$id]);
+                unset($this->lista[$id]);
             } else {
-                $this->lista[$this->producto] -= $this->cantidad;
-                $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
+                $this->lista[$id] -= 1;
+                $this->precio -= ((Productos::where('id', $id)->first()->precio_venta));
             }
         } else {
             $this->alert('warning', "Este producto no está en la lista");
         }
-        $this->producto = "";
-        $this->cantidad = 0;
+    }
+
+    public function aumentar($id)
+    {
+        $producto = Productos::where('id', $id)->first();
+        if (isset($this->lista[$id])) {
+            if (($this->lista[$id] + 1) > Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias) {
+                $this->alert('warning', "Existencias máximas alcanzadas.");
+            } else {
+                $this->lista[$id] += 1;
+                $this->precio += ((Productos::where('id', $id)->first()->precio_venta));
+            }
+        } else {
+            $this->alert('warning', "Este producto no está en la lista");
+        }
     }
 
 

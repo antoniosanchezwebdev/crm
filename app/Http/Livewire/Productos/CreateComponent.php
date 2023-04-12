@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Productos;
 
 use App\Models\Almacen;
+use App\Models\ListaAlmacen;
 use App\Models\Neumatico;
 use App\Models\Productos;
 use App\Models\ProductosCategories;
@@ -57,7 +58,7 @@ class CreateComponent extends Component
         $this->tipos_producto = TipoProducto::all();
         $this->categorias = ProductosCategories::all();
         $this->neumaticos = Neumatico::all();
-        $this->almacenes = Almacen::all();
+        $this->almacenes = ListaAlmacen::all();
     }
 
     public function render()

@@ -446,6 +446,9 @@
         @endif
 
     </form>
+    <div class="mb-3 row d-flex align-items-center">
+        <button wire:click="destroy" class="btn btn-outline-danger">Eliminar</button>
+    </div>
 </div>
 
 </div>

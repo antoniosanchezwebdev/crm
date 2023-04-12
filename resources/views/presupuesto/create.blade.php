@@ -11,3 +11,6 @@
 
 @endsection
 
+@section('scripts')
+
+@endsection
