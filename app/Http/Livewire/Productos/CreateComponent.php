@@ -55,7 +55,7 @@ class CreateComponent extends Component
 
 
     public function mount(){
-        $this->tipos_producto = TipoProducto::all();
+        $this->tipos_producto = TipoProducto::all() ;
         $this->categorias = ProductosCategories::all();
         $this->neumaticos = Neumatico::all();
         $this->almacenes = ListaAlmacen::all();

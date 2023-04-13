@@ -41,7 +41,7 @@ class CreateComponent extends Component
 
     public $clienteSeleccionado;
     public $trabajadorSeleccionado;
-    public $producto;
+    public $producto_seleccionado;
     public $cantidad;
 
 
@@ -64,11 +64,13 @@ class CreateComponent extends Component
     public function submit()
     {
         foreach ($this->lista as $pro => $cantidad) {
-            $articulo = Productos::where('id', $pro)->first();
-            $articulo->update([
-                'stock' => ($articulo->stock -= $cantidad),
-            ]);
-
+            if(Productos::where('id', $pro)->first()->mueve_existencias == 1){
+                $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+                $articulo->update([
+                    'existencias' => ($articulo->existencias -= $cantidad),
+                    'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
+                ]);
+            }
         }
         $this->listaArticulos = json_encode($this->lista);
 
@@ -136,6 +138,7 @@ class CreateComponent extends Component
             'añadirProducto',
             'reducir',
             'precioFinal',
+            'seleccionarProducto',
         ];
     }
 
@@ -192,28 +195,43 @@ class CreateComponent extends Component
 
     }
 
-    
-    public function añadirProducto($id_producto, $cantidad_producto)
+
+    public function añadirProducto()
     {
-        if ($id_producto != null) {
-            $producto = Productos::where('id', $id_producto)->first();
-            if(Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias != null || Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias > 0 ){
-                    $existencias = Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias;
-                    if ($existencias < $cantidad_producto) {
-                    if (isset($this->lista[$id_producto])) {
-                        $this->lista[$id_producto] += $cantidad_producto;
-                    } else {
-                        $this->lista[$id_producto] = $cantidad_producto;
-                    }
-                    $this->precio += (($producto->precio_venta) * $cantidad_producto);
+        if ($this->producto_seleccionado != null) {
+            $producto = Productos::where('id', $this->producto_seleccionado)->first();
+            if (Productos::where('id', $this->producto_seleccionado)->first()->mueve_existencias == 0) {
+                if (!isset($this->lista[$this->producto_seleccionado])) {
+                    $this->lista[$this->producto_seleccionado] = 1;
                 } else{
-                    $this->alert('warning', "¡Cantidad de productos por encima del stock!");
+                    $this->alert('info', "Ya has añadido este servicio.");
                 }
             } else {
-                $this->alert('warning', "¡Producto sin stock!");
+                if (Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias >= 1) {
+                    $existencias = Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias;
+                    if ($existencias >= $this->cantidad) {
+                        if (isset($this->lista[$this->producto_seleccionado])) {
+                            if ($this->lista[$this->producto_seleccionado] + $this->cantidad > $existencias) {
+                                $this->lista[$this->producto_seleccionado] = $existencias;
+                                $this->alert('warning', "¡Estás intentando añadir más allá de las existencias!");
+                            } else {
+                                $this->lista[$this->producto_seleccionado] += $this->cantidad;
+                            }
+                        } else {
+                            $this->lista[$this->producto_seleccionado] = $this->cantidad;
+                        }
+                    } else {
+                        $this->alert('warning', "¡Estás intentando añadir más allá de las existencias!");
+                    }
+                } else {
+                    $this->alert('warning', "¡Artículo sin existencias!");
+                }
+            }
+            foreach($this->lista as $prod => $valo){
+                $anadir = Productos::where('id', $prod)->first()->precio_venta;
+                $this->precio += ($anadir * $valo);
             }
         }
-
     }
 
     public function reducir($id)
@@ -245,6 +263,5 @@ class CreateComponent extends Component
             $this->alert('warning', "Este producto no está en la lista");
         }
     }
-
 
 }
