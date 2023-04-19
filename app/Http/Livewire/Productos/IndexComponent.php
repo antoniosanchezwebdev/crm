@@ -21,9 +21,16 @@ class IndexComponent extends Component
     public $tipos_producto;
     public $categorias;
     public $tipo_producto = "";
+
+    public $busqueda_articulo = "";
+
+    public $busqueda_descripcion = "";
+
     public $productos;
     public $neumaticos;
     public $almacenes;
+
+    protected $listeners = ['refreshComponent' => '$refresh'];
 
 
     public function mount()
@@ -72,9 +79,27 @@ class IndexComponent extends Component
      */
     public function select_producto(){
         if($this->tipo_producto == ""){
-            $this->productos = Productos::all();
+            if($this->busqueda_descripcion == "" && $this->busqueda_articulo == ""){
+                $this->productos = Productos::all()->paginate(10);
+            } else{
+                if($this->busqueda_articulo != ""){
+                    $this->productos = Productos::where('cod_producto', 'LIKE','%'.$this->busqueda_articulo.'%')->get()->paginate(10);
+                } else if($this->busqueda_descripcion != ""){
+                    $this->productos = Productos::where('descripcion', 'LIKE','%'.$this->busqueda_descripcion.'%')->get()->paginate(10);
+                }
+            }
         } else{
-            $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get();
+            if($this->busqueda_descripcion == "" && $this->busqueda_articulo == ""){
+                $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get()->paginate(10);
+            } else{
+                if($this->busqueda_articulo != ""){
+                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('cod_producto', 'LIKE','%'.$this->busqueda_articulo.'%')->get()->paginate(10);
+                } else if($this->busqueda_descripcion != ""){
+                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('descripcion', 'LIKE','%'.$this->busqueda_descripcion.'%')->get()->paginate(10);
+                }
+            }
         }
+    
+        $this->emit('refreshComponent');
     }
 }

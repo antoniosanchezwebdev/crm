@@ -18,9 +18,9 @@
         <div class="d-flex">
             @if (count($presupuestos) > 0)
                 @mobile
-                    <table id="tablePresupuestos" style="table-layout:fixed; !important">
+                    <table id="tablePresupuexstos" style="table-layout:fixed; !important">
                     @elsemobile
-                        <table id="tablePresupuestos">
+                        <table id="tablePresupuextos">
                         @endmobile
                         <thead>
                             <tr>
@@ -84,32 +84,32 @@
         <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
         <script>
-            $(document).ready(function() {
-                console.log('entro');
-                var tabla = $('#tablePresupuestos').DataTable({
-                    responsive: true,
-                    dom: 'frtip',
-                    "language": {
-                        "lengthMenu": "Mostrando _MENU_ registros por página",
-                        "zeroRecords": "Nothing found - sorry",
-                        "info": "Mostrando página _PAGE_ of _PAGES_",
-                        "infoEmpty": "No hay registros disponibles",
-                        "infoFiltered": "(filtrado de _MAX_ total registros)",
-                        "search": "Buscar:",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Ultimo",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                        "zeroRecords": "No se encontraron registros coincidentes",
-                    }
-                });
+            // $(document).ready(function() {
+            //     console.log('entro');
+            //     var tabla = $('#tablePresupuestos').DataTable({
+            //         responsive: true,
+            //         dom: 'frtip',
+            //         "language": {
+            //             "lengthMenu": "Mostrando _MENU_ registros por página",
+            //             "zeroRecords": "Nothing found - sorry",
+            //             "info": "Mostrando página _PAGE_ of _PAGES_",
+            //             "infoEmpty": "No hay registros disponibles",
+            //             "infoFiltered": "(filtrado de _MAX_ total registros)",
+            //             "search": "Buscar:",
+            //             "paginate": {
+            //                 "first": "Primero",
+            //                 "last": "Ultimo",
+            //                 "next": "Siguiente",
+            //                 "previous": "Anterior"
+            //             },
+            //             "zeroRecords": "No se encontraron registros coincidentes",
+            //         }
+            //     });
 
-                addEventListener("resize", (event) => {
+            //     addEventListener("resize", (event) => {
 
-                })
-            });
+            //     })
+            // });
         </script>
 
     @endsection
