@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Presupuestos;
+namespace App\Http\Livewire\OrdenTrabajo;
 
 use App\Models\Presupuesto;
 use App\Models\Clients;
@@ -16,31 +16,52 @@ class CreateComponent extends Component
 {
 
     use LivewireAlert;
+    
+    public $identificador;
 
-    public $servicio = 1;
+    public $trabajo;
     public $numero_presupuesto;
     public $fecha_emision;
-    public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $cliente_id;
     public $estado;
     public $matricula;
     public $kilometros;
-    public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
-    public $precio = 0;
-    public $observaciones = "";
-    public $origen;
+    public $trabajador_id;
+    public $precio;
+    public $observaciones = [];
+
+
     public $clientes;
     public $trabajadores;
     public $productos;
     public $almacenes;
+
     public $existencias_productos;
+
     public $lista = [];
     public $listaArticulos;
-    public $producto_seleccionado;
-    public $cantidad;
-    public $orden_id;
+
+    public $trabajos_solicitados;
+    public $trabajos_realizar;
+
+    public $operarios;
+    public $tiempo_operarios;
+    public $danos_localizados;
+
 
     public function mount()
     {
+        $this->trabajo = Presupuesto::where('id', $this->identificador)->first();
+        $this->numero_presupuesto = $this->trabajo->numero_presupuesto;
+        $this->fecha_emision = $this->trabajo->fecha_emision;
+        $this->cliente_id = $this->trabajo->cliente_id;
+        $this->estado = $this->trabajo->estado;
+        $this->matricula = $this->trabajo->matricula;
+        $this->kilometros = $this->trabajo->kilometros;
+        $this->trabajador_id = $this->trabajo->trabajador_id;
+        $this->precio = $this->trabajo->precio;
+
+
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->productos = Productos::all();
@@ -51,7 +72,7 @@ class CreateComponent extends Component
 
     public function render()
     {
-        return view('livewire.presupuestos.create-component');
+        return view('livewire.orden-trabajo.create-component');
     }
 
     // Al hacer submit en el formulario
@@ -98,7 +119,6 @@ class CreateComponent extends Component
 
         // Guardar datos validados
         $presupuesosSave = Presupuesto::create($validatedData);
-        $this->orden_id = $presupuesosSave->id;
 
         // Alertas de guardado exitoso
         if ($presupuesosSave) {
@@ -139,7 +159,7 @@ class CreateComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('orden-trabajo.create/' . $this->orden_id);
+        return redirect()->route('presupuestos.index');
 
     }
     public function numeroPresupuesto()
@@ -198,7 +218,6 @@ class CreateComponent extends Component
                     $this->alert('warning', "¡Artículo sin existencias!");
                 }
             }
-            $this->precio = 0;
             foreach($this->lista as $prod => $valo){
                 $anadir = Productos::where('id', $prod)->first()->precio_venta;
                 $this->precio += ($anadir * $valo);

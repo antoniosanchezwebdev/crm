@@ -1,7 +1,9 @@
 <div id="contenedorProductos">
 
     <div style="border: 3px solid black; margin-bottom:10px; padding-left:20px; padding-right:20px; padding-top:10px; ">
+        <div style="border-bottom: 2px solid black; margin-bottom:10px;">
         <h1>Buscador</h1>
+        </div>
 
 
         <br>
@@ -29,7 +31,7 @@
         <div class="mb-3 row d-flex align-items-center">
             <div class="col-sm-10">
                 <input type="text" wire:model="busqueda_articulo" class="form-control" name="observaciones"
-                    wire:keydown="select_producto" id="busqueda_articulo">
+                wire:change="select_producto" id="busqueda_articulo" placeholder="Código de artículo (Ej; FLKN055516D)">
             </div>
         </div>
         <div style="border-bottom: 1px solid black; margin-bottom:10px;">
@@ -39,19 +41,24 @@
         <div class="mb-3 row d-flex align-items-center">
             <div class="col-sm-10">
                 <input type="text" wire:model="busqueda_descripcion" class="form-control" name="busqueda_descripcion"
-                    wire:keydown="select_producto" id="busqueda_descripcion">
+                wire:change="select_producto" id="busqueda_descripcion" placeholder="Descripción (Ej; 205/55/16 TL ZIEX ZE310 ECORUN 91V)">
             </div>
         </div>
     </div>
     <br>
-    @if (count($productos) > 0)
+    @if ($productos->count() > 0)
 
         <div
             style="border: 3px solid black; margin-bottom:10px; padding-left:20px; padding-right:20px; padding-top:10px; ">
-            <h3> Resultados </h3>
+            <div style="border-bottom: 2px solid black; margin-bottom:10px;">
+            <h1> Resultados </h1>
+            </div>
 
-
-            <table class="table" id="tableProdusctos">
+            @mobile
+            <table class="table" id="tableProdustos" style="display: block; overflow-x: auto; !important">
+            @elsemobile
+                <table class="table" id="tableProdustos">
+                @endmobile
                 <thead>
                     <tr>
                         <th scope="col">Código</th>
@@ -61,28 +68,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($productos as $producto)
+                    @foreach ($tabla as $producto)
                         <tr id={{ $producto->id }}>
                             <td>{{ $producto->cod_producto }}</th>
                             <td>{{ $producto->descripcion }}</td>
                             <td>
                                 @if ($almacenes->where('cod_producto', $producto->cod_producto)->first() != null)
                                     {{ $almacenes->where('cod_producto', $producto->cod_producto)->first()->existencias }}
+                                @else
+                                No mueve existencias
                                 @endif
                             </td>
                             <td><a href="productos-edit/{{ $producto->id }}" class="btn btn-sm btn-primary">Consultar
-                                    datos</a>
+                                    artículo</a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $tabla->links() }}
         @else
             <h3>No existen productos de este tipo.</h3>
     @endif
 
-
-    <a href="{{ route('productos.create') }}" class="btn btn-primary" style="margin-top:30px">Añadir
-        producto</a>
 </div>
+<div class="mb-3 row d-flex align-items-center">
+    <a href="{{ route('productos.create') }}" class="btn btn-primary"
+            style="margin-top:30px padding-bottom:20px">Añadir
+            producto</a>
+</div>
+<br>
 </div>

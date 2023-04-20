@@ -15,7 +15,7 @@ use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\PaymentMethodController;
-use App\Http\Controllers\FacturasController;
+use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\TrabajadorController;
@@ -114,6 +114,12 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('presupuestos', [PresupuestoController::class, 'index'])->name('presupuestos.index');
     Route::get('presupuestos-create', [PresupuestoController::class, 'create'])->name('presupuestos.create');
     Route::get('presupuestos-edit/{id}', [PresupuestoController::class, 'edit'])->name('presupuestos.edit');
+
+    // Orden trabajo
+
+    Route::get('orden-trabajo', [OrdenTrabajoController::class, 'index'])->name('orden-trabajo.index');
+    Route::get('orden-trabajo-create/{id}', [OrdenTrabajoController::class, 'create'])->name('orden-trabajo.create');
+    Route::get('orden-trabajo-edit/{id}', [OrdenTrabajoController::class, 'edit'])->name('orden-trabajo.edit');
 
     // Facturas
     Route::get('facturas', [FacturaController::class, 'index'])->name('facturas.index');

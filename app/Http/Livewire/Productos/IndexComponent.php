@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Productos;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use App\Models\Productos;
 use App\Models\Neumatico;
@@ -15,7 +18,6 @@ use PDF;
  * Summary of IndexComponent
  */
 class IndexComponent extends Component
-
 {
     use LivewireAlert;
     public $tipos_producto;
@@ -30,6 +32,10 @@ class IndexComponent extends Component
     public $neumaticos;
     public $almacenes;
 
+    public $pagina;
+    protected $tabla;
+    public $porPagina = 10;
+
     protected $listeners = ['refreshComponent' => '$refresh'];
 
 
@@ -37,69 +43,67 @@ class IndexComponent extends Component
     {
         $this->categorias = ProductosCategories::all();
         $this->tipos_producto = TipoProducto::all();
-        $this->productos = Productos::all();
         $this->neumaticos = Neumatico::all();
+        $this->productos = Productos::all();
         $this->almacenes = Almacen::all();
     }
     public function render()
     {
-        return view('livewire.productos.index-component');
-        
-    }
-
-
-
-    public function alerta($id){
-        $producto = Productos::whereId($id)->get()[0];
-        $descripcion = "Código de producto: " . $producto->cod_producto . "<br>" .
-        "Tipo de producto: " . $producto->tipo_producto;
-        $this->alert('info', $producto->descripcion, [
-            'position' => 'center',
-            'toast' => false,
-            'html' => 
-            "<strong> ID del producto: </strong>  $producto->id <br> 
-            <strong> Código del producto: </strong>  $producto->cod_producto <br>
-            <strong> Tipo del producto: </strong>  $producto->tipo_producto <br>
-            <strong> Ecotasa: </strong>  $producto->ecotasa <br>
-            <strong> Fabricante: </strong>  $producto->fabricante <br>
-            <strong> Etiquetado europeo: </strong>  $producto->etiquetado_eu <br>
-            <strong> Estado: </strong>  $producto->estado <br>
-            <strong> Categoría: </strong>  $producto->categoria <br>
-            <strong> Precio baremo: </strong>  $producto->precio_baremo <br>
-            <strong> Descuento al precio: </strong>  $producto->descuento <br>
-            <strong> Precio costo neto: </strong>  $producto->precio_costoNeto <br>
-            <strong> Precio de venta: </strong>  $producto->precio_venta <br>
-            <strong> Stock: </strong>  $producto->stock
-            ",
+        $this->tabla = $this->pagination($this->productos);
+        return view('livewire.productos.index-component', [
+            'tabla' => $this->tabla
         ]);
+
     }
+
 
     /**
      * @return void
      */
-    public function select_producto(){
-        if($this->tipo_producto == ""){
-            if($this->busqueda_descripcion == "" && $this->busqueda_articulo == ""){
-                $this->productos = Productos::all()->paginate(10);
-            } else{
-                if($this->busqueda_articulo != ""){
-                    $this->productos = Productos::where('cod_producto', 'LIKE','%'.$this->busqueda_articulo.'%')->get()->paginate(10);
-                } else if($this->busqueda_descripcion != ""){
-                    $this->productos = Productos::where('descripcion', 'LIKE','%'.$this->busqueda_descripcion.'%')->get()->paginate(10);
+    public function select_producto()
+    {
+        if ($this->tipo_producto == "") {
+            if ($this->busqueda_descripcion == "" && $this->busqueda_articulo == "") {
+                $this->productos = Productos::all();
+            } else {
+                if ($this->busqueda_articulo != "") {
+                    $this->productos = Productos::where('cod_producto', 'LIKE', '%' . $this->busqueda_articulo . '%')->get();
+                } else if ($this->busqueda_descripcion != "") {
+                    $this->productos = Productos::where('descripcion', 'LIKE', '%' . $this->busqueda_descripcion . '%')->get();
                 }
             }
-        } else{
-            if($this->busqueda_descripcion == "" && $this->busqueda_articulo == ""){
-                $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get()->paginate(10);
-            } else{
-                if($this->busqueda_articulo != ""){
-                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('cod_producto', 'LIKE','%'.$this->busqueda_articulo.'%')->get()->paginate(10);
-                } else if($this->busqueda_descripcion != ""){
-                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('descripcion', 'LIKE','%'.$this->busqueda_descripcion.'%')->get()->paginate(10);
+        } else {
+            if ($this->busqueda_descripcion == "" && $this->busqueda_articulo == "") {
+                $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get();
+            } else {
+                if ($this->busqueda_articulo != "") {
+                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('cod_producto', 'LIKE', '%' . $this->busqueda_articulo . '%')->get();
+                } else if ($this->busqueda_descripcion != "") {
+                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('descripcion', 'LIKE', '%' . $this->busqueda_descripcion . '%')->get();
                 }
             }
         }
-    
-        $this->emit('refreshComponent');
+        $this->tabla = $this->pagination($this->productos);
+
+        $this->emit("refreshComponent");
     }
+
+    public function pagination(Collection $data)
+    {
+        $items = $data->forPage($this->pagina, $this->porPagina);
+        $totalResults = $data->count();
+
+        return new LengthAwarePaginator(
+            $items,
+            $totalResults,
+            $this->porPagina,
+            $this->pagina,
+            // Esta parte (options) la copie de lo que hace por defecto el paginador de Laravel haciendo un dd()
+            [
+                'path' => url()->current(),
+                'pageName' => 'pagina',
+            ]
+        );
+    }
+
 }

@@ -38,18 +38,19 @@
       </button>
         </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+        <br>
+        <ul class="navbar-nav me-auto mb-0 mb-lg-0 float-end">
           <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/admin/presupuestos"> <i class="fas fa-book"></i> <strong>Presupuestos</strong></a>
+            <a class="btn btn-lg btn-block btn-outline-primary float-end" href="/admin/presupuestos"> <i class="fas fa-book"></i> <strong>Presupuestos</strong></a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/admin/clients"> <i class="fas fa-boxes-stacked"></i> <strong>Informes</strong></a>
+            <a class="btn btn-lg btn-block btn-outline-primary float-end" href="/admin/clients"> <i class="fas fa-boxes-stacked"></i> <strong>Informes</strong></a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/admin/productos"> <i class="fas fa-folder-minus"></i> <strong>Inventario</strong></a>
+            <a class="btn btn-lg btn-block btn-outline-primary float-end" href="/admin/productos"> <i class="fas fa-folder-minus"></i> <strong>Inventario</strong></a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-primary" href="/admin/clients"> <i class="fas fa-cart-shopping"></i> <strong>Caja</strong></a>
+            <a class="btn btn-lg btn-block btn-outline-primary float-end" href="/admin/clients"> <i class="fas fa-cart-shopping"></i> <strong>Caja</strong></a>
           </li>
         </ul>
       </div>

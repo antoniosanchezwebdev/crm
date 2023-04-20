@@ -9,20 +9,18 @@ class Presupuesto extends Model
 {
     use HasFactory;
 
-    protected $table = "presupuestos";
+    protected $table = "orden_trabajos";
 
     protected $fillable = [
-        'numero_presupuesto',
-        'fecha_emision',
-        'cliente_id',
-        'estado',
-        'matricula',
-        'kilometros',
-        'trabajador_id',
-        'listaArticulos',
-        'precio',
-        'origen',
+        'fecha',
+        'id_cliente',
+        'id_presupuesto',
         'observaciones',
+        'trabajos_solicitados',
+        'trabajos_realizar',
+        'operarios',
+        'operarios_tiempo',
+        'danos_localizados',
 
     ];
 

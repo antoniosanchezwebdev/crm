@@ -2,8 +2,8 @@
     @vite(['resources/sass/app.scss'])
 @endsection
 
-@section('encabezado', 'Presupuestos')
-@section('subtitulo', 'Crear presupuesto')
+@section('encabezado', 'Orden de trabajo')
+@section('subtitulo', 'Crear tarea')
 
 <div class="container mx-auto">
     <form wire:submit.prevent="submit">
@@ -15,36 +15,9 @@
         </div>
 
         <div class="mb-3 row d-flex align-items-center">
-            <label for="servicio" class="col-sm-2 col-form-label"><strong>Servicio dado en:</strong></label>
-            <div class="col-sm-10" wire:ignore>
-                <select class="form-control" id="select2-servicio">
-                    @foreach ($almacenes as $listalmacen)
-                        <option value={{ $listalmacen->id }}>{{ $listalmacen->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="origen" class="col-sm-2 col-form-label">Presupuesto dado en:</label>
-            <div class="col-sm-10" wire:ignore>
-                <select id="select2-origen" class="form-control seleccion">
-                    <option value="Mostrador">Mostrador</option>
-                    <option value="Teléfono">Teléfono</option>
-                    <option value="Formulario web">Formulario web</option>
-                    <option value="Email">Email</option>
-                    <option value="Whatsapp">Whatsapp</option>
-                </select>
-                @error('denominacion')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="mb-3 row d-flex align-items-center">
             <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de emisión</label>
             <div class="col-sm-10">
-                <input type="datetime-local" wire:model="fecha_emision" wire:change="numeroPresupuesto"
+                <input disabled type="datetime-local" wire:model="fecha_emision" wire:change="numeroPresupuesto"
                     class="form-control" name="fecha_emision" id="fecha_emision">
                 @error('fecha_emision')
                     <span class="text-danger">{{ $message }}</span>
@@ -206,82 +179,8 @@
             </div>
         </div>
 
-        <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
-        <div style="border-bottom: 1px solid black; margin-bottom:10px;">
-            <h1>Buscador de artículos</h1>
-        </div>
-        @if ($producto_seleccionado == null)
-            <div class="mb-3 row d-flex align-items-center">
-        @endif
 
-        @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 1)
-            <h2>Buscador de artículos</h2>
-            <div class="mb-3 row d-flex align-items-center">
-                <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
-                <div class="col-sm-10">
-                    <input id="prod_sel" class="form-control" type="text" disabled
-                        value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
-                </div>
-        @endif
-
-        @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
-            <h2 style="margin-top: 10px; !important ">Buscador de artículos</h2>
-            <div class="mb-3 row d-flex align-items-center">
-                <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
-                <div class="col-sm-10" style="margin-bottom:10px; !important">
-                    <input id="prod_sel" class="form-control" type="text" disabled
-                        value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
-                </div>
-                <label for="exis_sel" class="col-sm-2 col-form-label">Existencias disponibles:</label>
-                <div class="col-sm-10">
-                    <input id="exis_sel" class="form-control" type="text" disabled
-                        value="{{ (($existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias) - (int)$cantidad) }}" />
-                </div>
-        @endif
 </div>
-<h2>Selección de artículos</h2>
-<div class="mb-3 row d-flex align-items-center">
-    <div class="col-sm-10" wire:ignore>
-        <select class="form-control" id="select2-producto">
-            @foreach ($productos as $producti)
-                @if ($producti->mueve_existencias == 0)
-                    <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                        {{ $producti->descripcion }}
-                    </option>
-                @else
-                    @if ($existencias_productos->where('cod_producto', $producti->cod_producto)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first()->existencias > 0)
-                        <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                            {{ $producti->descripcion }}
-                        </option>
-                    @endif
-                @endif
-            @endforeach
-        </select>
-    </div>
-</div>
-
-@if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
-    <div class="mb-3 row d-flex align-items-center">
-        <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-        <div class="col-sm-10">
-            <input type="number" wire:model="cantidad" class="form-control" name="cantidad" id="cantidad"
-                min="1"
-                max="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias }}">
-            @error('cantidad')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-    <div class="mb-3 row d-flex align-items-center">
-        <button class="btn btn-sm btn-primary" wire:click.prevent="añadirProducto">Añadir a la lista</button>
-    </div>
-@endif
-
-@if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 1)
-    <div class="mb-3 row d-flex align-items-center">
-        <button class="btn btn-sm btn-primary" wire:click.prevent="añadirProducto">Añadir a la lista</button>
-    </div>
-@endif
 
 
 <div style="border-bottom: 1px solid black; margin-bottom:50px;"></div>
