@@ -12,6 +12,8 @@
             <h3>Selecciona la categoría principal</h3>
         </div>
 
+        
+
         <div class="mb-3 row d-flex align-items-center" style="margin-block: 10px">
             <div class="col-sm-10">
                 <select name="tipo_producto" id="tipo_producto" wire:model="tipo_producto" wire:change="select_producto"
@@ -90,12 +92,10 @@
         @else
             <h3>No existen productos de este tipo.</h3>
     @endif
+    <div class="mb-3 row d-flex align-items-center">
+        <a href="{{ route('productos.create') }}" class="btn btn-primary"
+                style="margin-top:30px padding-bottom:20px">Añadir
+                producto</a>
+    </div>
 
-</div>
-<div class="mb-3 row d-flex align-items-center">
-    <a href="{{ route('productos.create') }}" class="btn btn-primary"
-            style="margin-top:30px padding-bottom:20px">Añadir
-            producto</a>
-</div>
-<br>
 </div>

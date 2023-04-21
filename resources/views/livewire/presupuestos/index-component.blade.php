@@ -1,40 +1,36 @@
-@section('head')
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.css">
-    @vite(['resources/sass/app.scss'])
-    <style>
-        .dataTables_filter {
-            float: right !important;
-            margin-bottom: 20px;
-        }
-    </style>
-@endsection
+<div id="contenedorPresupuestos">
 
-@section('encabezado', 'Presupuestos')
-@section('subtitulo', 'Consulta de presupuestos')
+    <div style="border-bottom: 1px solid black; margin-bottom:10px;">
+        <h3> Buscador </h3>
+    </div>
 
-@section('content')
-    <br>
+    <div style="margin-bottom:10px;">
+        <h2> Categoría </h2>
+    </div>
+
     <div class="mb-3 row d-flex align-items-center" style="margin-block: 10px">
         <div class="col-sm-10">
-            <select name="filtro_categoria" id="filtro_categoria" wire:model="filtro_categoria" wire:click="filtroCat"
+            <select name="filtro_categoria" id="filtro_categoria" wire:model="filtro_categoria" wire:change="filtroCat"
                 class="form-control">
-                <option selected value="">-- ELIGE CATEGORIA --</option>
-                @foreach ($categorias as $categoria)
-                    <option value="{{$categoria}}">{{ $categoria }}</option>
+                <option selected value="">Todos los productos</option>
+                @foreach ($categorias as $categoria => $nombre_cat)
+                    <option value="{{ $categoria }}">{{ $nombre_cat }}</option>
                 @endforeach
             </select>
         </div>
     </div>
-        <div style="border-bottom: 1px solid black; margin-bottom:10px;">
-            <h3> Buscador por descripción </h3>
-        </div>
-        <div class="mb-3 row d-flex align-items-center">
-            <div class="col-sm-10">
-                <input type="text" wire:model="filtro_busqueda" class="form-control" name="filtro_busqueda" wire:keydown="filtroCat" id="filtro_busqueda" placeholder="Presupuesto">
-            </div>
-        </div>
 
+    <div style="margin-bottom:10px;">
+        <h2> Búsqueda </h2>
     </div>
+
+    <div class="mb-3 row d-flex align-items-center">
+        <div class="col-sm-10">
+            <input type="text" wire:model="filtro_busqueda" class="form-control" name="filtro_busqueda"
+                wire:change="filtroCat" id="filtro_busqueda" placeholder="Presupuesto">
+        </div>
+    </div>
+    
     <div>
         @if ($presupuestos->count() > 0)
             @mobile
@@ -60,21 +56,21 @@
                         @foreach ($tabla as $presup)
                             <tr>
                                 <td>{{ $presup->numero_presupuesto }}</th>
-
+    
                                 <td>{{ $clientes->where('id', $presup->cliente_id)->first()->id }} </td>
-
+    
                                 <td>{{ $clientes->where('id', $presup->cliente_id)->first()->nombre }} </td>
-
+    
                                 <td>{{ $presup->fecha_emision }}</th>
-
+    
                                 <td>{{ $presup->precio }} </td>
-
+    
                                 <td>{{ $presup->precio }} </td>
-
+    
                                 <td>{{ $presup->matricula }} </td>
-
+    
                                 <td>{{ $presup->precio }} </td>
-
+    
                                 <td> <a href="presupuestos-edit/{{ $presup->id }}" class="btn btn-primary">Ver/Editar</a>
                                 </td>
                             </tr>
@@ -85,18 +81,30 @@
             @else
                 <h3>¡Peligro!</h3>
         @endif
+        </tbody>
+        </table>
+    
+        <div class="d-grid gap-2">
+            <a href="{{ route('presupuestos.create') }}" class="btn btn-primary" style="margin-top:30px">Crear nuevo
+                presupuesto</a>
+        </div>
     </div>
-    </tbody>
-    </table>
-    <div class="d-grid gap-2">
-        <a href="{{ route('presupuestos.create') }}" class="btn btn-primary" style="margin-top:30px">Crear nuevo
-            presupuesto</a>
-    </div>
-
-
+    
+</div>
 
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#filtro_categoria').select2({
+                placeholder: "Seleccione un producto"
+            });
+            $('#filtro_categoria').on('change', function(e) {
+                var data = $('#select2-producto').select2("val");
+                @this.set('filtro_categoria', data);
+            });
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
-@endsection
 @endsection

@@ -38,7 +38,17 @@ class IndexComponent extends Component
         $this->presupuestos = Presupuesto::all();
         $this->clientes = Clients::all();
         $this->trabajadores = Trabajador::all();
-        $this->categorias = array_slice(Schema::getColumnListing($modelo->getTable()), 1, -3);
+        $this->categorias = [
+            'numero_presupuesto' => "Número de presupuesto", 
+            'fecha_emision' => "Fecha de emisión", 
+            'cliente_id' => "ID de cliente", 
+            'nombre_cliente' => "Nombre de cliente",
+            'estado' => "Estado",
+            'matricula' => "Matricula",
+            'kilometros' => "Kilometros",
+            'trabajador_id' => "ID de trabajador",
+            'precio' => "Importe total"
+        ];
         
     }
 
@@ -55,11 +65,11 @@ class IndexComponent extends Component
      */
     public function filtroCat()
     {
-        $this->alert("Hola");
-            if ($this->filtro_categoria == "" && $this->filtro_busqueda == "") {
-                $this->presupuestos = Presupuesto::all();
+        $this->alert('warning', "Hola");
+            if ($this->filtro_categoria != "" && $this->filtro_busqueda != "") {
+                $this->presupuestos = Presupuesto::where($this->filtro_categoria, 'LIKE', '%' . $this->filtro_busqueda . '%')->get();
             } else {
-                    $this->presupuestos = Presupuesto::where('matricula', 'LIKE', '%' . $this->filtro_busqueda . '%')->get();
+                $this->presupuestos = Presupuesto::all();
             }
        
         $this->tabla = $this->pagination($this->presupuestos);
