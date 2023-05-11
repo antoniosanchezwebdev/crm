@@ -65,8 +65,8 @@ class IndexComponent extends Component
      */
     public function filtroCat()
     {
-        $this->alert('warning', "Hola");
             if ($this->filtro_categoria != "" && $this->filtro_busqueda != "") {
+                $this->alert('warning', "Hola");
                 $this->presupuestos = Presupuesto::where($this->filtro_categoria, 'LIKE', '%' . $this->filtro_busqueda . '%')->get();
             } else {
                 $this->presupuestos = Presupuesto::all();

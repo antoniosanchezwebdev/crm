@@ -6,6 +6,7 @@ use App\Models\Productos;
 use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
 use App\Models\Almacen;
+use App\Models\ListaAlmacen;
 use App\Models\Neumatico;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -47,14 +48,18 @@ class EditComponent extends Component
     public $existencias;
     public $mueve_existencias;
 
+    public $almacen = 1;
     public $nombre;
+
 
     public $existencias_almacenes;
     public $existencias_depositos;
+    
 
 
     public function mount()
     {
+        $this->almacenes = ListaAlmacen::all();
         $this->categorias = ProductosCategories::all();
         $this->tipos_producto = TipoProducto::all();
 
@@ -94,7 +99,7 @@ class EditComponent extends Component
        
 
         if($product->mueve_existencias == true){
-            $almacen = Almacen::where('cod_producto', $this->cod_producto)->first();
+            $almacen = Almacen::where('nombre', ListaAlmacen::where('id', $this->almacen)->first()->nombre)->where('cod_producto', $this->cod_producto)->first();
             $this->nombre = $almacen->nombre;
             $this->existencias = $almacen->existencias;
             $this->existencias_almacenes = $almacen->existencias_almacenes;
@@ -174,14 +179,24 @@ class EditComponent extends Component
             }
     
             if($this->mueve_existencias != false){
-                $almacen = Almacen::where('cod_producto', $this->cod_producto)->first();
+                if(Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null){
+                    $almacen = Almacen::where('cod_producto', $this->cod_producto)->first();
                 $almacenSave = $almacen->update([
                     'nombre' => $this->nombre,
                     'existencias' => $this->existencias,
                     'existencias_almacenes' => $this->existencias,
                     'existencias_depositos' => $this->existencias_depositos,
                 ]);
-                
+                } else{
+                    $this->alert('info', 'Nueva información de almacén creada');
+                    $nuevoAlmacen = Almacen::create($this->validate([
+                        'nombre' => 'required',
+                        'cod_producto' => 'required',
+                        'existencias' => 'required',
+                        'existencias_almacenes' => 'required',
+                        'existencias_depositos' => 'required'
+                    ]));
+                }                
             }   
 
             $this->alert('success', '¡Producto actualizado correctamente!', [
@@ -257,5 +272,21 @@ class EditComponent extends Component
     public function precio_costo() 
     {
         $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+    }
+
+    public function comprobarAlmacen(){
+        if(Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null){
+        $almacen = Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first();
+        $this->nombre = $almacen->nombre;
+        $this->existencias = $almacen->existencias;
+        $this->existencias_almacenes = $almacen->existencias_almacenes;
+        $this->existencias_depositos = $almacen->existencias_depositos;
+        } else{
+        $this->nombre = $this->almacen;
+        $this->existencias = 0;
+        $this->existencias_almacenes = 0;
+        $this->existencias_depositos = 0;
+        }
+        
     }
 }

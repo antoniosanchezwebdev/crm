@@ -41,8 +41,11 @@ class CreateComponent extends Component
     public $lista = [];
     public $listaArticulos;
 
-    public $trabajos_solicitados;
-    public $trabajos_realizar;
+    public $trabajoSolicitado;
+    public $listaTrabajosSolicitados = [];
+
+    public $trabajoRealizar;
+    public $listaTrabajosRealizar = [];
 
     public $operarios;
     public $tiempo_operarios;

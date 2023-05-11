@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ class Productos extends Model
         'fabricante',
         'categoria_id',
         'precio_baremo',
-        'descuento',
+        'descuento',        
         'mueve_existencias',
         'precio_costoNeto',
         'coeficiente',
@@ -28,6 +29,10 @@ class Productos extends Model
         'stock',
 
     ];
+    public function modelFilter()
+    {
+        return $this->provideFilter(\App\ModelFilters\ProductosFilter::class);
+    }
 
     /**
      * Mutaciones de fecha.

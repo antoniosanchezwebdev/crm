@@ -1,37 +1,46 @@
 <div id="contenedorPresupuestos">
 
-    <div style="border-bottom: 1px solid black; margin-bottom:10px;">
-        <h3> Buscador </h3>
-    </div>
 
-    <div style="margin-bottom:10px;">
-        <h2> Categoría </h2>
-    </div>
+    <div class="accordion accordion-flush"
+        style="border: 3px solid black; margin-bottom:10px; padding-left:20px; padding-right:20px; padding-top:10px;">
+        <div class="accordion-header" id="headingOne" style="border-bottom: 2px solid black; margin-bottom:20px;">
+            <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <h3>Buscador</h3>
+            </button>
+        </div>
 
-    <div class="mb-3 row d-flex align-items-center" style="margin-block: 10px">
-        <div class="col-sm-10">
-            <select name="filtro_categoria" id="filtro_categoria" wire:model="filtro_categoria" wire:change="filtroCat"
-                class="form-control">
-                <option selected value="">Todos los productos</option>
-                @foreach ($categorias as $categoria => $nombre_cat)
-                    <option value="{{ $categoria }}">{{ $nombre_cat }}</option>
-                @endforeach
-            </select>
+        <div id="collapseOne" class="accordion-collapse collapse show" style="margin-block: 10px" wire:ignore.self>
+
+            <div style="margin-bottom:10px;">
+                <h2> Categoría </h2>
+            </div>
+
+            <div class="col-sm-10">
+                <select name="filtro_categoria" id="filtro_categoria" wire:model="filtro_categoria"
+                    wire:change="filtroCat" class="form-control">
+                    <option selected value="">Todos los productos</option>
+                    @foreach ($categorias as $categoria => $nombre_cat)
+                        <option value="{{ $categoria }}">{{ $nombre_cat }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <br>
+            <div style="margin-bottom:10px;">
+                <h2> Búsqueda </h2>
+            </div>
+
+            <div class="col-sm-10">
+                <input type="text" wire:model="filtro_busqueda" class="form-control" name="filtro_busqueda"
+                    wire:change="filtroCat" id="filtro_busqueda" placeholder="Presupuesto">
+            </div>
         </div>
     </div>
 
-    <div style="margin-bottom:10px;">
-        <h2> Búsqueda </h2>
-    </div>
-
-    <div class="mb-3 row d-flex align-items-center">
-        <div class="col-sm-10">
-            <input type="text" wire:model="filtro_busqueda" class="form-control" name="filtro_busqueda"
-                wire:change="filtroCat" id="filtro_busqueda" placeholder="Presupuesto">
+    <div style="border: 3px solid black; margin-bottom:10px; padding-left:20px; padding-right:20px; padding-top:10px; ">
+        <div style="border-bottom: 2px solid black; margin-bottom:10px;">
+            <h3> Resultados </h3>
         </div>
-    </div>
-    
-    <div>
         @if ($presupuestos->count() > 0)
             @mobile
                 <table class="table" id="tablePresupuexstos" style="display: block; overflow-x: auto; !important">
@@ -56,22 +65,23 @@
                         @foreach ($tabla as $presup)
                             <tr>
                                 <td>{{ $presup->numero_presupuesto }}</th>
-    
+
                                 <td>{{ $clientes->where('id', $presup->cliente_id)->first()->id }} </td>
-    
+
                                 <td>{{ $clientes->where('id', $presup->cliente_id)->first()->nombre }} </td>
-    
+
                                 <td>{{ $presup->fecha_emision }}</th>
-    
+
                                 <td>{{ $presup->precio }} </td>
-    
+
                                 <td>{{ $presup->precio }} </td>
-    
+
                                 <td>{{ $presup->matricula }} </td>
-    
+
                                 <td>{{ $presup->precio }} </td>
-    
-                                <td> <a href="presupuestos-edit/{{ $presup->id }}" class="btn btn-primary">Ver/Editar</a>
+
+                                <td> <a href="presupuestos-edit/{{ $presup->id }}"
+                                        class="btn btn-primary">Ver/Editar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -83,13 +93,14 @@
         @endif
         </tbody>
         </table>
-    
-        <div class="d-grid gap-2">
-            <a href="{{ route('presupuestos.create') }}" class="btn btn-primary" style="margin-top:30px">Crear nuevo
-                presupuesto</a>
-        </div>
     </div>
-    
+
+    <div class="d-grid gap-2">
+        <a href="{{ route('presupuestos.create') }}" class="btn btn-primary" style="margin-top:30px">Crear
+            nuevo
+            presupuesto</a>
+    </div>
+
 </div>
 
 @section('scripts')
@@ -99,12 +110,11 @@
                 placeholder: "Seleccione un producto"
             });
             $('#filtro_categoria').on('change', function(e) {
-                var data = $('#select2-producto').select2("val");
+                var data = $('#filtro_categoria').select2("val");
                 @this.set('filtro_categoria', data);
             });
         });
     </script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 @endsection

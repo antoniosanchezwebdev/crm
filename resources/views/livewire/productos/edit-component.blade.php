@@ -414,13 +414,15 @@
             @if ($mueve_existencias == true)
                 <h1>Datos de existencias</h1>
                 <div class="mb-3 row d-flex align-items-center">
-                    <label for="nombre" class="col-sm-2 col-form-label">
+                    <label for="almacen" class="col-sm-2 col-form-label">
                         <h5>Selecciona el almacén</h5>
                     </label>
                     <div class="col-sm-10">
-                        <select wire:model="nombre" id="nombre" name="nombre">
+                        <select wire:model="almacen" id="almacen" name="almacen" wire:change='comprobarAlmacen'>
                             <option selected value="">-- Selecciona almacén --</option>
-                            <option value="ALGECIRAS">ALGECIRAS</option>
+                            @foreach ($almacenes as $almacene)
+                                <option value="{{ $almacene->nombre }}">{{ $almacene->nombre }}</option>
+                            @endforeach
                         </select>
                         @error('tipo_producto')
                             <span class="text-danger">{{ $message }}</span>

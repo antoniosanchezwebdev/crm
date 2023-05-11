@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Productos;
 use App\Models\Neumatico;
 use App\Models\Almacen;
+use App\Models\ListaAlmacen;
 use App\Models\TipoProducto;
 use App\Models\ProductosCategories;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -24,13 +25,26 @@ class IndexComponent extends Component
     public $categorias;
     public $tipo_producto = "";
 
-    public $busqueda_articulo = "";
+    public $busqueda_res_rod = "";
 
-    public $busqueda_descripcion = "";
+    public $busqueda_ag_moj = "";
+
+    public $busqueda_em_ruido = "";
+    public $busqueda_ancho = "";
+
+    public $busqueda_serie = "";
+
+    public $busqueda_llanta = "";
+    public $busqueda_ic = "";
+
+    public $busqueda_cv = "";
+    public $busqueda_categoria = "";
 
     public $productos;
     public $neumaticos;
     public $almacenes;
+    public $listAlmacenes;
+
 
     public $pagina;
     protected $tabla;
@@ -46,6 +60,7 @@ class IndexComponent extends Component
         $this->neumaticos = Neumatico::all();
         $this->productos = Productos::all();
         $this->almacenes = Almacen::all();
+        $this->listAlmacenes = ListaAlmacen::all();
     }
     public function render()
     {
@@ -62,27 +77,7 @@ class IndexComponent extends Component
      */
     public function select_producto()
     {
-        if ($this->tipo_producto == "") {
-            if ($this->busqueda_descripcion == "" && $this->busqueda_articulo == "") {
-                $this->productos = Productos::all();
-            } else {
-                if ($this->busqueda_articulo != "") {
-                    $this->productos = Productos::where('cod_producto', 'LIKE', '%' . $this->busqueda_articulo . '%')->get();
-                } else if ($this->busqueda_descripcion != "") {
-                    $this->productos = Productos::where('descripcion', 'LIKE', '%' . $this->busqueda_descripcion . '%')->get();
-                }
-            }
-        } else {
-            if ($this->busqueda_descripcion == "" && $this->busqueda_articulo == "") {
-                $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->get();
-            } else {
-                if ($this->busqueda_articulo != "") {
-                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('cod_producto', 'LIKE', '%' . $this->busqueda_articulo . '%')->get();
-                } else if ($this->busqueda_descripcion != "") {
-                    $this->productos = Productos::where("tipo_producto", $this->tipo_producto)->where('descripcion', 'LIKE', '%' . $this->busqueda_descripcion . '%')->get();
-                }
-            }
-        }
+        
         $this->tabla = $this->pagination($this->productos);
 
         $this->emit("refreshComponent");

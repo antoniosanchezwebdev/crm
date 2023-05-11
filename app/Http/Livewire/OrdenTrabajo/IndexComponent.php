@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Presupuestos;
+namespace App\Http\Livewire\OrdenTrabajo;
 
 use App\Models\Trabajador;
 use App\Models\Clients;
@@ -31,7 +31,7 @@ class IndexComponent extends Component
     public function render()
     {
         $this->tabla = $this->pagination($this->presupuestos);
-        return view('livewire.presupuestos.index-component',[
+        return view('livewire.orden-trabajo.index-component',[
             'tabla' => $this->tabla,
         ]);
     }
