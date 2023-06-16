@@ -21,5 +21,5 @@
 @section('encabezado', 'Inventario')
 @section('subtitulo', 'Consultar artículos')
 <br>
-<livewire:productos.index-component>
+<livewire:productos.productos-component>
 @endsection
