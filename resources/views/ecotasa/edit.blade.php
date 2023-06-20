@@ -7,13 +7,13 @@
     @vite(['resources/sass/app.scss'])
 @endsection
 
-@section('encabezado', 'Proveedor')
-@section('subtitulo', 'Crear proveedor')
+@section('encabezado', 'Ecotasa')
+@section('subtitulo', 'Editar ecotasa')
 
 @section('content')
 <div>
-    @livewire('proveedores.create-component')
+
+@livewire('ecotasa.edit', ['identificador' => $id])
 </div>
 
 @endsection
-

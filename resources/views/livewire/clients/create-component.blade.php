@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div class="container mx-auto" style="min-height: 100vh">
     <div class="card text-dark bg-light mb-3">
         <div class="card-header"> Añadir cliente</div>
         <div class="card-body">

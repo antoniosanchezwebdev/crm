@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\Productos;
 
 use App\Models\Almacen;
+use App\Models\Ecotasa;
 use App\Models\ListaAlmacen;
 use App\Models\Neumatico;
 use App\Models\Productos;
 use App\Models\ProductosCategories;
+use App\Models\Proveedores;
 use App\Models\TipoProducto;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -16,14 +18,20 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
-    
+
     public $productos;
     public $categorias;
     public $tipos_producto;
     public $almacenes;
     public $neumaticos;
-    
+    public $proveedores;
+    public $tasas;
+
+
+
     public $cod_producto;
+    public $proveedor;
+
     public $descripcion;
     public $tipo_producto;
     public $ecotasa;
@@ -46,6 +54,7 @@ class CreateComponent extends Component
     public $indice_carga;
     public $codigo_velocidad;
 
+
     public $existencias;
     public $mueve_existencias = false;
 
@@ -54,11 +63,14 @@ class CreateComponent extends Component
     public $existencias_almacenes;
 
 
-    public function mount(){
-        $this->tipos_producto = TipoProducto::all() ;
+    public function mount()
+    {
+        $this->tipos_producto = TipoProducto::all();
         $this->categorias = ProductosCategories::all();
         $this->neumaticos = Neumatico::all();
         $this->almacenes = ListaAlmacen::all();
+        $this->proveedores = Proveedores::all();
+        $this->tasas = Ecotasa::all();
     }
 
     public function render()
@@ -74,10 +86,12 @@ class CreateComponent extends Component
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
             'fabricante' => 'required',
+            'proveedor' => 'required',
             'coeficiente' => 'nullable',
             'categoria_id' => 'nullable',
             'precio_baremo' => 'required',
             'descuento' => 'required',
+            'ecotasa' => 'nullable',
             'precio_costoNeto' => 'required',
             'precio_venta' => 'required',
             'mueve_existencias' => 'required',
@@ -98,8 +112,8 @@ class CreateComponent extends Component
         // Guardar datos validados
         $productosSave = Productos::create($validatedData);
 
-        if($productosSave){
-            if($this->tipo_producto == 2){
+        if ($productosSave) {
+            if ($this->tipo_producto == 2) {
                 $this->articulo_id = $this->cod_producto;
                 $validateData2 = $this->validate([
                     'articulo_id' => 'required',
@@ -113,11 +127,11 @@ class CreateComponent extends Component
                     'indice_carga' => 'required',
                     'codigo_velocidad' => 'required',
                 ]);
-        
+
                 $neumaticosSave = Neumatico::create($validateData2);
             }
-            
-            if($this->mueve_existencias == true){
+
+            if ($this->mueve_existencias == true) {
                 $this->existencias_almacenes = $this->existencias;
                 $validateData3 = $this->validate([
                     'nombre' => 'required',
@@ -125,13 +139,13 @@ class CreateComponent extends Component
                     'existencias' => 'required',
                     'existencias_almacenes' =>  'required',
                 ]);
-    
+
                 $almacenSave = Almacen::create($validateData3);
             }
         }
-        
 
-        
+
+
 
         // Alertas de guardado exitoso
         if ($productosSave) {
@@ -168,15 +182,20 @@ class CreateComponent extends Component
     {
         // Do something
         return redirect()->route('productos.index');
-
     }
 
-    public function precio_costo() 
+    public function precio_costo()
     {
-        $this->coeficiente = 1.6;
-        $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
-        $this->precio_venta = $this->precio_costoNeto * $this->coeficiente;
-
+        if ($this->precio_baremo != null) {
+            if ($this->ecotasa != null) {
+                $this->coeficiente = 1.6;
+                $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+                $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente) + Ecotasa::find($this->ecotasa)->valor;
+            } else {
+                $this->coeficiente = 1.6;
+                $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+                $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente);
+            }
+        }
     }
-
 }

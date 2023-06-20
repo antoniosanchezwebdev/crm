@@ -1,6 +1,10 @@
 <div class="container mx-auto">
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+
+        <input wire:model="estado" name="estado" type="hidden" value="pendiente" />
+        <input wire:model="trabajador_id" name="trabajador_id" type="hidden" value="{{ Auth::id() }}" />
+
         <br>
 
         <div class="card">
@@ -55,20 +59,6 @@
                     </div>
                 </div>
 
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                    <div class="col-sm-10">
-                        <fieldset class="form-group">
-                            <input wire:model="estado" name="estado" type="radio" value="aceptado" /> Aceptado <br>
-                            <input wire:model="estado" name="estado" type="radio" value="rechazado" /> Rechazado <br>
-                            <input wire:model="estado" name="estado" type="radio" value="pendiente" /> Pendiente <br>
-                        </fieldset>
-                        @error('estado')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="observaciones" class="col-sm-2 col-form-label">Comentario</label>
@@ -95,22 +85,6 @@
                                 </option>
                             @endforeach
 
-                        </select>
-                        @error('denominacion')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="trabajador_id" class="col-sm-2 col-form-label">Trabajador asignado</label>
-                    <div class="col-sm-10" wire:ignore>
-                        <select id="select2-trabajador" class="form-control seleccion">
-                            @foreach ($trabajadores as $trabajadorSel)
-                                <option value="{{ $trabajadorSel->id }}">{{ $trabajadorSel->id }} -
-                                    {{ $trabajadorSel->nombre }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('denominacion')
                             <span class="text-danger">{{ $message }}</span>
@@ -244,11 +218,13 @@
                                     <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
                                         {{ $producti->descripcion }}
                                     </option>
-                                @else
-                                    @if ($existencias_productos->where('cod_producto', $producti->cod_producto)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first()->existencias > 0)
-                                        <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                                            {{ $producti->descripcion }}
-                                        </option>
+                                @elseif ($producti->mueve_existencias == 1)
+                                    @if ($existencias_productos->where('cod_producto', $producti->id)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first())
+                                        @if ($existencias_productos->where('cod_producto', $producti->id)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first()->existencias > 0)
+                                            <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
+                                                {{ $producti->descripcion }}
+                                            </option>
+                                        @endif
                                     @endif
                                 @endif
                             @endforeach
@@ -282,67 +258,66 @@
                 @endif
             </div>
         </div>
-        <div class="mb-3 row d-flex align-items-center">
-            <button type="submit" class="btn btn-primary">Crear presupuesto</button>
-        </div>
-    </form>
-    <br>
-    <div class="card">
-        <h5 class="card-header">Opciones</h5>
-        <div class="card-body">
-            <div class="mb-3 row d-flex align-items-center ">
-                <p> Pulsa aquí si el cliente de este presupuesto no existe. </p>
-                <a href="{{ route('clients.create') }}" class="btn btn-primary">Crear cliente</a>
-            </div>
-        </div>
-    </div>
-    @section('scripts')
-        <script>
-            $(document).ready(function() {
-                $('#select2-producto').select2({
-                    placeholder: "Seleccione un producto"
-                });
-                $('#select2-producto').on('change', function(e) {
-                    var data = $('#select2-producto').select2("val");
-                    @this.set('producto_seleccionado', data);
-                });
+</div>
 
-                $('#select2-servicio').select2({
-                    placeholder: "Localización del servicio"
-                });
-                $('#select2-servicio').on('change', function(e) {
-                    var data = $('#select2-servicio').select2("val");
-                    @this.set('servicio', data);
-                });
+<br>
 
-                $('#select2-origen').select2({
-                    placeholder: "Origen del presupuesto"
-                });
-                $('#select2-origen').on('change', function(e) {
-                    var data = $('#select2-origen').select2("val");
-                    @this.set('origen', data);
-                });
+<div class="mb-3 row d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary self-center"
+        style="margin-bottom: 20px !important; width: 80% !important;">Crear presupuesto</button>
+</div>
 
-                $('#select2-cliente').select2({
-                    placeholder: "Seleccione un cliente"
-                });
-                $('#select2-cliente').on('change', function(e) {
-                    var data = $('#select2-cliente').select2("val");
-                    @this.set('cliente_id', data);
-                });
+</form>
 
-                $('#select2-trabajador').select2({
-                    placeholder: "Seleccione un trabajador"
-                });
-                $('#select2-trabajador').on('change', function(e) {
-                    var data = $('#select2-trabajador').select2("val");
-                    @this.set('trabajador_id', data);
-                });
+</div>
 
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#select2-producto').select2({
+                placeholder: "Seleccione un producto"
             });
-        </script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    @endsection
+            $('#select2-producto').on('change', function(e) {
+                var data = $('#select2-producto').select2("val");
+                @this.set('producto_seleccionado', data);
+            });
+
+            $('#select2-servicio').select2({
+                placeholder: "Localización del servicio"
+            });
+            $('#select2-servicio').on('change', function(e) {
+                var data = $('#select2-servicio').select2("val");
+                @this.set('servicio', data);
+            });
+
+            $('#select2-origen').select2({
+                placeholder: "Origen del presupuesto"
+            });
+            $('#select2-origen').on('change', function(e) {
+                var data = $('#select2-origen').select2("val");
+                @this.set('origen', data);
+            });
+
+            $('#select2-cliente').select2({
+                placeholder: "Seleccione un cliente"
+            });
+            $('#select2-cliente').on('change', function(e) {
+                var data = $('#select2-cliente').select2("val");
+                @this.set('cliente_id', data);
+            });
+
+            $('#select2-trabajador').select2({
+                placeholder: "Seleccione un trabajador"
+            });
+            $('#select2-trabajador').on('change', function(e) {
+                var data = $('#select2-trabajador').select2("val");
+                @this.set('trabajador_id', data);
+            });
+
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@endsection
 
 </div>

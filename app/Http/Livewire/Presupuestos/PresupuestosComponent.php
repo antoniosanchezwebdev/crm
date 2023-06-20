@@ -8,6 +8,8 @@ class PresupuestosComponent extends Component
 {
 
     public $tab = "tab1";
+    public $presupuesto;
+
 
     public function render()
     {

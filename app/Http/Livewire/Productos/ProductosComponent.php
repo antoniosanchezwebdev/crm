@@ -7,6 +7,7 @@ use Livewire\Component;
 class ProductosComponent extends Component
 {
 
+    protected $listeners = ['seleccionarProducto' => 'selectProducto'];
     public $tab = "tab1";
 
     public $producto;

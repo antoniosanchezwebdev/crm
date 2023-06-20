@@ -7,7 +7,9 @@ use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
 use App\Models\Almacen;
 use App\Models\ListaAlmacen;
+use App\Models\Ecotasa;
 use App\Models\Neumatico;
+use App\Models\Proveedores;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -21,8 +23,14 @@ class EditComponent extends Component
     public $tipos_producto;
     public $almacenes;
     public $neumaticos;
-    
+    public $proveedores;
+    public $tasas;
+
+
+
     public $cod_producto;
+    public $proveedor;
+
     public $descripcion;
     public $tipo_producto;
     public $ecotasa;
@@ -54,7 +62,7 @@ class EditComponent extends Component
 
     public $existencias_almacenes;
     public $existencias_depositos;
-    
+
 
 
     public function mount()
@@ -62,13 +70,19 @@ class EditComponent extends Component
         $this->almacenes = ListaAlmacen::all();
         $this->categorias = ProductosCategories::all();
         $this->tipos_producto = TipoProducto::all();
+        $this->tasas = Ecotasa::all();
+        $this->proveedores = Proveedores::all();
+
+
 
         $product = Productos::find($this->identificador);
-        
+
         $this->cod_producto = $product->cod_producto;
         $this->descripcion = $product->descripcion;
         $this->tipo_producto = $product->tipo_producto;
         $this->ecotasa = $product->ecotasa;
+        $this->proveedor = $product->proveedor;
+
         $this->fabricante = $product->fabricante;
         $this->categoria_id = $product->categoria_id;
         $this->precio_baremo = $product->precio_baremo;
@@ -96,11 +110,12 @@ class EditComponent extends Component
             $this->codigo_velocidad = $neumatico->codigo_velocidad;
         }
 
-       
+
 
         if($product->mueve_existencias == true){
-            $almacen = Almacen::where('nombre', ListaAlmacen::where('id', $this->almacen)->first()->nombre)->where('cod_producto', $this->cod_producto)->first();
-            $this->nombre = $almacen->nombre;
+            $this->almacen = $product->almacen;
+            $almacen = Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first();
+            $this->nombre = ListaAlmacen::where('id', $this->almacen)->first()->nombre;
             $this->existencias = $almacen->existencias;
             $this->existencias_almacenes = $almacen->existencias_almacenes;
             $this->existencias_depositos = $almacen->existencias_depositos;
@@ -122,6 +137,7 @@ class EditComponent extends Component
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
             'fabricante' => 'required',
+            'proveedor' => 'required',
             'coeficiente' => 'nullable',
             'categoria_id' => 'nullable',
             'precio_baremo' => 'required',
@@ -163,7 +179,7 @@ class EditComponent extends Component
 
             if ($this->tipo_producto == 2) {
                 $neumatico = Neumatico::where('articulo_id', $this->cod_producto)->first();
-    
+
                 $neumaticoSave = $neumatico->update([
                     'articulo_id' => $this->articulo_id,
                         'resistencia_rodadura' => $this->resistencia_rodadura,
@@ -177,7 +193,7 @@ class EditComponent extends Component
                         'codigo_velocidad' => $this->codigo_velocidad,
                 ]);
             }
-    
+
             if($this->mueve_existencias != false){
                 if(Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null){
                     $almacen = Almacen::where('cod_producto', $this->cod_producto)->first();
@@ -196,8 +212,8 @@ class EditComponent extends Component
                         'existencias_almacenes' => 'required',
                         'existencias_depositos' => 'required'
                     ]));
-                }                
-            }   
+                }
+            }
 
             $this->alert('success', '¡Producto actualizado correctamente!', [
                 'position' => 'center',
@@ -269,9 +285,19 @@ class EditComponent extends Component
 
     }
 
-    public function precio_costo() 
+    public function precio_costo()
     {
-        $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+        if ($this->precio_baremo != null) {
+            if ($this->ecotasa != null) {
+                $this->coeficiente = 1.6;
+                $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+                $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente) + Ecotasa::find($this->ecotasa)->valor;
+            } else {
+                $this->coeficiente = 1.6;
+                $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
+                $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente);
+            }
+        }
     }
 
     public function comprobarAlmacen(){
@@ -287,6 +313,6 @@ class EditComponent extends Component
         $this->existencias_almacenes = 0;
         $this->existencias_depositos = 0;
         }
-        
+
     }
 }

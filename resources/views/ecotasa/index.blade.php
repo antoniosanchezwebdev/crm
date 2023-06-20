@@ -19,10 +19,10 @@
 @endsection
 
 @section('content')
-@section('encabezado', 'Proveedores')
+@section('encabezado', 'Ecotasas')
 @section('subtitulo', 'Consulta')
 
-@livewire('proveedores-component', ['response' => $response])
+@livewire('ecotasa.index')
 @endsection
 
 @section('scripts')

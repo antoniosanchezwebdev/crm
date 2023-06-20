@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\OrdenTrabajoController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\EcotasaController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\IvaController;
@@ -84,6 +85,10 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('proveedores/create', [ProveedoresController::class, 'create'])->name('proveedores.create');
     Route::get('proveedores/edit/{id}', [ProveedoresController::class, 'edit'])->name('proveedores.edit');
 
+    Route::get('ecotasa', [EcotasaController::class, 'index'])->name('ecotasa.index');
+    Route::get('ecotasa/create', [EcotasaController::class, 'create'])->name('ecotasa.create');
+    Route::get('ecotasa/edit/{id}', [EcotasaController::class, 'edit'])->name('ecotasa.edit');
+
     // Alumnos
     Route::get('alumnos', [AlumnoController::class, 'index'])->name('alumnos.index');
     Route::get('alumnos-create', [AlumnoController::class, 'create'])->name('alumnos.create');
@@ -103,7 +108,7 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('trabajadores', [TrabajadorController::class, 'index'])->name('trabajadores.index');
     Route::get('trabajadores-create', [TrabajadorController::class, 'create'])->name('trabajadores.create');
     Route::get('trabajadores-edit/{id}', [TrabajadorController::class, 'edit'])->name('trabajadores.edit');
-    
+
 
     // Cursos
     Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
@@ -207,5 +212,5 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('clients', [ClientsController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientsController::class, 'create'])->name('clients.create');
     Route::get('clients/edit/{id}', [ClientsController::class, 'edit'])->name('clients.edit');
-    
+
 });

@@ -5,22 +5,26 @@ namespace App\Http\Livewire\Productoscategories;
 use Livewire\Component;
 use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
+use Livewire\WithPagination;
 
 
 class IndexComponent extends Component
 
 {
 
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $tipos_producto;
-    public $productosCategories;
+    protected $productosCategories;
 
     public function mount()
     {
         $this->tipos_producto = TipoProducto::all();
-        $this->productosCategories = ProductosCategories::all();
     }
     public function render()
     {
+        $this->productosCategories = ProductosCategories::paginate(6);
         return view('livewire.productos_categories.index-component', [
             'productosCategories' => $this->productosCategories,
         ]);

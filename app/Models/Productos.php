@@ -21,12 +21,14 @@ class Productos extends Model
         'fabricante',
         'categoria_id',
         'precio_baremo',
-        'descuento',        
+        'descuento',
         'mueve_existencias',
         'precio_costoNeto',
         'coeficiente',
         'precio_venta',
         'stock',
+        'proveedor',
+        'almacen',
 
     ];
     public function modelFilter()
