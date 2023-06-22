@@ -47,25 +47,43 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-around w-100 py-2">
-                    <li class="nav-item border mx-2" style="border-color: white;">
-                        <a class="d-block w-100 p-2" href="/admin/presupuestos">
+                    <li class="nav-item mx-2">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/presupuestos">
                             <i class="fas fa-book"></i>
                             <strong>Presupuestos</strong>
                         </a>
                     </li>
-                    <li class="nav-item border mx-2" style="border-color: white;">
-                        <a class="d-block w-100 p-2" href="/admin/productos">
+                    <li class="nav-item mx-2">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/productos">
                             <i class="fas fa-boxes-stacked"></i>
                             <strong>Inventario</strong>
                         </a>
                     </li>
-                    <li class="nav-item border mx-2" style="border-color: white;">
+                    <li class="nav-item mx-2">
                         <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/orden-trabajo">
-                            <i class="fas fa-folder-minus"></i>
+                            <i class="fas fa-wrench"></i>
                             <strong>Tareas</strong>
                         </a>
                     </li>
-                    <li class="nav-item border mx-2" style="border-color: white;">
+                    <li class="nav-item mx-2">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                            <i class="fas fa-wallet"></i>
+                            <strong>Facturación</strong>
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                            <i class="fas fa-file-invoice"></i>
+                            <strong>Informes</strong>
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                            <i class="fas fa-bell"></i>
+                            <strong>Newsletter</strong>
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
                         <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
                             <i class="fas fa-cart-shopping"></i>
                             <strong>Caja</strong>

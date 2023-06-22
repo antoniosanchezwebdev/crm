@@ -23,6 +23,8 @@ class Presupuesto extends Model
         'precio',
         'origen',
         'observaciones',
+        'modelo',
+        'marca'
 
     ];
 
@@ -34,4 +36,13 @@ class Presupuesto extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function ordenTrabajo()
+    {
+        return $this->belongsTo(OrdenTrabajo::class);
+    }
+    public function cliente()
+    {
+        return $this->belongsTo(Clients::class, 'cliente_id', 'id');
+    }
 }

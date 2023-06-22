@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Presupuesto extends Model
+class OrdenTrabajo extends Model
 {
     use HasFactory;
 
@@ -32,4 +32,9 @@ class Presupuesto extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function presupuesto()
+    {
+        return $this->hasOne(Presupuesto::class, 'id', 'id_presupuesto');
+    }
 }

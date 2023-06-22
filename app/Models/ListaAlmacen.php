@@ -24,9 +24,9 @@ class ListaAlmacen extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
-    public function categoria(): HasMany
+    public function almacenes()
     {
-        return $this->hasMany("App\Models\Productos");
+        return $this->hasMany(Almacen::class, 'nombre', 'nombre');
     }
 
 }

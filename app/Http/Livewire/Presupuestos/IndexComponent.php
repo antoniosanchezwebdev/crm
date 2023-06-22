@@ -24,7 +24,7 @@ class IndexComponent extends Component
     public $filtro_categoria = "";
 
     public $categorias;
-    
+
     public $pagina;
     public $porPagina = 10;
     protected $tabla;
@@ -39,9 +39,9 @@ class IndexComponent extends Component
         $this->clientes = Clients::all();
         $this->trabajadores = Trabajador::all();
         $this->categorias = [
-            'numero_presupuesto' => "Número de presupuesto", 
-            'fecha_emision' => "Fecha de emisión", 
-            'cliente_id' => "ID de cliente", 
+            'numero_presupuesto' => "Número de presupuesto",
+            'fecha_emision' => "Fecha de emisión",
+            'cliente_id' => "ID de cliente",
             'nombre_cliente' => "Nombre de cliente",
             'estado' => "Estado",
             'matricula' => "Matricula",
@@ -49,7 +49,12 @@ class IndexComponent extends Component
             'trabajador_id' => "ID de trabajador",
             'precio' => "Importe total"
         ];
-        
+
+    }
+
+    public function seleccionarProducto($id)
+    {
+        $this->emit("seleccionarProducto", $id);
     }
 
     public function render()
@@ -71,7 +76,7 @@ class IndexComponent extends Component
             } else {
                 $this->presupuestos = Presupuesto::all();
             }
-       
+
         $this->tabla = $this->pagination($this->presupuestos);
         $this->emit("refreshComponent");
     }

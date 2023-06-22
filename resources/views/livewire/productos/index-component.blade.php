@@ -141,7 +141,7 @@
         <h5 class="card-header">Resultados</h5>
         <div class="card-body">
             @if ($productos->count() > 0)
-                <table class="table" id="tableCliente">
+                <table class="table responsive" id="tableCliente">
                     <thead>
                         <tr>
                             <th scope="col">Código</th>
@@ -163,8 +163,8 @@
                                     @endif
 
                                 </td>
-                                <td><button type="button" class="btn btn-primary"
-                                        wire:click="seleccionarProducto('{{ $producto->id }}')">Editar</a>
+                                <td><button type="button" class="btn btn-primary boton-producto"
+                                        onclick="Livewire.emit('seleccionarProducto', {{ $producto->id }});">Editar</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -175,5 +175,21 @@
             @endif
         </div>
     </div>
-</div>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/fh-3.3.2/r-2.4.1/datatables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/fh-3.3.2/r-2.4.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('#tableCliente').DataTable({
+            responsive: true,
+            fixedHeader: true,
+            searching: false,
+            paging: false,
+        });
+    </script>
 </div>

@@ -112,11 +112,11 @@
         <div class="mb-3 row d-flex align-items-center">
             <label for="uso" class="col-sm-2 col-form-label">Estado</label>
             <div class="col-sm-10">
-                    <select wire:model="uso" class="form-control" id="uso" name="uso">
-                        <option selected value="">-- Selecciona una opción --</option>
-                        <option value="0"> Nuevo </option>
-                        <option value="1"> Segunda mano </option>
-                    </select>
+                <select wire:model="uso" class="form-control" id="uso" name="uso">
+                    <option selected value="">-- Selecciona una opción --</option>
+                    <option value="0"> Nuevo </option>
+                    <option value="1"> Segunda mano </option>
+                </select>
                 @error('uso')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -285,6 +285,16 @@
             </div>
         </div>
 
+        @if ($ecotasa)
+            <div class="mb-3 row d-flex align-items-center">
+                <label for="tasa" class="col-sm-2 col-form-label">Tasa añadida</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="tasa"
+                        value="{{ $tasas->where('id', $ecotasa)->first()->valor }}" placeholder="Precio costo neto"
+                        disabled>
+                </div>
+            </div>
+        @endif
         <div class="mb-3 row d-flex align-items-center">
             <label for="precio_venta" class="col-sm-2 col-form-label">Precio venta</label>
             <div class="col-sm-10">

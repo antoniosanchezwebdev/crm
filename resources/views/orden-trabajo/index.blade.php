@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
+
 @section('head')
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.css">
     @vite(['resources/sass/app.scss'])
     <style>
-        .dataTables_filter {
-            float: right !important;
-            margin-bottom: 20px;
+        div.dataTables_wrapper div.dataTables_filter label {
+            display: flex;
+        }
+
+        div.dataTables_wrapper div.dataTables_filter input {
+            width: 70%;
+            margin-left: 10px;
+            margin-top: -5px;
         }
     </style>
 @endsection
@@ -15,6 +22,6 @@
 @section('encabezado', 'Tareas')
 @section('subtitulo', 'Consultar tareas')
 <br>
-<livewire:orden-trabajo.index-component>
+<livewire:orden-trabajo.tareas-component>
 @endsection
 

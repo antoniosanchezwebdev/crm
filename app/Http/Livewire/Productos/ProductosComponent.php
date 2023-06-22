@@ -22,6 +22,7 @@ class ProductosComponent extends Component
     }
 
     public function selectProducto($producto){
+        $this->tab = "tab2";
         $this->producto = $producto;
     }
 

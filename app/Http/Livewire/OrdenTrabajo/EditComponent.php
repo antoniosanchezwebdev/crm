@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Http\Livewire\Presupuestos;
+namespace App\Http\Livewire\OrdenTrabajo;
 
 use App\Models\Presupuesto;
+use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Clients;
+use App\Models\OrdenTrabajo;
 use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\Productos;
+use Livewire\WithFileUploads;
 
 
 class EditComponent extends Component
 {
     use LivewireAlert;
+    use WithFileUploads;
 
     public $identificador;
 
     public $numero_presupuesto;
-
+    public $users;
     public $fecha_emision;
     public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
     public $matricula;
@@ -28,43 +32,54 @@ class EditComponent extends Component
     public $origen;
     public $observaciones = "";
 
-    public $clientes;
-    public $trabajadores;
+    public $realizables = [];
+    public $solicitados = [];
+    public $daños = [];
+    public $documentos = [];
+    public $documento;
 
-    public $lista = []; // Se usa para generar factura de cliente o particular
-    public $listaArticulos; // Para mostrar los inputs del alumno o empresa
+    public $rutasDocumentos = [];
+    public $rutasDocumentosMostrar = [];
 
-    public $clienteSeleccionado;
+
+    public $lista = [];
+    public $listaArticulos;
+
     public $trabajadorSeleccionado;
+    public $trabajadores = [];
+
+    public $nuevoRealizar;
+    public $nuevoSolicitado;
+    public $nuevoDaño;
 
     public $producto;
     public $productos;
 
     public $cantidad;
+    public $clientes;
+
 
     public function mount()
     {
-        $presupuestos = Presupuesto::find($this->identificador);
-        $this->clientes = Clients::all(); // datos que se envian al select2
-        $this->trabajadores = Trabajador::all(); // datos que se envian al select2
+        $tarea = OrdenTrabajo::find($this->identificador);
+        $this->users = User::all();
         $this->productos = Productos::all(); // datos que se envian al select2
-
-        $this->numero_presupuesto = $presupuestos->numero_presupuesto;
-        $this->fecha_emision = $presupuestos->fecha_emision;
-        $this->cliente_id = $presupuestos->cliente_id;
-        $this->trabajador_id = $presupuestos->trabajador_id;
-        $this->lista = (array) json_decode($presupuestos->listaArticulos);
-        $this->kilometros = $presupuestos->kilometros;
-        $this->matricula = $presupuestos->matricula;
-        $this->precio = $presupuestos->precio;
-        $this->origen = $presupuestos->origen;
-        $this->observaciones = $presupuestos->observaciones;
-
+        $this->clientes = Clients::all();
+        $this->numero_presupuesto = $tarea->presupuesto->numero_presupuesto;
+        $this->fecha_emision = $tarea->presupuesto->fecha_emision;
+        $this->cliente_id = $tarea->presupuesto->cliente_id;
+        $this->trabajador_id = $tarea->presupuesto->trabajador_id;
+        $this->lista = (array) json_decode($tarea->presupuesto->listaArticulos);
+        $this->kilometros = $tarea->presupuesto->kilometros;
+        $this->matricula = $tarea->presupuesto->matricula;
+        $this->precio = $tarea->presupuesto->precio;
+        $this->origen = $tarea->presupuesto->origen;
+        $this->observaciones = $tarea->presupuesto->observaciones;
     }
 
     public function render()
     {
-        return view('livewire.presupuestos.edit-component');
+        return view('livewire.orden-trabajo.edit-component');
     }
 
     // Al hacer update en el formulario
@@ -72,18 +87,19 @@ class EditComponent extends Component
     {
         $this->listaArticulos = json_encode($this->lista);
         // Validación de datos
-        $this->validate([
-            'numero_presupuesto' => 'required',
-            'fecha_emision' => 'required',
-            'cliente_id' => 'required',
-            'trabajador_id' => 'required',
-            'matricula' => 'required',
-            'listaArticulos' => 'required',
-            'precio' => 'required',
-            'origen' => 'required',
-            'kilometros' => 'required',
-            'observaciones' => 'required',
-        ],
+        $this->validate(
+            [
+                'numero_presupuesto' => 'required',
+                'fecha_emision' => 'required',
+                'cliente_id' => 'required',
+                'trabajador_id' => 'required',
+                'matricula' => 'required',
+                'listaArticulos' => 'required',
+                'precio' => 'required',
+                'origen' => 'required',
+                'kilometros' => 'required',
+                'observaciones' => 'required',
+            ],
             // Mensajes de error
             [
                 'numero_presupuesto.required' => 'El número de presupuesto es obligatorio.',
@@ -94,7 +110,8 @@ class EditComponent extends Component
                 'precio.required' => 'El precio es obligaorio',
                 'estado.required' => 'El estado es obligatorio',
                 'observaciones.required' => 'La observación es obligatoria',
-            ]);
+            ]
+        );
 
         // Encuentra el identificador
         $presupuestos = Presupuesto::find($this->identificador);
@@ -137,8 +154,9 @@ class EditComponent extends Component
         $this->emit('productUpdated');
     }
 
-      // Eliminación
-      public function destroy(){
+    // Eliminación
+    public function destroy()
+    {
 
         $this->alert('warning', '¿Seguro que desea borrar el presupuesto? No hay vuelta atrás', [
             'position' => 'center',
@@ -151,7 +169,6 @@ class EditComponent extends Component
             'denyButtonText' => 'No',
             'timerProgressBar' => true,
         ]);
-
     }
 
     // Función para cuando se llama a la alerta
@@ -168,7 +185,6 @@ class EditComponent extends Component
     {
         // Do something
         return redirect()->route('presupuestos.index');
-
     }
     // Función para cuando se llama a la alerta
     public function confirmDelete()
@@ -176,80 +192,106 @@ class EditComponent extends Component
         $presupuesto = Presupuesto::find($this->identificador);
         $presupuesto->delete();
         return redirect()->route('presupuestos.index');
-
     }
 
-    public function listarCliente(){
-        if ($this->cliente_id != null) {
-            $this->clienteSeleccionado = Clients::where('id', $this->cliente_id)->first();
-        }else {
-            $this->clienteSeleccionado = [];
-        }
-
+    public function agregarSolicitado()
+    {
+        array_push($this->solicitados, $this->nuevoSolicitado);
+        $this->nuevoSolicitado = '';
+    }
+    public function agregarRealizar()
+    {
+        array_push($this->realizables, $this->nuevoRealizar);
+        $this->nuevoRealizar = '';
     }
 
-    public function listarTrabajador(){
-        if ($this->trabajador_id != null) {
-            $this->trabajadorSeleccionado = Clients::where('id', $this->trabajador_id)->first();
-        }else {
-            $this->trabajadorSeleccionado = [];
-        }
-
-
-    }
-
-    public function numeroPresupuesto(){
+    public function numeroPresupuesto()
+    {
         $fecha = new Carbon($this->fecha_emision);
         $year = $fecha->year;
         $presupuestos = Presupuesto::all();
         $contador = 1;
-        foreach($presupuestos as $presupuesto){
+        foreach ($presupuestos as $presupuesto) {
             $fecha2 = new Carbon($presupuesto->fecha_emision);
             $year2 = $fecha2->year;
-            if($year == $year2){
-                if($fecha->gt($fecha2)){
+            if ($year == $year2) {
+                if ($fecha->gt($fecha2)) {
                     $contador++;
                 }
             }
         }
-        
-        if($contador < 10){
+
+        if ($contador < 10) {
             $this->numero_presupuesto = "0" . $contador . "/" . $year;
-        } else{
+        } else {
             $this->numero_presupuesto = $contador . "/" . $year;
         }
-
     }
 
-    public function añadirProducto(){
-        if($this->producto !=null){
-            if(isset($this->lista[$this->producto])){
+    public function añadirProducto()
+    {
+        if ($this->producto != null) {
+            if (isset($this->lista[$this->producto])) {
                 $this->lista[$this->producto] += $this->cantidad;
-            } else{
+            } else {
                 $this->lista[$this->producto] = $this->cantidad;
             }
             $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
             $this->producto = "";
             $this->cantidad = 0;
         }
-        
     }
 
-    public function reducir(){
-        if(isset($this->lista[$this->producto])){
-            if($this->lista[$this->producto] - $this->cantidad <= 0){
+    public function agregarDaño()
+    {
+        array_push($this->daños, $this->nuevoDaño);
+        $this->nuevoDaño = '';
+    }
+
+    public function subirArchivo()
+    {
+        foreach ($this->documentos as $documento) {
+            $this->documento = $documento;
+            $this->validate([
+                'documento' => 'file|max:10000',
+            ]);
+
+            $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
+            $rutaDocumento = $this->documento->storeAs('documentos', $nombreDelArchivo, 'public');
+
+            // Agrega la ruta del archivo al array de rutas de documentos
+            $this->rutasDocumentos[] = $rutaDocumento;
+
+            $this->documento = "";
+        }
+
+        $this->documentos = [];
+    }
+
+    public function agregarTrabajador()
+    {
+        if (in_array($this->trabajadorSeleccionado, $this->trabajadores)) {
+            $this->alert('warning', "Este trabajador ya está asignado");
+        } else {
+            array_push($this->trabajadores, $this->trabajadorSeleccionado);
+        }
+        $this->trabajadorSeleccionado = "";
+    }
+
+    public function reducir()
+    {
+        if (isset($this->lista[$this->producto])) {
+            if ($this->lista[$this->producto] - $this->cantidad <= 0) {
                 $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->lista[$this->producto]);
                 unset($this->lista[$this->producto]);
-            } else{
+            } else {
                 $this->lista[$this->producto] -= $this->cantidad;
                 $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
             }
-        } else{
-            $this->alert('warning',"Este producto no está en la lista");
+        } else {
+            $this->alert('warning', "Este producto no está en la lista");
         }
         $this->producto = "";
         $this->cantidad = 0;
     }
-
-
 }

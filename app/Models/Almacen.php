@@ -31,9 +31,14 @@ class Almacen extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
-    public function categoria(): HasMany
+    public function producto()
     {
-        return $this->hasMany("App\Models\Productos");
+        return $this->belongsTo(Productos::class, 'cod_producto');
+    }
+
+    public function listaAlmacen()
+    {
+        return $this->belongsTo(ListaAlmacen::class, 'nombre', 'nombre');
     }
 
 }

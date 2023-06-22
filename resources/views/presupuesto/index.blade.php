@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('head')
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.css">
     @vite(['resources/sass/app.scss'])
@@ -20,15 +24,6 @@
 @section('content')
 @section('encabezado', 'Presupuesto')
 @section('subtitulo', 'Consulta')
-
+<br>
 <livewire:presupuestos.presupuestos-component>
-
-@endsection
-
-@section('scripts')
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.4/js/buttons.print.min.js"></script>
 @endsection

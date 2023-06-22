@@ -60,14 +60,14 @@
             <br>
 
 
-            @livewire('productos.edit-component', ['identificador' => $producto], key('tab3'))
+            @livewire('productos.edit-component', ['identificador' => $producto], key('tab2'))
 
             <br>
         @elseif ($tab == 'tab3')
             <div style="border-bottom: 1px solid black !important;">
                 <div class="row">
                     <div class="col-6 d-grid gap-2">
-                        <button type="button" class="btn btn-primary btn-block"
+                        <button type="button" class="btn btn-outline-primary btn-block"
                             wire:click="cambioTab('tab1')">Buscador</button>
                     </div>
                     <div class="ms-auto col-6 d-grid gap-2">

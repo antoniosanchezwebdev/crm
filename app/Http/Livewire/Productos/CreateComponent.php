@@ -86,7 +86,7 @@ class CreateComponent extends Component
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
             'fabricante' => 'required',
-            'proveedor' => 'required',
+            'proveedor' => 'nullable',
             'coeficiente' => 'nullable',
             'categoria_id' => 'nullable',
             'precio_baremo' => 'required',

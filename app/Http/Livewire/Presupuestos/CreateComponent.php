@@ -10,6 +10,7 @@ use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Productos;
 use App\Models\ListaAlmacen;
+use App\Models\OrdenTrabajo;
 use App\Models\Almacen;
 
 class CreateComponent extends Component
@@ -28,6 +29,9 @@ class CreateComponent extends Component
     public $precio = 0;
     public $observaciones = "";
     public $origen;
+    public $marca;
+    public $modelo;
+
     public $clientes;
     public $trabajadores;
     public $productos;
@@ -46,7 +50,6 @@ class CreateComponent extends Component
         $this->productos = Productos::all();
         $this->almacenes = ListaAlmacen::all();
         $this->existencias_productos = Almacen::all();
-
     }
 
     public function render()
@@ -57,8 +60,10 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
+        $this->estado = "pendiente";
+
         foreach ($this->lista as $pro => $cantidad) {
-            if(Productos::where('id', $pro)->first()->mueve_existencias == 1){
+            if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
                 $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
                 $articulo->update([
                     'existencias' => ($articulo->existencias -= $cantidad),
@@ -80,7 +85,10 @@ class CreateComponent extends Component
                 'listaArticulos' => 'required',
                 'precio' => 'required',
                 'origen' => 'required',
-                'observaciones' => 'required',
+                'marca' => 'required',
+                'modelo' => 'required',
+                'estado' => 'nullable',
+                'observaciones' => 'nullable',
 
             ],
             // Mensajes de error
@@ -102,15 +110,30 @@ class CreateComponent extends Component
 
         // Alertas de guardado exitoso
         if ($presupuesosSave) {
-            $this->alert('success', '¡Presupuesto registrado correctamente!', [
-                'position' => 'center',
-                'timer' => 3000,
-                'toast' => false,
-                'showConfirmButton' => true,
-                'onConfirmed' => 'confirmed',
-                'confirmButtonText' => 'ok',
-                'timerProgressBar' => true,
-            ]);
+
+            $orden = new OrdenTrabajo;
+            $orden->fecha = $this->fecha_emision;
+            $orden->id_cliente = $this->cliente_id;
+            $orden->id_presupuesto = $presupuesosSave->id;
+            $ordenSave = $orden->save();
+
+            if ($ordenSave) {
+                $this->alert('success', '¡Presupuesto registrado correctamente!', [
+                    'position' => 'center',
+                    'timer' => 3000,
+                    'toast' => false,
+                    'showConfirmButton' => true,
+                    'onConfirmed' => 'confirmed',
+                    'confirmButtonText' => 'ok',
+                    'timerProgressBar' => true,
+                ]);
+            } else {
+                $this->alert('error', '¡No se ha podido guardar la información del presupuesto!', [
+                    'position' => 'center',
+                    'timer' => 3000,
+                    'toast' => false,
+                ]);
+            }
         } else {
             $this->alert('error', '¡No se ha podido guardar la información del presupuesto!', [
                 'position' => 'center',
@@ -139,8 +162,7 @@ class CreateComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('orden-trabajo.create/' . $this->orden_id);
-
+        return redirect()->route('orden-trabajo.index');
     }
     public function numeroPresupuesto()
     {
@@ -163,27 +185,28 @@ class CreateComponent extends Component
         } else {
             $this->numero_presupuesto = $contador . "/" . $year;
         }
-
     }
 
 
     public function añadirProducto()
     {
         if ($this->producto_seleccionado != null) {
-            $producto = Productos::where('id', $this->producto_seleccionado)->first();
-            if (Productos::where('id', $this->producto_seleccionado)->first()->mueve_existencias == 0) {
+            $producto = Productos::where('id', $this->producto_seleccionado)->firstOrFail();
+
+            if ($producto->mueve_existencias == 0) {
                 if (!isset($this->lista[$this->producto_seleccionado])) {
                     $this->lista[$this->producto_seleccionado] = 1;
-                } else{
+                } else {
                     $this->alert('info', "Ya has añadido este servicio.");
                 }
             } else {
-                if (Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias >= 1) {
-                    $existencias = Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias;
-                    if ($existencias >= $this->cantidad) {
+                $almacen = Almacen::where('cod_producto', $producto->cod_producto)->firstOrFail();
+
+                if ($almacen->existencias >= 1) {
+                    if ($almacen->existencias >= $this->cantidad) {
                         if (isset($this->lista[$this->producto_seleccionado])) {
-                            if ($this->lista[$this->producto_seleccionado] + $this->cantidad > $existencias) {
-                                $this->lista[$this->producto_seleccionado] = $existencias;
+                            if ($this->lista[$this->producto_seleccionado] + $this->cantidad > $almacen->existencias) {
+                                $this->lista[$this->producto_seleccionado] = $almacen->existencias;
                                 $this->alert('warning', "¡Estás intentando añadir más allá de las existencias!");
                             } else {
                                 $this->lista[$this->producto_seleccionado] += $this->cantidad;
@@ -199,8 +222,8 @@ class CreateComponent extends Component
                 }
             }
             $this->precio = 0;
-            foreach($this->lista as $prod => $valo){
-                $anadir = Productos::where('id', $prod)->first()->precio_venta;
+            foreach ($this->lista as $prod => $valo) {
+                $anadir = Productos::where('id', $prod)->firstOrFail()->precio_venta;
                 $this->precio += ($anadir * $valo);
             }
         }
@@ -235,5 +258,4 @@ class CreateComponent extends Component
             $this->alert('warning', "Este producto no está en la lista");
         }
     }
-
 }

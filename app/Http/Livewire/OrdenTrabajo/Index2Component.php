@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\Component;
 
-class IndexComponent extends Component
+class Index2Component extends Component
 {
     // public $search;
     public $tareas;
@@ -31,8 +31,7 @@ class IndexComponent extends Component
         $this->trabajadores = Trabajador::all();
         if(count($this->tareas) > 0){
             $this->tareaSel = $this->tareas->last()->id;
-        }
-    }
+        }    }
 
     public function seleccionarProducto($id)
     {
@@ -43,7 +42,7 @@ class IndexComponent extends Component
     public function render()
     {
         $this->tareaMostrar = $this->tareas->find($this->tareaSel);
-        return view('livewire.orden-trabajo.index-component');
+        return view('livewire.orden-trabajo.index2-component');
     }
 
     public function pagination(Collection $data)

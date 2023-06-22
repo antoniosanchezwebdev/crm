@@ -49,4 +49,9 @@ class Productos extends Model
     {
         return $this->belongsTo("App\Models\ProductosCategories");
     }
+
+    public function almacenes()
+    {
+        return $this->hasMany(Almacen::class, 'cod_producto', 'cod_producto');
+    }
 }

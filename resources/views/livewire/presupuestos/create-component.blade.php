@@ -1,4 +1,63 @@
 <div class="container mx-auto">
+    <script>
+        console.log('hola');
+
+        $('#select2-producto-create').select2({
+            placeholder: "Seleccione un producto"
+        });
+
+        $('#select2-producto-create').on('load', function(e) {
+            var data = $('#select2-producto-create').select2("val");
+            @this.set('producto_seleccionado', data);
+        });
+
+        $('#select2-producto-create').on('change', function(e) {
+            var data = $('#select2-producto-create').select2("val");
+            @this.set('producto_seleccionado', data);
+        });
+
+        $('#select2-servicio-create').select2({
+            placeholder: "Localización del servicio"
+        });
+
+        $('#select2-servicio-create').on('load', function(e) {
+            var data = $('#select2-servicio-create').select2("val");
+            @this.set('servicio', data);
+        });
+
+        $('#select2-servicio-create').on('change', function(e) {
+            var data = $('#select2-servicio-create').select2("val");
+            @this.set('servicio', data);
+        });
+
+        $('#select2-origen-create').select2({
+            placeholder: "Origen del presupuesto"
+        });
+
+        $('#select2-origen-create').on('load', function(e) {
+            var data = $('#select2-origen-create').select2("val");
+            @this.set('origen', data);
+        });
+
+        $('#select2-origen-create').on('change', function(e) {
+            var data = $('#select2-origen-create').select2("val");
+            @this.set('origen', data);
+        });
+
+        $('#select2-cliente-create').select2({
+            placeholder: "Seleccione un cliente"
+        });
+
+        $('#select2-cliente-create').on('load', function(e) {
+            var data = $('#select2-cliente-create').select2("val");
+            @this.set('cliente_id', data);
+        });
+
+        $('#select2-cliente-create').on('change', function(e) {
+            var data = $('#select2-cliente-create').select2("val");
+            @this.set('cliente_id', data);
+        });
+    </script>
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
@@ -13,7 +72,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="servicio" class="col-sm-2 col-form-label"><strong>Servicio dado en:</strong></label>
                     <div class="col-sm-10" wire:ignore>
-                        <select class="form-control" id="select2-servicio">
+                        <select class="form-control" id="select2-servicio-create">
                             @foreach ($almacenes as $listalmacen)
                                 <option value={{ $listalmacen->id }}>{{ $listalmacen->nombre }}</option>
                             @endforeach
@@ -24,14 +83,14 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="origen" class="col-sm-2 col-form-label">Presupuesto dado en:</label>
                     <div class="col-sm-10" wire:ignore>
-                        <select id="select2-origen" class="form-control seleccion">
+                        <select id="select2-origen-create" class="form-control seleccion">
                             <option value="Mostrador">Mostrador</option>
                             <option value="Teléfono">Teléfono</option>
                             <option value="Formulario web">Formulario web</option>
                             <option value="Email">Email</option>
                             <option value="Whatsapp">Whatsapp</option>
                         </select>
-                        @error('denominacion')
+                        @error('origen')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -65,39 +124,63 @@
                     <div class="col-sm-10">
                         <input type="text" wire:model="observaciones" class="form-control" name="observaciones"
                             id="observaciones">
-                        @error('fecha_emision')
+                        @error('observaciones')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
-            </div>
-        </div>
-        <br>
-        <div class="card">
-            <h5 class="card-header">Datos del cliente</h5>
-            <div class="card-body">
+
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="cliente_id" class="col-sm-2 col-form-label">Cliente</label>
                     <div class="col-sm-10" wire:ignore>
-                        <select id="select2-cliente" class="form-control seleccion">
+                        <select id="select2-cliente-create" class="form-control seleccion">
                             @foreach ($clientes as $clienteSel)
                                 <option value="{{ $clienteSel->id }}">{{ $clienteSel->id }} - {{ $clienteSel->nombre }}
                                 </option>
                             @endforeach
 
                         </select>
-                        @error('denominacion')
+                        @error('cliente_id')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <h5 class="card-header">Datos del vehículo</h5>
+            <div class="card-body">
+
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
                     <div class="col-sm-10">
                         <input type="text" wire:model="matricula" class="form-control" name="matricula"
                             id="matricula">
-                        @error('fecha_emision')
+                        @error('matricula')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-3 row d-flex align-items-center">
+                    <label for="marca" class="col-sm-2 col-form-label">Marca</label>
+                    <div class="col-sm-10">
+                        <input type="text" wire:model="marca" class="form-control" name="marca" id="marca">
+                        @error('marca')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-3 row d-flex align-items-center">
+                    <label for="modelo" class="col-sm-2 col-form-label">Modelo</label>
+                    <div class="col-sm-10">
+                        <input type="text" wire:model="modelo" class="form-control" name="modelo"
+                            id="modelo">
+                        @error('modelo')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -179,145 +262,66 @@
         <div class="card">
             <h5 class="card-header">Buscador de artículos</h5>
             <div class="card-body">
-                @if ($producto_seleccionado == null)
-                    <div class="mb-3 row d-flex align-items-center">
-                @endif
-
-                @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 1)
+                <div class="mb-3 row d-flex align-items-center">
                     <h2>Buscador de artículos</h2>
-                    <div class="mb-3 row d-flex align-items-center">
+                    @if ($producto_seleccionado != null)
                         <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
                         <div class="col-sm-10">
                             <input id="prod_sel" class="form-control" type="text" disabled
                                 value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
                         </div>
-                @endif
-
-                @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
-                    <h2 style="margin-top: 10px; !important ">Buscador de artículos</h2>
-                    <div class="mb-3 row d-flex align-items-center">
-                        <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
-                        <div class="col-sm-10" style="margin-bottom:10px; !important">
-                            <input id="prod_sel" class="form-control" type="text" disabled
-                                value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
-                        </div>
-                        <label for="exis_sel" class="col-sm-2 col-form-label">Existencias disponibles:</label>
-                        <div class="col-sm-10">
-                            <input id="exis_sel" class="form-control" type="text" disabled
-                                value="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias - (int) $cantidad }}" />
-                        </div>
-                @endif
-
+                        @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
+                            <label for="exis_sel" class="col-sm-2 col-form-label">Existencias disponibles:</label>
+                            <div class="col-sm-10">
+                                <input id="exis_sel" class="form-control" type="text" disabled
+                                    value="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias - (int) $cantidad }}" />
+                            </div>
+                        @endif
+                    @endif
+                </div>
                 <br>
                 <h2>Selección de artículos</h2>
                 <div class="mb-3 row d-flex align-items-center">
                     <div class="col-sm-10" wire:ignore>
-                        <select class="form-control" id="select2-producto">
+                        <select class="form-control" id="select2-producto-create">
                             @foreach ($productos as $producti)
-                                @if ($producti->mueve_existencias == 0)
+                                @if (
+                                    $producti->mueve_existencias == 0 ||
+                                        ($producti->mueve_existencias == 1 && $producti->almacenes()->first()->nombre == $servicio))
                                     <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
                                         {{ $producti->descripcion }}
                                     </option>
-                                @elseif ($producti->mueve_existencias == 1)
-                                    @if ($existencias_productos->where('cod_producto', $producti->id)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first())
-                                        @if ($existencias_productos->where('cod_producto', $producti->id)->where('nombre', $almacenes->where('id', $servicio)->first()->nombre)->first()->existencias > 0)
-                                            <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                                                {{ $producti->descripcion }}
-                                            </option>
-                                        @endif
-                                    @endif
                                 @endif
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
+                @if ($producto_seleccionado != null)
                     <div class="mb-3 row d-flex align-items-center">
-                        <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                        <div class="col-sm-10">
-                            <input type="number" wire:model="cantidad" class="form-control" name="cantidad"
-                                id="cantidad" min="1"
-                                max="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias }}">
-                            @error('cantidad')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="mb-3 row d-flex align-items-center">
-                        <button class="btn btn-sm btn-primary" wire:click.prevent="añadirProducto">Añadir a la
-                            lista</button>
-                    </div>
-                @endif
-
-                @if ($producto_seleccionado != null && $productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 1)
-                    <div class="mb-3 row d-flex align-items-center">
-                        <button class="btn btn-sm btn-primary" wire:click.prevent="añadirProducto">Añadir a la
+                        @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
+                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+                            <div class="col-sm-10">
+                                <input type="number" wire:model="cantidad" class="form-control" name="cantidad"
+                                    id="cantidad" min="1"
+                                    max="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias }}">
+                                @error('cantidad')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
+                        <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
+                            style="margin-top:10px;">Añadir a la
                             lista</button>
                     </div>
                 @endif
             </div>
         </div>
-</div>
+        <br>
 
-<br>
-
-<div class="mb-3 row d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary self-center"
-        style="margin-bottom: 20px !important; width: 80% !important;">Crear presupuesto</button>
-</div>
-
-</form>
-
-</div>
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#select2-producto').select2({
-                placeholder: "Seleccione un producto"
-            });
-            $('#select2-producto').on('change', function(e) {
-                var data = $('#select2-producto').select2("val");
-                @this.set('producto_seleccionado', data);
-            });
-
-            $('#select2-servicio').select2({
-                placeholder: "Localización del servicio"
-            });
-            $('#select2-servicio').on('change', function(e) {
-                var data = $('#select2-servicio').select2("val");
-                @this.set('servicio', data);
-            });
-
-            $('#select2-origen').select2({
-                placeholder: "Origen del presupuesto"
-            });
-            $('#select2-origen').on('change', function(e) {
-                var data = $('#select2-origen').select2("val");
-                @this.set('origen', data);
-            });
-
-            $('#select2-cliente').select2({
-                placeholder: "Seleccione un cliente"
-            });
-            $('#select2-cliente').on('change', function(e) {
-                var data = $('#select2-cliente').select2("val");
-                @this.set('cliente_id', data);
-            });
-
-            $('#select2-trabajador').select2({
-                placeholder: "Seleccione un trabajador"
-            });
-            $('#select2-trabajador').on('change', function(e) {
-                var data = $('#select2-trabajador').select2("val");
-                @this.set('trabajador_id', data);
-            });
-
-        });
-    </script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-@endsection
-
+        <div class="mb-3 row d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary self-center"
+                style="margin-bottom: 20px !important; width: 80% !important;">Crear presupuesto</button>
+        </div>
+    </form>
 </div>

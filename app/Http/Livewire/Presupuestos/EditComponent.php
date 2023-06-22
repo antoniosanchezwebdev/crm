@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Presupuestos;
 
+use App\Models\Almacen;
 use App\Models\Presupuesto;
 use Carbon\Carbon;
 use App\Models\Clients;
@@ -26,6 +27,9 @@ class EditComponent extends Component
     public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
     public $precio = 0;
     public $origen;
+    public $marca;
+    public $modelo;
+
     public $observaciones = "";
 
     public $clientes;
@@ -34,11 +38,13 @@ class EditComponent extends Component
     public $lista = []; // Se usa para generar factura de cliente o particular
     public $listaArticulos; // Para mostrar los inputs del alumno o empresa
 
-    public $clienteSeleccionado;
-    public $trabajadorSeleccionado;
+    public $producto_seleccionado;
+    public $servicio;
 
     public $producto;
     public $productos;
+
+    public $almacenes;
 
     public $cantidad;
 
@@ -48,6 +54,7 @@ class EditComponent extends Component
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->productos = Productos::all(); // datos que se envian al select2
+        $this->almacenes = Almacen::all();
 
         $this->numero_presupuesto = $presupuestos->numero_presupuesto;
         $this->fecha_emision = $presupuestos->fecha_emision;
@@ -58,6 +65,8 @@ class EditComponent extends Component
         $this->matricula = $presupuestos->matricula;
         $this->precio = $presupuestos->precio;
         $this->origen = $presupuestos->origen;
+        $this->marca = $presupuestos->marca;
+        $this->modelo = $presupuestos->modelo;
         $this->observaciones = $presupuestos->observaciones;
 
     }
@@ -81,6 +90,8 @@ class EditComponent extends Component
             'listaArticulos' => 'required',
             'precio' => 'required',
             'origen' => 'required',
+            'marca' => 'required',
+            'modelo' => 'required',
             'kilometros' => 'required',
             'observaciones' => 'required',
         ],
@@ -106,6 +117,8 @@ class EditComponent extends Component
             'cliente_id' => $this->cliente_id,
             'trabajador_id' => $this->trabajador_id,
             'matricula' => $this->matricula,
+            'marca' => $this->marca,
+            'modelo' => $this->modelo,
             'precio' => $this->precio,
             'origen' => $this->origen,
             'listaArticulos' => $this->listaArticulos,
@@ -179,25 +192,6 @@ class EditComponent extends Component
 
     }
 
-    public function listarCliente(){
-        if ($this->cliente_id != null) {
-            $this->clienteSeleccionado = Clients::where('id', $this->cliente_id)->first();
-        }else {
-            $this->clienteSeleccionado = [];
-        }
-
-    }
-
-    public function listarTrabajador(){
-        if ($this->trabajador_id != null) {
-            $this->trabajadorSeleccionado = Clients::where('id', $this->trabajador_id)->first();
-        }else {
-            $this->trabajadorSeleccionado = [];
-        }
-
-
-    }
-
     public function numeroPresupuesto(){
         $fecha = new Carbon($this->fecha_emision);
         $year = $fecha->year;
@@ -212,7 +206,7 @@ class EditComponent extends Component
                 }
             }
         }
-        
+
         if($contador < 10){
             $this->numero_presupuesto = "0" . $contador . "/" . $year;
         } else{
@@ -221,35 +215,75 @@ class EditComponent extends Component
 
     }
 
-    public function añadirProducto(){
-        if($this->producto !=null){
-            if(isset($this->lista[$this->producto])){
-                $this->lista[$this->producto] += $this->cantidad;
-            } else{
-                $this->lista[$this->producto] = $this->cantidad;
+    public function añadirProducto()
+    {
+        if ($this->producto_seleccionado != null) {
+            $producto = Productos::where('id', $this->producto_seleccionado)->firstOrFail();
+
+            if ($producto->mueve_existencias == 0) {
+                if (!isset($this->lista[$this->producto_seleccionado])) {
+                    $this->lista[$this->producto_seleccionado] = 1;
+                } else {
+                    $this->alert('info', "Ya has añadido este servicio.");
+                }
+            } else {
+                $almacen = Almacen::where('cod_producto', $producto->cod_producto)->firstOrFail();
+
+                if ($almacen->existencias >= 1) {
+                    if ($almacen->existencias >= $this->cantidad) {
+                        if (isset($this->lista[$this->producto_seleccionado])) {
+                            if ($this->lista[$this->producto_seleccionado] + $this->cantidad > $almacen->existencias) {
+                                $this->lista[$this->producto_seleccionado] = $almacen->existencias;
+                                $this->alert('warning', "¡Estás intentando añadir más allá de las existencias!");
+                            } else {
+                                $this->lista[$this->producto_seleccionado] += $this->cantidad;
+                            }
+                        } else {
+                            $this->lista[$this->producto_seleccionado] = $this->cantidad;
+                        }
+                    } else {
+                        $this->alert('warning', "¡Estás intentando añadir más allá de las existencias!");
+                    }
+                } else {
+                    $this->alert('warning', "¡Artículo sin existencias!");
+                }
             }
-            $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
-            $this->producto = "";
-            $this->cantidad = 0;
+            $this->precio = 0;
+            foreach ($this->lista as $prod => $valo) {
+                $anadir = Productos::where('id', $prod)->firstOrFail()->precio_venta;
+                $this->precio += ($anadir * $valo);
+            }
         }
-        
     }
 
-    public function reducir(){
-        if(isset($this->lista[$this->producto])){
-            if($this->lista[$this->producto] - $this->cantidad <= 0){
-                $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->lista[$this->producto]);
-                unset($this->lista[$this->producto]);
-            } else{
-                $this->lista[$this->producto] -= $this->cantidad;
-                $this->precio -= ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
+    public function reducir($id)
+    {
+        if (isset($this->lista[$id])) {
+            if ($this->lista[$id] - 1 <= 0) {
+                $this->precio -= ((Productos::where('id', $id)->first()->precio_venta) * $this->lista[$id]);
+                unset($this->lista[$id]);
+            } else {
+                $this->lista[$id] -= 1;
+                $this->precio -= ((Productos::where('id', $id)->first()->precio_venta));
             }
-        } else{
-            $this->alert('warning',"Este producto no está en la lista");
+        } else {
+            $this->alert('warning', "Este producto no está en la lista");
         }
-        $this->producto = "";
-        $this->cantidad = 0;
     }
 
-
+    public function aumentar($id)
+    {
+        $producto = Productos::where('id', $id)->first();
+        if (isset($this->lista[$id])) {
+            if (($this->lista[$id] + 1) > Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias) {
+                $this->alert('warning', "Existencias máximas alcanzadas.");
+            } else {
+                $this->lista[$id] += 1;
+                $this->precio += ((Productos::where('id', $id)->first()->precio_venta));
+            }
+        } else {
+            $this->alert('warning', "Este producto no está en la lista");
+        }
+    }
 }
+

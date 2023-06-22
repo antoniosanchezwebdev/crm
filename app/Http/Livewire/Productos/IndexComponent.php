@@ -49,6 +49,7 @@ class IndexComponent extends Component
     public $neumaticos;
     public $almacenes;
     public $listAlmacenes;
+    public $tasas;
 
 
     public $pagina;
@@ -92,35 +93,35 @@ class IndexComponent extends Component
 
             $queryNeumaticos = Neumatico::query();
 
-            if (!empty($this->busqueda_res_rod)) {
+            if (!empty($this->busqueda_res_rod) || $this->busqueda_res_rod != "") {
                 $queryNeumaticos->where('resistencia_rodadura', $this->busqueda_res_rod);
             }
 
-            if (!empty($this->busqueda_ag_moj)) {
+            if (!empty($this->busqueda_ag_moj) || $this->busqueda_ag_moj != "") {
                 $queryNeumaticos->where('agarre_mojado', $this->busqueda_ag_moj);
             }
 
-            if (!empty($this->busqueda_em_ruido)) {
+            if (!empty($this->busqueda_em_ruido) || $this->busqueda_em_ruido != "") {
                 $queryNeumaticos->where('emision_ruido', $this->busqueda_em_ruido);
             }
 
-            if (!empty($this->busqueda_ancho)) {
+            if (!empty($this->busqueda_ancho) || $this->busqueda_ancho != "") {
                 $queryNeumaticos->where('ancho', $this->busqueda_ancho);
             }
 
-            if (!empty($this->busqueda_serie)) {
+            if (!empty($this->busqueda_serie) || $this->busqueda_serie != "") {
                 $queryNeumaticos->where('serie', $this->busqueda_serie);
             }
 
-            if (!empty($this->busqueda_llanta)) {
+            if (!empty($this->busqueda_llanta) || $this->busqueda_llanta != "") {
                 $queryNeumaticos->where('llanta', $this->busqueda_llanta);
             }
 
-            if (!empty($this->busqueda_ic)) {
+            if (!empty($this->busqueda_ic) || $this->busqueda_ic != "") {
                 $queryNeumaticos->where('indice_carga', $this->busqueda_ic);
             }
 
-            if (!empty($this->busqueda_cv)) {
+            if (!empty($this->busqueda_cv) || $this->busqueda_cv != "") {
                 $queryNeumaticos->where('codigo_velocidad', $this->busqueda_cv);
             }
 
