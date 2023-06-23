@@ -61,4 +61,9 @@ class User extends Authenticatable
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
+
+    public function ordenLogs()
+    {
+        return $this->hasMany(OrdenLog::class);
+    }
 }

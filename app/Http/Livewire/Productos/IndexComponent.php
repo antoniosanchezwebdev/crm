@@ -77,9 +77,9 @@ class IndexComponent extends Component
             'tabla' => $this->tabla
         ]);
     }
-    public function seleccionarProducto($id)
+    public function seleccionarProducto($user)
     {
-        $this->emit("seleccionarProducto", $id);
+        $this->emit("seleccionarProducto", $user);
     }
 
     /**

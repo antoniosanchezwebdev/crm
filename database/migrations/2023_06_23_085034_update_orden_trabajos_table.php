@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orden_trabajos', function (Blueprint $table) {
-            $table->string("documentos")->after("operarios");
+            $table->string("descripcion")->after("estado")->nullable();
         });
     }
 
@@ -26,6 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('orden_trabajos', function (Blueprint $table) {
-            $table->dropColumn("documentos");
-        });    }
+            $table->dropColumn("descripcion");
+        });
+    }
 };

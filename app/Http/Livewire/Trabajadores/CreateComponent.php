@@ -3,7 +3,8 @@
 namespace App\Http\Livewire\Trabajadores;
 
 use App\Models\Trabajador;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -12,10 +13,20 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
-    public $nombre;
+    public $name;
+    public $role;
+    public $username;
+    public $surname;
+    public $email;
+    public $password;
+    public $inactive = "true";
 
 
-    public function mount(){
+
+
+    public function mount()
+    {
+        $this->emit('contentLoaded');
     }
 
     public function render()
@@ -26,18 +37,33 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
-        // Validación de datos
-        $validatedData = $this->validate([
-            'nombre' => 'required',
-
-        ],
+        $validatedData = $this->validate(
+            [
+                'username' => 'required',
+                'name' => 'required',
+                'surname' => 'required',
+                'role' => 'required',
+                'email' => 'required',
+                'inactive' => 'nullable',
+                'password' => ['required', 'string', 'min:8']
+            ],
             // Mensajes de error
             [
-                'nombre.required' => 'El nombre es obligatorio.',
-            ]);
+                'nombre.required' => 'El ID de usuario es obligatorio.',
+                'name.required' => 'El nombre es obligatorio.',
+                'surname.required' => 'El apellido es obligatorio.',
+                'role.required' => 'El puesto es obligatorio.',
+                'email.required' => 'El correo es obligatorio.',
+                'password.required' => 'La contraseña es obligatoria.',
+
+            ]
+        );
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['inactive'] = false;
 
         // Guardar datos validados
-        $usuariosSave = Trabajador::create($validatedData);
+        $usuariosSave = User::create($validatedData);
 
         // Alertas de guardado exitoso
         if ($usuariosSave) {
@@ -72,6 +98,5 @@ class CreateComponent extends Component
     {
         // Do something
         return redirect()->route('trabajadores.index');
-
     }
 }

@@ -52,7 +52,6 @@ class EditComponent extends Component
     public $llanta;
     public $indice_carga;
     public $codigo_velocidad;
-
     public $existencias;
     public $mueve_existencias;
 

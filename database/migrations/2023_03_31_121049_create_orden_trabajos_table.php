@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::dropIfExists('orden_trabajos');
-        
+
         Schema::create('orden_trabajos', function (Blueprint $table) {
             $table->id();
             $table->timestamp('fecha')->nullable();

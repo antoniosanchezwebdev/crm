@@ -1,13 +1,6 @@
 <div class="container mx-auto">
 
-    <script>
-        $('#tableProductos').DataTable({
-            responsive: true,
-            fixedHeader: true,
-            searching: false,
-            paging: false,
-        });
-    </script>
+    <script></script>
 
     <form wire:submit.prevent="update">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
@@ -26,28 +19,26 @@
                     presupuesto</label>
                 <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
                     id="trabajador_id" disabled>
+
+                <label for="descripcion" class="col-form-label">Descripción de la tarea</label>
+                <textarea wire:model="descripcion" class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
             </div>
         </div>
         <br>
         <div class="card">
             <h5 class="card-header">Datos del cliente</h5>
             <div class="card-body">
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Trabajador que ha asignado el
-                    presupuesto</label>
-                <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
-                    id="trabajador_id" disabled>
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Trabajador que ha asignado el
-                    presupuesto</label>
-                <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
-                    id="trabajador_id" disabled>
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Trabajador que ha asignado el
-                    presupuesto</label>
-                <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
-                    id="trabajador_id" disabled>
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Trabajador que ha asignado el
-                    presupuesto</label>
-                <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
-                    id="trabajador_id" disabled>
+                <label for="fecha_emision" class="col-sm-2 col-form-label">Nombre del cliente</label>
+                <input type="text" class="form-control" value="{{ $tarea->presupuesto->cliente->nombre }}" disabled>
+                <label for="fecha_emision" class="col-sm-2 col-form-label">Teléfono del cliente</label>
+                <input type="text" class="form-control" value="{{ $tarea->presupuesto->cliente->telefono }}"
+                    disabled>
+                <label for="fecha_emision" class="col-sm-2 col-form-label">Matrícula del coche</label>
+                <input type="text" class="form-control" value="{{ $tarea->presupuesto->matricula }}" disabled>
+                <label for="fecha_emision" class="col-sm-2 col-form-label">Marca</label>
+                <input type="text" class="form-control" value="{{ $tarea->presupuesto->marca }}" disabled>
+                <label for="fecha_emision" class="col-sm-2 col-form-label">Modelo</label>
+                <input type="text" class="form-control" value="{{ $tarea->presupuesto->modelo }}" disabled>
             </div>
         </div>
         <br>
@@ -60,8 +51,9 @@
                     @endforeach
                 </ul>
                 <br>
-                <input type="text" wire:model="nuevoSolicitado">
-                <button wire:click.prevent="agregarSolicitado">Añadir</button>
+                <label for="nuevoSolicitado">Añadir trabajo solicitado</label><br>
+                <input type="text" wire:model="nuevoSolicitado" id="nuevoSolicitado" name="nuevoSolicitado">
+                <button wire:click.prevent="agregarSolicitado" class="btn btn-primary">Añadir</button>
             </div>
         </div>
         <br>
@@ -74,15 +66,16 @@
                     @endforeach
                 </ul>
                 <br>
-                <input type="text" wire:model="nuevoRealizar">
-                <button wire:click.prevent="agregarRealizar">Añadir</button>
+                <label for="nuevoRealizar">Añadir trabajo a realizar</label><br>
+                <input type="text" wire:model="nuevoRealizar" id="nuevoRealizar" name="nuevoRealizar">
+                <button wire:click.prevent="agregarRealizar" class="btn btn-primary">Añadir</button>
             </div>
         </div>
         <br>
         <div class="card">
             <h5 class="card-header">Observaciones</h5>
             <div class="card-body">
-                <label for="observaciones" class="col-sm-2 col-form-label">Escribe tus observaciones</label>
+                <label for="observaciones" class="col-form-label">Escribe tus observaciones</label>
                 <textarea wire:model="observaciones" class="form-control" name="observaciones" id="observaciones" rows="3"></textarea>
             </div>
         </div>
@@ -99,22 +92,28 @@
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Precio</th>
                                     <th scope="col">Cantidad</th>
+                                    <th scope="col">Tiempo</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($cantidad > 0)
-                                    @foreach ($lista as $productoE => $cantidad)
-                                        <tr>
-                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}</td>
-                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}</td>
-                                            <td>{{ $productos->where('id', $productoE)->first()->precio_venta }}€</td>
+                                @foreach ($lista as $productoE => $cantidad)
+                                    <tr>
+                                        <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}</td>
+                                        <td>{{ $productos->where('id', $productoE)->first()->descripcion }}</td>
+                                        <td>{{ $productos->where('id', $productoE)->first()->precio_venta }}€</td>
+                                        @if ($productos->where('id', $productoE)->first()->mueve_existencias == 1)
                                             <td>{{ $cantidad }}</td>
-                                            <td>{{ $productos->where('id', $productoE)->first()->precio_venta * $cantidad }}€
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
+                                            <td></td>
+                                        @else
+                                            <td></td>
+                                            <td> <input type="text" wire:model="tiempo_lista.{{ $productoE }}"
+                                                    class="form-control"> </td>
+                                        @endif
+                                        <td>{{ $productos->where('id', $productoE)->first()->precio_venta * $cantidad }}€
+                                        </td>
+                                    </tr>
+                                @endforeach
                             <tbody>
                         </table>
                     </div>
@@ -125,23 +124,24 @@
         <div class="card">
             <h5 class="card-header">Operarios</h5>
             <div class="card-body">
-                <label for="trabajadorSeleccionado" class="col-sm-2 col-form-label">Trabajadores</label>
                 @if ($trabajadores != null)
-                    <h5 class="mt-3">Trabajadores Añadidos</h5>
+                    <h5 class="mt-3">Trabajadores/operarios añadidos</h5>
                     <ul>
                         @foreach ($trabajadores as $trabajador)
-                            <li>{{ $trabajador }}</li>
+                            <li>{{ var_dump($trabajador) }}</li>
                         @endforeach
                     </ul>
                     <br>
                 @endif
+                <label for="trabajadorSeleccionado" class="col-form-label">Añadir trabajador/operario</label>
                 <select wire:model="trabajadorSeleccionado" class="form-control" name="trabajadorSeleccionado"
                     id="trabajadorSeleccionado">
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
-                <button wire:click.prevent="agregarTrabajador" class="btn btn-primary mt-2">Añadir Usuario</button>
+                <br>
+                <button wire:click.prevent="agregarTrabajador" class="btn btn-primary mt-2">Añadir</button>
             </div>
         </div>
         <br>
@@ -154,8 +154,9 @@
                     @endforeach
                 </ul>
                 <br>
+                <label for="nuevoRealizar">Añadir daño localizado</label><br>
                 <input type="text" wire:model="nuevoDaño">
-                <button wire:click.prevent="agregarDaño">Añadir</button>
+                <button wire:click.prevent="agregarDaño" class="btn btn-primary">Añadir</button>
             </div>
         </div>
         <br>
@@ -180,114 +181,6 @@
                     documento</button>
             </div>
         </div>
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
-            <div class="col-sm-10" wire:ignore.self>
-                <select id="cliente_id" class="form-control seleccion" wire:model="cliente_id"
-                    wire:change="listarCliente()">
-                    <option value="">-- Seleccione un cliente --</option>
-                    @foreach ($clientes as $cliente)
-                        <option value="{{ $cliente->id }}">{{ $cliente->id }} - {{ $cliente->nombre }}</option>
-                    @endforeach
-
-                </select>
-                @error('denominacion')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
-            <div class="col-sm-10">
-                <input type="text" wire:model="matricula" class="form-control" name="matricula" id="matricula">
-                @error('fecha_emision')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="kilometros" class="col-sm-2 col-form-label">Kilómetros</label>
-            <div class="col-sm-10">
-                <input type="number" wire:model="kilometros" class="form-control" name="kilometros"
-                    id="kilometros">
-                @error('fecha_emision')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        --
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="producto" class="col-sm-2 col-form-label">Lista de productos</label>
-            <div class="col-sm-10" wire:ignore.self>
-                <select id="producto" class="form-control seleccion" wire:model="producto">
-                    <option selected="selected" value="">-- Seleccione un producto --</option>
-                    @foreach ($productos as $product)
-                        <option value="{{ $product->id }}">{{ $product->cod_producto }} -
-                            {{ $product->descripcion }}</option>
-                    @endforeach
-                </select>
-                @error('denominacion')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        @if ($producto != null)
-            <div class="mb-3 row d-flex align-items-center">
-                <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                <div class="col-sm-10">
-                    <input type="number" wire:model="cantidad" class="form-control" name="cantidad"
-                        id="cantidad">
-                    @error('fecha_emision')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-
-            <button class="btn btn-outline-info" wire:click.prevent="añadirProducto">Añadir producto</button>
-            <button class="btn btn-outline-info" wire:click.prevent="reducir">Reducir/Eliminar producto</button>
-        @endif
-
-
-
-
-
-
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="precio" class="col-sm-2 col-form-label">Precio</label>
-            <div class="col-sm-10">
-                <input type="number" wire:model="precio" class="form-control" name="precio" id="precio"
-                    disabled>
-                @error('fecha_emision')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="origen" class="col-sm-2 col-form-label">Presupuesto dado en:</label>
-            <div class="col-sm-10" wire:ignore.self>
-                <select id="origen" class="form-control seleccion" wire:model="origen">
-                    <option selected="selected" value="">-- Seleccione un producto --</option>
-                    <option value="Mostrador">Mostrador</option>
-                    <option value="Teléfono">Teléfono</option>
-                    <option value="Formulario web">Formulario web</option>
-                    <option value="Email">Email</option>
-                    <option value="Whatsapp">Whatsapp</option>
-                </select>
-                @error('denominacion')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
 
         <div class="mb-3 row d-flex align-items-center">
             <button type="submit" class="btn btn-outline-info">Guardar</button>

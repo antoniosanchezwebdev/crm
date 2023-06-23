@@ -26,7 +26,7 @@ class IndexComponent extends Component
 
     public function mount()
     {
-        $this->tareas = OrdenTrabajo::all();
+        $this->tareas = OrdenTrabajo::where('operarios', null)->get();
         $this->clientes = Clients::all();
         $this->trabajadores = Trabajador::all();
         if(count($this->tareas) > 0){

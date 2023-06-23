@@ -1,33 +1,122 @@
-@section('head')
-    @vite(['resources/sass/app.scss'])
-@endsection
-
-
-
 <div class="container mx-auto">
-    <h1>Usuarios</h1>
-    <h2>Crear usuario</h2>
+    <div class="card">
+        <div class="card-header">{{ __('Añadir trabajador') }}</div>
+
+        <div class="card-body">
+            <form wire:submit.prevent="submit">
+                <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+
+                <div class="row mb-3">
+                    <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('ID de usuario') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="username" type="text"
+                            class="form-control @error('username') is-invalid @enderror" name="username"
+                            value="{{ old('username') }}" required wire:model="username" autocomplete="username"
+                            autofocus>
+
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                            name="name" value="{{ old('name') }}" required wire:model="name" autocomplete="name"
+                            autofocus>
+
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="surname" class="col-md-4 col-form-label text-md-end">{{ __('Apellidos') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="surname" type="text" class="form-control @error('surname') is-invalid @enderror"
+                            name="surname" value="{{ old('surname') }}" required wire:model="surname"
+                            autocomplete="surname" autofocus>
+
+                        @error('surname')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Puesto') }}</label>
+
+                    <div class="col-md-6">
+                        <select id="role" wire:model="role"
+                            class="form-control @error('role') is-invalid @enderror" name="role"
+                            value="{{ old('role') }}" required autocomplete="role" autofocus>
+                            <option value="admin">Administrador/Gestor</option>
+                            <option value="trabajador">Operario/Trabajador</option>
+                        </select>
+                        @error('role')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Correo') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                            name="email" value="{{ old('email') }}" wire:model="email" required
+                            autocomplete="email">
+
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
+
+                    <div class="col-md-6">
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="new-password" wire:model="password">
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <input type="hidden" id="inactive" name="inactive" wire:model="inactive" value="true">
+                <div class="row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Añadir trabajador') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <br>
-
-
-    <form wire:submit.prevent="submit">
-        <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="nombre" class="col-sm-2 col-form-label">Nombre </label>
-            <div class="col-sm-10">
-                <input type="text" wire:model="nombre" class="form-control" name="nombre" id="nombre"
-                    placeholder="José Carlos...">
-                @error('nombre')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="mb-3 row d-flex align-items-center">
-            <button type="submit" class="btn btn-outline-info">Guardar</button>
-        </div>
-
 
     </form>
 </div>

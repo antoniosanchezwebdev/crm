@@ -1,15 +1,14 @@
 <div class="container mx-auto">
-    <script>
-        $('#tableSinAsignar').DataTable({
-            responsive: true,
-            fixedHeader: true,
-            searching: false,
-            paging: false,
-        });
-    </script>
-    <div class="card">
+    <div class="card" wire:ignore>
         <h5 class="card-header">Resultados</h5>
-        <div class="card-body">
+        <div class="card-body" x-data="{}" x-init="$nextTick(() => {
+            $('#tableSinAsignar').DataTable({
+                responsive: true,
+                fixedHeader: true,
+                searching: false,
+                paging: false,
+            });
+        })">
             @if ($tareas->count() > 0)
                 <table class="table responsive" id="tableSinAsignar">
                     <thead>

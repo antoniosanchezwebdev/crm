@@ -37,4 +37,9 @@ class OrdenTrabajo extends Model
     {
         return $this->hasOne(Presupuesto::class, 'id', 'id_presupuesto');
     }
+
+    public function ordenLogs()
+    {
+        return $this->hasMany(OrdenLog::class);
+    }
 }

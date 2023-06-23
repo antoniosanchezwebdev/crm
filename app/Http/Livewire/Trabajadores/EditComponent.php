@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Trabajadores;
 
 use App\Models\Trabajador;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -12,14 +14,26 @@ class EditComponent extends Component
 
     public $identificador;
 
-    public $nombre;
+    public $name;
+    public $role;
+    public $username;
+    public $surname;
+    public $email;
+    public $password;
+
+
 
 
     public function mount()
     {
-        $usuarios = Trabajador::find($this->identificador);
+        $usuarios = User::find($this->identificador);
 
-        $this->nombre = $usuarios->nombre;
+        $this->name = $usuarios->name;
+        $this->role = $usuarios->role;
+        $this->username = $usuarios->username;
+        $this->surname = $usuarios->surname;
+        $this->email = $usuarios->email;
+        $this->password = $usuarios->password;
 
     }
 
@@ -31,21 +45,38 @@ class EditComponent extends Component
     // Al hacer update en el formulario
     public function update()
     {
-        // Validación de datos
-        $this->validate([
-            'nombre' => 'required',
-        ],
+        $this->validate(
+            [
+                'username' => 'required',
+                'name' => 'required',
+                'surname' => 'required',
+                'role' => 'required',
+                'email' => 'required',
+                'password' => ['required', 'string', 'min:8']
+            ],
             // Mensajes de error
             [
-                'nombre.required' => 'El nombre es obligatorio.',
-            ]);
+                'nombre.required' => 'El ID de usuario es obligatorio.',
+                'name.required' => 'El nombre es obligatorio.',
+                'surname.required' => 'El apellido es obligatorio.',
+                'role.required' => 'El puesto es obligatorio.',
+                'email.required' => 'El correo es obligatorio.',
+                'password.required' => 'La contraseña es obligatoria.',
+
+            ]
+        );
 
         // Encuentra el identificador
-        $usuarios = Trabajador::find($this->identificador);
+        $usuarios = User::find($this->identificador);
 
         // Guardar datos validados
         $usuariosSave = $usuarios->update([
-            'nombre' => $this->nombre,
+            'username' => $this->username,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'role' => $this->role,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
         ]);
 
         if ($usuariosSave) {

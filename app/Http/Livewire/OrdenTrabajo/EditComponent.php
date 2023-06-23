@@ -7,10 +7,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Clients;
 use App\Models\OrdenTrabajo;
-use App\Models\Trabajador;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use App\Models\Productos;
+use App\Models\Trabajador;
 use Livewire\WithFileUploads;
 
 
@@ -20,7 +21,7 @@ class EditComponent extends Component
     use WithFileUploads;
 
     public $identificador;
-
+    public $tarea;
     public $numero_presupuesto;
     public $users;
     public $fecha_emision;
@@ -31,6 +32,9 @@ class EditComponent extends Component
     public $precio = 0;
     public $origen;
     public $observaciones = "";
+    public $tiempo_lista = [];
+    public $trabajadores_name = [];
+
 
     public $realizables = [];
     public $solicitados = [];
@@ -61,20 +65,20 @@ class EditComponent extends Component
 
     public function mount()
     {
-        $tarea = OrdenTrabajo::find($this->identificador);
+        $this->tarea = OrdenTrabajo::find($this->identificador);
         $this->users = User::all();
         $this->productos = Productos::all(); // datos que se envian al select2
         $this->clientes = Clients::all();
-        $this->numero_presupuesto = $tarea->presupuesto->numero_presupuesto;
-        $this->fecha_emision = $tarea->presupuesto->fecha_emision;
-        $this->cliente_id = $tarea->presupuesto->cliente_id;
-        $this->trabajador_id = $tarea->presupuesto->trabajador_id;
-        $this->lista = (array) json_decode($tarea->presupuesto->listaArticulos);
-        $this->kilometros = $tarea->presupuesto->kilometros;
-        $this->matricula = $tarea->presupuesto->matricula;
-        $this->precio = $tarea->presupuesto->precio;
-        $this->origen = $tarea->presupuesto->origen;
-        $this->observaciones = $tarea->presupuesto->observaciones;
+        $this->numero_presupuesto = $this->tarea->presupuesto->numero_presupuesto;
+        $this->fecha_emision = $this->tarea->presupuesto->fecha_emision;
+        $this->cliente_id = $this->tarea->presupuesto->cliente_id;
+        $this->trabajador_id = $this->tarea->presupuesto->trabajador_id;
+        $this->lista = (array) json_decode($this->tarea->presupuesto->listaArticulos);
+        $this->kilometros = $this->tarea->presupuesto->kilometros;
+        $this->matricula = $this->tarea->presupuesto->matricula;
+        $this->precio = $this->tarea->presupuesto->precio;
+        $this->origen = $this->tarea->presupuesto->origen;
+        $this->observaciones = $this->tarea->presupuesto->observaciones;
     }
 
     public function render()
@@ -85,20 +89,22 @@ class EditComponent extends Component
     // Al hacer update en el formulario
     public function update()
     {
-        $this->listaArticulos = json_encode($this->lista);
         // Validación de datos
         $this->validate(
             [
-                'numero_presupuesto' => 'required',
-                'fecha_emision' => 'required',
-                'cliente_id' => 'required',
-                'trabajador_id' => 'required',
-                'matricula' => 'required',
-                'listaArticulos' => 'required',
-                'precio' => 'required',
-                'origen' => 'required',
-                'kilometros' => 'required',
+                'fecha' => 'required',
+                'id_cliente' => 'required',
+                'id_presupuesto' => 'required',
                 'observaciones' => 'required',
+                'trabajos_solicitados' => 'required',
+                'trabajos_realizar' => 'required',
+                'operarios' => 'required',
+                'estado' => 'required',
+                'descripcion' => 'required',
+                'documentos' => 'required',
+                'operarios_tiempo' => 'required',
+                'danos_localizados' => 'required',
+
             ],
             // Mensajes de error
             [
@@ -273,7 +279,13 @@ class EditComponent extends Component
         if (in_array($this->trabajadorSeleccionado, $this->trabajadores)) {
             $this->alert('warning', "Este trabajador ya está asignado");
         } else {
-            array_push($this->trabajadores, $this->trabajadorSeleccionado);
+            if ($this->trabajadorSeleccionado == Auth::id()) {
+                array_push($this->trabajadores, Auth::id());
+                array_push($this->trabajadores_name, Auth::user());
+            } else {
+                array_push($this->trabajadores, $this->trabajadorSeleccionado);
+                array_push($this->trabajadores_name, $this->users->find($this->trabajadorSeleccionado));
+            }
         }
         $this->trabajadorSeleccionado = "";
     }
