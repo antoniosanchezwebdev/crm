@@ -48,6 +48,8 @@ class EditComponent extends Component
 
     public $cantidad;
 
+    public $vehiculo_renting;
+
     public function mount()
     {
         $presupuestos = Presupuesto::find($this->identificador);
@@ -90,6 +92,7 @@ class EditComponent extends Component
             'listaArticulos' => 'required',
             'precio' => 'required',
             'origen' => 'required',
+            'vehiculo_renting' => 'required',
             'marca' => 'required',
             'modelo' => 'required',
             'kilometros' => 'required',
@@ -122,6 +125,7 @@ class EditComponent extends Component
             'precio' => $this->precio,
             'origen' => $this->origen,
             'listaArticulos' => $this->listaArticulos,
+            'vehiculo_renting' => $this->vehiculo_renting,
             'kilometros' => $this->kilometros,
             'observaciones' => $this->observaciones,
 

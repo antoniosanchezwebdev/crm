@@ -186,6 +186,15 @@
                     </div>
                 </div>
 
+                <div class="mb-3 row d-flex align-items-left">
+                    <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de renting?</label>
+                    <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculo_renting"
+                        name="vehiculo_renting" id="vehiculo_renting" />
+                    @error('vehiculo_renting')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="kilometros" class="col-sm-2 col-form-label">Kilómetros</label>
                     <div class="col-sm-10">

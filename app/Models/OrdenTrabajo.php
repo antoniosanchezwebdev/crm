@@ -42,13 +42,18 @@ class OrdenTrabajo extends Model
         return $this->hasOne(Presupuesto::class, 'id', 'id_presupuesto');
     }
 
-    public function ordenLogs()
+    public function logs()
     {
-        return $this->hasMany(OrdenLog::class);
+        return $this->hasMany(OrdenLog::class, 'tarea_id');
     }
+
+    public function logsEnCurso()
+{
+    return $this->hasMany(OrdenLog::class, 'tarea_id')->where('estado', 'En curso');
+}
 
     public function trabajadores()
     {
-        return $this->belongsToMany(User::class, 'asignacion');
+        return $this->belongsToMany(User::class, 'orden_asignacion', 'tarea_id', 'trabajador_id');
     }
 }

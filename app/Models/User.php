@@ -70,6 +70,6 @@ class User extends Authenticatable
 
     public function tareas()
     {
-        return $this->belongsToMany(OrdenTrabajo::class, 'asignacion');
+        return $this->belongsToMany(OrdenTrabajo::class, 'orden_asignacion', 'trabajador_id', 'tarea_id');
     }
 }

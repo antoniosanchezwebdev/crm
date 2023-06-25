@@ -28,6 +28,8 @@ integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="ano
     </style>
 @endsection
 
+@section('encabezado', 'Dashboard')
+@section('subtitulo', 'Consultar tareas')
 @section('content')
 
 @livewire('dashboard')

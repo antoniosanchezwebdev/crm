@@ -71,7 +71,7 @@ class EditComponent extends Component
     public $trabajos_realizar;
     public $operarios;
     public $estado;
-    public $operarios_tiempo;
+    public $operarios_tiempo = [];
     public $danos_localizados;
 
 
@@ -108,7 +108,7 @@ class EditComponent extends Component
             $this->descripcion = $this->tarea->descripcion;
             $this->documentos = json_decode($this->tarea->documentos, true);
             $this->rutasDocumentos = $this->documentos;
-            $this->operarios_tiempo = $this->tarea->operarios_tiempo;
+            $this->operarios_tiempo = json_decode($this->tarea->operarios_tiempo, true);
             $this->danos_localizados = json_decode($this->tarea->danos_localizados, true);
             $this->daños = $this->danos_localizados;
         } else{
@@ -185,6 +185,9 @@ class EditComponent extends Component
             'operarios_tiempo' => $this->operarios_tiempo,
             'danos_localizados' => $this->danos_localizados,
         ]);
+
+        $presupuestos->trabajadores()->sync($this->trabajadores);
+
 
         if ($presupuestosSave) {
             $this->alert('success', '¡Presupuesto actualizado correctamente!', [

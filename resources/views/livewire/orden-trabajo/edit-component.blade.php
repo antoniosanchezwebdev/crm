@@ -1,7 +1,9 @@
 <div class="container mx-auto">
 
     <script></script>
-
+    @php
+        use Carbon\CarbonInterval;
+    @endphp
     <form wire:submit.prevent="update">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
         <div class="card">
@@ -138,9 +140,13 @@
                             <tbody>
                                 @foreach ($trabajadores as $trabajador)
                                     <tr>
-                                        <td>{{ $users->where('id', $trabajador)->first()->name . " " . $users->where('id', $trabajador)->first()->surname }}</td>
-                                        <td> <input type="text" wire:model="operarios_tiempo.{{ $trabajador }}"
-                                                class="form-control" disabled> </td>
+                                        <td>{{ $users->where('id', $trabajador)->first()->name . ' ' . $users->where('id', $trabajador)->first()->surname }}
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                                @if (isset(json_decode($tarea->operarios_tiempo, true)[$trabajador])) value="{{ CarbonInterval::seconds(json_decode($tarea->operarios_tiempo, true)[$trabajador])->cascade()->format('%H:%I:%S') }}" @endif
+                                                class="form-control" disabled>
+                                        </td>
                                     </tr>
                                 @endforeach
                             <tbody>

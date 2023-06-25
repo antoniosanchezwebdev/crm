@@ -43,6 +43,9 @@ class CreateComponent extends Component
     public $cantidad;
     public $orden_id;
 
+    public $vehiculo_renting = false;
+
+
     public function mount()
     {
         $this->clientes = Clients::all(); // datos que se envian al select2
@@ -87,6 +90,7 @@ class CreateComponent extends Component
                 'origen' => 'required',
                 'marca' => 'required',
                 'modelo' => 'required',
+                'vehiculo_renting' => 'required',
                 'estado' => 'nullable',
                 'observaciones' => 'nullable',
 
@@ -97,6 +101,7 @@ class CreateComponent extends Component
                 'fecha_emision.required' => 'La fecha de emision es obligatoria.',
                 'cliente_id.required' => 'El cliente es obligatorio.',
                 'matricula.required' => 'La matricula del coche es obligatoria.',
+                'vehiculo_renting.required' => 'Marca si el vehículo es de renting o no',
                 'kilometros.required' => 'Los kilometros del coche son obligatorios',
                 'trabajador_id.required' => 'El trabajador es obligatorio.',
                 'precio.required' => 'El precio es obligatorio',

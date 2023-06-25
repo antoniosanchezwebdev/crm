@@ -3,15 +3,27 @@
         <div class="accordion border-primary" id="accordionExample">
             @foreach ($tareas as $tareaIndex => $tarea)
                 <div class="card accordion-item">
+                    @if($tarea->presupuesto->vehiculo_renting == 1)
+                    <button class="card-header accordion-button bg-warning" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
+                        aria-controls="collapse{{ $tareaIndex }}">
+                        <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
+                            {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}</h5>
+                    </button>
+                    @else
                     <button class="card-header accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
                         aria-controls="collapse{{ $tareaIndex }}">
                         <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
-                            {{ $tarea->fecha }} - {{ $tarea->presupuesto->matricula }}</h5>
+                            {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}</h5>
                     </button>
+                    @endif
                     <div id="collapse{{ $tareaIndex }}" class="accordion-collapse collapse"
                         aria-labelledby="heading{{ $tareaIndex }}" data-bs-parent="#accordionExample">
                         <div class="card-body accordion-body">
+                            <h5>ESTADO:</h5>
+                            {{ $tarea->estado }}
+                            <hr />
 
                             <div class="accordion border-primary" id="accordionExample1{{ $tareaIndex }}">
                                 <div class="card accordion-item">
@@ -44,8 +56,6 @@
                                             <p class="card-text" id="comentarios">{{ $tarea->observaciones }}
                                             </p>
                                             <hr />
-                                            <button type="button" class="btn btn-success">Cobrar</button>
-                                            <span id="estado-operacion"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -62,17 +72,16 @@
                                         aria-labelledby="heading2{{ $tareaIndex }}"
                                         data-bs-parent="#accordionExample2{{ $tareaIndex }}">
                                         <div class="card-body accordion-body">
-                                            <div x-data="{}"
-                                                x-init="$nextTick(() => {
-                                                    console.log('hola');
-                                                    $('#tableProductos{{ $tareaIndex }}').DataTable({
-                                                        responsive: true,
-                                                        fixedHeader: true,
-                                                        searching: false,
-                                                        paging: false,
-                                                        autoWidth: false,
-                                                    });
-                                                })">
+                                            <div x-data="{}" x-init="$nextTick(() => {
+                                                console.log('hola');
+                                                $('#tableProductos{{ $tareaIndex }}').DataTable({
+                                                    responsive: true,
+                                                    fixedHeader: true,
+                                                    searching: false,
+                                                    paging: false,
+                                                    autoWidth: false,
+                                                });
+                                            })">
                                                 <table class="table responsive" id="tableProductos{{ $tareaIndex }}">
                                                     <thead>
                                                         <tr>
@@ -113,10 +122,31 @@
                                         aria-labelledby="heading3{{ $tareaIndex }}"
                                         data-bs-parent="#accordionExample3{{ $tareaIndex }}">
                                         <div class="card-body accordion-body" wire:ignore>
+                                            <ul>
+                                                <li><button type="button" class="btn btn-success">Cobrar</button></li>
+                                                @if ($tarea->logsEnCurso()->count() > 0)
+                                                    <li> <button type="button" class="btn btn-danger"
+                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
+                                                            tarea</button></li>
+                                                @else
+                                                    @if ($tarea->logs()->count() > 0)
+                                                        <li> <button type="button" class="btn btn-primary"
+                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
+                                                                tarea</button></li>
+                                                    @else
+                                                        <li> <button type="button" class="btn btn-primary"
+                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
+                                                                tarea</button></li>
+                                                    @endif
+                                                @endif
+                                                <li><button type="button" class="btn btn-secondary">Completar
+                                                        tarea</button></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <hr />
                         </div>
                     </div>
             @endforeach
