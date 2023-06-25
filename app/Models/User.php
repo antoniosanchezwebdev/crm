@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\OrdenTrabajo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,5 +66,10 @@ class User extends Authenticatable
     public function ordenLogs()
     {
         return $this->hasMany(OrdenLog::class);
+    }
+
+    public function tareas()
+    {
+        return $this->belongsToMany(OrdenTrabajo::class, 'asignacion');
     }
 }

@@ -31,6 +31,7 @@ class EditComponent extends Component
     public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
     public $precio = 0;
     public $origen;
+    public $descripcion;
     public $observaciones = "";
     public $tiempo_lista = [];
     public $trabajadores_name = [];
@@ -39,7 +40,9 @@ class EditComponent extends Component
     public $realizables = [];
     public $solicitados = [];
     public $daños = [];
-    public $documentos = [];
+    public $documentosArray = [];
+    public $documentos;
+
     public $documento;
 
     public $rutasDocumentos = [];
@@ -61,6 +64,18 @@ class EditComponent extends Component
 
     public $cantidad;
     public $clientes;
+    public $fecha;
+    public $id_cliente;
+    public $id_presupuesto;
+    public $trabajos_solicitados;
+    public $trabajos_realizar;
+    public $operarios;
+    public $estado;
+    public $operarios_tiempo;
+    public $danos_localizados;
+
+
+
 
 
     public function mount()
@@ -78,7 +93,30 @@ class EditComponent extends Component
         $this->matricula = $this->tarea->presupuesto->matricula;
         $this->precio = $this->tarea->presupuesto->precio;
         $this->origen = $this->tarea->presupuesto->origen;
-        $this->observaciones = $this->tarea->presupuesto->observaciones;
+        if($this->tarea->operarios){
+            $this->fecha = $this->tarea->fecha;
+            $this->id_cliente = $this->tarea->id_cliente;
+            $this->id_presupuesto = $this->tarea->id_presupuesto;
+            $this->observaciones = $this->tarea->observaciones;
+            $this->trabajos_solicitados = json_decode($this->tarea->trabajos_solicitados, true);
+            $this->solicitados = $this->trabajos_solicitados;
+            $this->trabajos_realizar = json_decode($this->tarea->trabajos_realizar, true);
+            $this->realizables = $this->trabajos_realizar;
+            $this->operarios = json_decode($this->tarea->operarios, true);
+            $this->trabajadores = $this->operarios;
+            $this->estado = $this->tarea->estado;
+            $this->descripcion = $this->tarea->descripcion;
+            $this->documentos = json_decode($this->tarea->documentos, true);
+            $this->rutasDocumentos = $this->documentos;
+            $this->operarios_tiempo = $this->tarea->operarios_tiempo;
+            $this->danos_localizados = json_decode($this->tarea->danos_localizados, true);
+            $this->daños = $this->danos_localizados;
+        } else{
+            $this->fecha = $this->tarea->presupuesto->fecha_emision;
+            $this->id_cliente = $this->tarea->presupuesto->cliente_id;
+            $this->id_presupuesto = $this->tarea->presupuesto->id;
+            $this->observaciones = $this->tarea->presupuesto->observaciones;
+        }
     }
 
     public function render()
@@ -89,6 +127,15 @@ class EditComponent extends Component
     // Al hacer update en el formulario
     public function update()
     {
+        $this->estado = ($this->estado != null) ? $this->estado : 'Asignada';
+        $this->trabajos_solicitados = json_encode($this->solicitados);
+        $this->trabajos_realizar = json_encode($this->realizables);
+        $this->danos_localizados = json_encode($this->daños);
+        $this->operarios = json_encode($this->trabajadores);
+        $this->documentos = json_encode($this->rutasDocumentos);
+        $this->operarios_tiempo = json_encode($this->operarios_tiempo);
+        $this->tiempo_lista = json_encode($this->tiempo_lista);
+
         // Validación de datos
         $this->validate(
             [
@@ -120,21 +167,23 @@ class EditComponent extends Component
         );
 
         // Encuentra el identificador
-        $presupuestos = Presupuesto::find($this->identificador);
+        $presupuestos = OrdenTrabajo::find($this->identificador);
 
         // Guardar datos validados
         $presupuestosSave = $presupuestos->update([
-            'numero_presupuesto' => $this->numero_presupuesto,
-            'fecha_emision' => $this->fecha_emision,
-            'cliente_id' => $this->cliente_id,
-            'trabajador_id' => $this->trabajador_id,
-            'matricula' => $this->matricula,
-            'precio' => $this->precio,
-            'origen' => $this->origen,
-            'listaArticulos' => $this->listaArticulos,
-            'kilometros' => $this->kilometros,
+            'fecha' => $this->fecha,
+            'id_cliente' => $this->id_cliente,
+            'id_presupuesto' => $this->id_presupuesto,
             'observaciones' => $this->observaciones,
-
+            'trabajos_solicitados' => $this->trabajos_solicitados,
+            'trabajos_realizar' => $this->trabajos_realizar,
+            'operarios' => $this->operarios,
+            'estado' => $this->estado,
+            'descripcion' => $this->descripcion,
+            'tiempo_lista' => $this->tiempo_lista,
+            'documentos' => $this->documentos,
+            'operarios_tiempo' => $this->operarios_tiempo,
+            'danos_localizados' => $this->danos_localizados,
         ]);
 
         if ($presupuestosSave) {
@@ -190,14 +239,7 @@ class EditComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('presupuestos.index');
-    }
-    // Función para cuando se llama a la alerta
-    public function confirmDelete()
-    {
-        $presupuesto = Presupuesto::find($this->identificador);
-        $presupuesto->delete();
-        return redirect()->route('presupuestos.index');
+        return redirect()->route('orden-trabajo.index');
     }
 
     public function agregarSolicitado()
@@ -211,43 +253,6 @@ class EditComponent extends Component
         $this->nuevoRealizar = '';
     }
 
-    public function numeroPresupuesto()
-    {
-        $fecha = new Carbon($this->fecha_emision);
-        $year = $fecha->year;
-        $presupuestos = Presupuesto::all();
-        $contador = 1;
-        foreach ($presupuestos as $presupuesto) {
-            $fecha2 = new Carbon($presupuesto->fecha_emision);
-            $year2 = $fecha2->year;
-            if ($year == $year2) {
-                if ($fecha->gt($fecha2)) {
-                    $contador++;
-                }
-            }
-        }
-
-        if ($contador < 10) {
-            $this->numero_presupuesto = "0" . $contador . "/" . $year;
-        } else {
-            $this->numero_presupuesto = $contador . "/" . $year;
-        }
-    }
-
-    public function añadirProducto()
-    {
-        if ($this->producto != null) {
-            if (isset($this->lista[$this->producto])) {
-                $this->lista[$this->producto] += $this->cantidad;
-            } else {
-                $this->lista[$this->producto] = $this->cantidad;
-            }
-            $this->precio += ((Productos::where('id', $this->producto)->first()->precio_venta) * $this->cantidad);
-            $this->producto = "";
-            $this->cantidad = 0;
-        }
-    }
-
     public function agregarDaño()
     {
         array_push($this->daños, $this->nuevoDaño);
@@ -256,7 +261,7 @@ class EditComponent extends Component
 
     public function subirArchivo()
     {
-        foreach ($this->documentos as $documento) {
+        foreach ($this->documentosArray as $documento) {
             $this->documento = $documento;
             $this->validate([
                 'documento' => 'file|max:10000',
@@ -271,7 +276,7 @@ class EditComponent extends Component
             $this->documento = "";
         }
 
-        $this->documentos = [];
+        $this->documentosArray = [];
     }
 
     public function agregarTrabajador()

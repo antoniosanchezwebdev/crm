@@ -11,14 +11,15 @@
                 <input type="text" wire:model="numero_presupuesto" class="form-control" name="numero_presupuesto"
                     id="numero_presupuesto" disabled>
 
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de emisión </label>
-                <input type="datetime-local" wire:model="fecha_emision" class="form-control" name="fecha_emision"
-                    id="fecha_emision" disabled>
+                <label for="fecha" class="col-sm-2 col-form-label">Fecha de emisión </label>
+                <input type="datetime-local" wire:model="fecha" class="form-control" name="fecha" id="fecha"
+                    disabled>
 
                 <label for="fecha_emision" class="col-sm-2 col-form-label">Trabajador que ha asignado el
                     presupuesto</label>
-                <input type="text" wire:model="trabajador_id" class="form-control" name="trabajador_id"
-                    id="trabajador_id" disabled>
+                <input type="text"
+                    value="{{ $users->where('id', $trabajador_id)->first()->name . ' ' . $users->where('id', $trabajador_id)->first()->surname }}"
+                    class="form-control" name="trabajador_id" id="trabajador_id" disabled>
 
                 <label for="descripcion" class="col-form-label">Descripción de la tarea</label>
                 <textarea wire:model="descripcion" class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
@@ -28,8 +29,9 @@
         <div class="card">
             <h5 class="card-header">Datos del cliente</h5>
             <div class="card-body">
-                <label for="fecha_emision" class="col-sm-2 col-form-label">Nombre del cliente</label>
-                <input type="text" class="form-control" value="{{ $tarea->presupuesto->cliente->nombre }}" disabled>
+                <label for="id_cliente" class="col-sm-2 col-form-label">Nombre del cliente</label>
+                <input type="text" class="form-control" wire:model="id_cliente" id="id_cliente"
+                    value="{{ $tarea->presupuesto->cliente->nombre }}" disabled>
                 <label for="fecha_emision" class="col-sm-2 col-form-label">Teléfono del cliente</label>
                 <input type="text" class="form-control" value="{{ $tarea->presupuesto->cliente->telefono }}"
                     disabled>
@@ -124,14 +126,26 @@
         <div class="card">
             <h5 class="card-header">Operarios</h5>
             <div class="card-body">
-                @if ($trabajadores != null)
-                    <h5 class="mt-3">Trabajadores/operarios añadidos</h5>
-                    <ul>
-                        @foreach ($trabajadores as $trabajador)
-                            <li>{{ var_dump($trabajador) }}</li>
-                        @endforeach
-                    </ul>
-                    <br>
+                @if (count($trabajadores) != 0)
+                    <div class="mb-3 row d-flex align-items-center">
+                        <table class="table responsive" id="tableUsers">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Operario</th>
+                                    <th scope="col">Tiempo empleado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($trabajadores as $trabajador)
+                                    <tr>
+                                        <td>{{ $users->where('id', $trabajador)->first()->name . " " . $users->where('id', $trabajador)->first()->surname }}</td>
+                                        <td> <input type="text" wire:model="operarios_tiempo.{{ $trabajador }}"
+                                                class="form-control" disabled> </td>
+                                    </tr>
+                                @endforeach
+                            <tbody>
+                        </table>
+                    </div>
                 @endif
                 <label for="trabajadorSeleccionado" class="col-form-label">Añadir trabajador/operario</label>
                 <select wire:model="trabajadorSeleccionado" class="form-control" name="trabajadorSeleccionado"
@@ -174,8 +188,9 @@
                         @endif
                     </div>
                 @endforeach
-                <label for="documentos">Subir documento</label>
-                <input type="file" class="form-control" id="documentos" wire:model="documentos" multiple>
+                <label for="documentosArray">Subir documento</label>
+                <input type="file" class="form-control" id="documentosArray" wire:model="documentosArray"
+                    multiple>
                 <br>
                 <button type="button" class="btn btn-primary" wire:click.prevent="subirArchivo">Subir
                     documento</button>

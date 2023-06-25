@@ -17,7 +17,6 @@ class IndexComponent extends Component
 
     public function render()
     {
-        $this->emit('contentLoaded');
         return view('livewire.trabajadores.index-component');
     }
     public function seleccionarProducto($user)

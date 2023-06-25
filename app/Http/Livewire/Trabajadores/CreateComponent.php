@@ -26,7 +26,6 @@ class CreateComponent extends Component
 
     public function mount()
     {
-        $this->emit('contentLoaded');
     }
 
     public function render()

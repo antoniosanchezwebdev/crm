@@ -19,6 +19,10 @@ class OrdenTrabajo extends Model
         'trabajos_solicitados',
         'trabajos_realizar',
         'operarios',
+        'descripcion',
+        'documentos',
+        'estado',
+        'lista_tiempo',
         'operarios_tiempo',
         'danos_localizados',
 
@@ -41,5 +45,10 @@ class OrdenTrabajo extends Model
     public function ordenLogs()
     {
         return $this->hasMany(OrdenLog::class);
+    }
+
+    public function trabajadores()
+    {
+        return $this->belongsToMany(User::class, 'asignacion');
     }
 }
