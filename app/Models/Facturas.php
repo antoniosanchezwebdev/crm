@@ -24,6 +24,11 @@ class Facturas extends Model
         'descripcion',
         'estado',
         'metodo_pago',
+        'tipo_documento',
+        'documentos',
+        'observaciones',
+        'precio',
+        'precio_iva',
 
     ];
 

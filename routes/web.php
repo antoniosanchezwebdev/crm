@@ -22,10 +22,13 @@ use App\Http\Controllers\EcotasaController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\IvaController;
+use App\Http\Controllers\CajaController;
+use App\Http\Controllers\InformesController;
 use App\Http\Controllers\ProductosCategoriesController;
 use App\Http\Livewire\Facturas\EditComponent;
 use App\Http\Livewire\Facturas\IndexComponent as FacturasIndexComponent;
 use App\Http\Livewire\Productos\IndexComponent;
+
 
 // use App\Http\Middleware\IsAdmin;
 
@@ -80,6 +83,10 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     /* --------------------------------------- */
 
     // RECORDATORIO: IMPORTAR CONTROLADORES NUEVOS
+
+    Route::get('caja', [CajaController::class, 'index'])->name('caja.index');
+
+
 
     Route::get('proveedores', [ProveedoresController::class, 'index'])->name('proveedores.index');
     Route::get('proveedores/create', [ProveedoresController::class, 'create'])->name('proveedores.create');
@@ -212,5 +219,8 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('clients', [ClientsController::class, 'index'])->name('clients.index');
     Route::get('clients/create', [ClientsController::class, 'create'])->name('clients.create');
     Route::get('clients/edit/{id}', [ClientsController::class, 'edit'])->name('clients.edit');
+
+    Route::get('informes', [InformesController::class, 'index'])->name('informes.index');
+
 
 });

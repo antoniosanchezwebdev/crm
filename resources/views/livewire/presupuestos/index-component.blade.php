@@ -51,6 +51,7 @@
                                 <th scope="col">Modelo vehículo</th>
                                 <th scope="col">Matrícula</th>
                                 <th scope="col">Precio</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -74,12 +75,11 @@
 
                                     <td>{{ $presup->precio }} </td>
 
+                                    <td>{{ $presup->estado }} </td>
+
+
                                     <td> <button type="button" class="btn btn-primary boton-producto"
                                             onclick="Livewire.emit('seleccionarProducto', {{ $presup->id }});">Ver/Editar</button>
-                                        <div class="mb-3 row d-flex align-items-center ">
-                                            <a href="{{ route('clients.create') }}" class="btn btn-primary">Mensaje de
-                                                Whatsapp al cliente</a>
-                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

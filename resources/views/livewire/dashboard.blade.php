@@ -3,21 +3,34 @@
         <div class="accordion border-primary" id="accordionExample">
             @foreach ($tareas as $tareaIndex => $tarea)
                 <div class="card accordion-item">
-                    @if($tarea->presupuesto->vehiculo_renting == 1)
-                    <button class="card-header accordion-button bg-warning" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
-                        aria-controls="collapse{{ $tareaIndex }}">
-                        <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
-                            {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}</h5>
-                    </button>
+                    @if ($tarea->estado == 'Facturada')
+                        <button class="card-header accordion-button" type="button" data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
+                            data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
+                            aria-controls="collapse{{ $tareaIndex }}">
+                            <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
+                                {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}
+                            </h5>
+                        </button>
                     @else
-                    <button class="card-header accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
-                        aria-controls="collapse{{ $tareaIndex }}">
-                        <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
-                            {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}</h5>
-                    </button>
+                        @if ($tarea->presupuesto->vehiculo_renting == 1)
+                            <button class="card-header accordion-button bg-warning" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapse{{ $tareaIndex }}"
+                                aria-expanded="true" aria-controls="collapse{{ $tareaIndex }}">
+                                <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
+                                    {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}
+                                </h5>
+                            </button>
+                        @else
+                            <button class="card-header accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ $tareaIndex }}" aria-expanded="true"
+                                aria-controls="collapse{{ $tareaIndex }}">
+                                <h5 class="accordion-header" id="heading{{ $tareaIndex }}">
+                                    {{ $tarea->presupuesto->cliente->nombre }} - {{ $tarea->presupuesto->matricula }}
+                                </h5>
+                            </button>
+                        @endif
                     @endif
+
                     <div id="collapse{{ $tareaIndex }}" class="accordion-collapse collapse"
                         aria-labelledby="heading{{ $tareaIndex }}" data-bs-parent="#accordionExample">
                         <div class="card-body accordion-body">
@@ -111,42 +124,89 @@
                                 </div>
                             </div>
 
-                            <div class="accordion border-primary" id="accordionExample3{{ $tareaIndex }}">
-                                <div class="card accordion-item">
-                                    <button class="card-header accordion-button" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapse3{{ $tareaIndex }}"
-                                        aria-expanded="true" aria-controls="collapse3{{ $tareaIndex }}">
-                                        <h5 class="accordion-header" id="heading3{{ $tareaIndex }}"> Opciones </h5>
-                                    </button>
-                                    <div id="collapse3{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                        aria-labelledby="heading3{{ $tareaIndex }}"
-                                        data-bs-parent="#accordionExample3{{ $tareaIndex }}">
-                                        <div class="card-body accordion-body" wire:ignore>
-                                            <ul>
-                                                <li><button type="button" class="btn btn-success">Cobrar</button></li>
-                                                @if ($tarea->logsEnCurso()->count() > 0)
-                                                    <li> <button type="button" class="btn btn-danger"
-                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                            tarea</button></li>
-                                                @else
-                                                    @if ($tarea->logs()->count() > 0)
-                                                        <li> <button type="button" class="btn btn-primary"
-                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                tarea</button></li>
-                                                    @else
-                                                        <li> <button type="button" class="btn btn-primary"
-                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                tarea</button></li>
-                                                    @endif
-                                                @endif
-                                                <li><button type="button" class="btn btn-secondary">Completar
-                                                        tarea</button></li>
-                                            </ul>
+                            <div class="row">
+                                @if ($tarea->estado == 'Facturada')
+                                @else
+                                    <hr />
+                                    @if ($tarea->estado == 'Completada')
+                                        <div class="col">
+                                            <div class="d-grid gap-2">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Opciones de cobro
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
+                                                            sin cobrar</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
+                                                            de crédito</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
+                                                            bancaria</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
+                                                            bancario
+                                                            a 30 días</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @else
+                                        @if ($tarea->logsEnCurso()->count() > 0)
+                                            <div class="col-6"> <button type="button" class="btn btn-danger"
+                                                    wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
+                                                    tarea</button></div>
+                                        @else
+                                            @if ($tarea->logs()->count() > 0)
+                                                <div class="col-6"> <button type="button" class="btn btn-primary"
+                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
+                                                        tarea</button></div>
+                                            @else
+                                                <div class="col-6"> <button type="button" class="btn btn-primary"
+                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
+                                                        tarea</button></div>
+                                            @endif
+                                        @endif
+                                        <div class="col-6"><button wire:click="completarTarea({{ $tarea->id }})"
+                                                id="delete-button-{{ $tarea->id }}" type="button"
+                                                class="btn btn-secondary">Completar tarea</button>
+
+                                            <script>
+                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
+                                                    event.preventDefault();
+
+                                                    Swal.fire({
+                                                        title: '¿Estás seguro?',
+                                                        text: "Asegúrate de que todo en la tarea está listo.",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        confirmButtonText: 'Marcar como completada'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
+                                                            @this.call('completarTarea', {{ $tarea->id }})
+                                                        }
+                                                    })
+                                                });
+                                            </script>
+                                        </div>
+                                    @endif
+                                @endif
                             </div>
+
                             <hr />
+
                         </div>
                     </div>
             @endforeach

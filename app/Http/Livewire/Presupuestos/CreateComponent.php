@@ -42,7 +42,6 @@ class CreateComponent extends Component
     public $producto_seleccionado;
     public $cantidad;
     public $orden_id;
-
     public $vehiculo_renting = false;
 
 
@@ -63,7 +62,7 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
-        $this->estado = "pendiente";
+        $this->estado = "Pendiente";
 
         foreach ($this->lista as $pro => $cantidad) {
             if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {

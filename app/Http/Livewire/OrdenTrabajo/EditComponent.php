@@ -188,6 +188,7 @@ class EditComponent extends Component
 
         $presupuestos->trabajadores()->sync($this->trabajadores);
 
+        $presupuestos->presupuesto->update(['estado' => 'Asignado']);
 
         if ($presupuestosSave) {
             $this->alert('success', '¡Presupuesto actualizado correctamente!', [

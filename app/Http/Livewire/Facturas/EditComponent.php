@@ -41,7 +41,7 @@ class EditComponent extends Component
     {
         $facturas = Facturas::find($this->identificador);
 
-        $this->presupuestos = Presupuestos::all();
+        $this->presupuestos = Presupuesto::all();
 
         $this->numero_factura = $facturas->numero_factura;
         $this->id_presupuesto = $facturas->id_presupuesto;

@@ -1,5 +1,8 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+</script>
 <style>
     /* Media Query para ordenadores con pantallas grandes */
     @media (min-width: 600px) {
@@ -63,25 +66,25 @@
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/facturas">
                             <i class="fas fa-wallet"></i>
                             <strong>Facturación</strong>
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/informes">
                             <i class="fas fa-file-invoice"></i>
                             <strong>Informes</strong>
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/newsletter">
                             <i class="fas fa-bell"></i>
                             <strong>Newsletter</strong>
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/clients">
+                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/caja">
                             <i class="fas fa-cart-shopping"></i>
                             <strong>Caja</strong>
                         </a>
@@ -96,20 +99,46 @@
             </div>
             <ul class="navbar-nav me-auto mb-0 mb-lg-0 col order-2">
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/admin/presupuestos"> <i class="fas fa-book"></i>
-                        <strong>Presupuestos</strong></a>
+                    <a class="btn btn-outline-light" href="/admin/presupuestos">
+                        <i class="fas fa-book"></i>
+                        <strong>Presupuestos</strong>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/admin/productos"> <i class="fas fa-boxes-stacked"></i>
-                        <strong>Inventario</strong></a>
+                    <a class="btn btn-outline-light" href="/admin/productos">
+                        <i class="fas fa-boxes-stacked"></i>
+                        <strong>Inventario</strong>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/admin/orden-trabajo"> <i class="fas fa-folder-minus"></i>
-                        <strong>Tareas</strong></a>
+                    <a class="btn btn-outline-light" href="/admin/orden-trabajo">
+                        <i class="fas fa-wrench"></i>
+                        <strong>Tareas</strong>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/admin/clients"> <i class="fas fa-cart-shopping"></i>
-                        <strong>Caja</strong></a>
+                    <a class="btn btn-outline-light" href="/admin/facturas">
+                        <i class="fas fa-wallet"></i>
+                        <strong>Facturación</strong>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/admin/informes">
+                        <i class="fas fa-file-invoice"></i>
+                        <strong>Informes</strong>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/admin/newsletter">
+                        <i class="fas fa-bell"></i>
+                        <strong>Newsletter</strong>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/admin/caja">
+                        <i class="fas fa-cart-shopping"></i>
+                        <strong>Caja</strong>
+                    </a>
                 </li>
             </ul>
         </div>

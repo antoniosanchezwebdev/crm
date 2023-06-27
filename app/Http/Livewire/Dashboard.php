@@ -96,4 +96,18 @@ class Dashboard extends Component
 
         return $totalMinutes;
     }
+
+    public function completarTarea($tareaId)
+    {
+        $tarea = OrdenTrabajo::find($tareaId);
+        $tarea->estado = "Completada";
+        $tarea->save();
+    }
+    public function redirectToCaja($tarea, $metodo_pago)
+    {
+        session()->flash('tarea', $tarea);
+        session()->flash('metodo_pago', $metodo_pago);
+
+        return redirect()->route('caja.index');
+    }
 }
