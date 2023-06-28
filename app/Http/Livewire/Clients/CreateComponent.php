@@ -9,7 +9,7 @@ use App\Models\Clients;
 class CreateComponent extends Component
 {
     use LivewireAlert;
-    
+
     public $dni;
     public $nombre;
     public $email;
@@ -22,7 +22,7 @@ class CreateComponent extends Component
 
     // Renderizado del Componente
     public function render()
-    {      
+    {
         return view('livewire.clients.create-component');
     }
 
@@ -51,7 +51,7 @@ class CreateComponent extends Component
 
         // Alertas de guardado exitoso
         if ($clientesSave) {
-            $this->alert('success', '¡Alumno registrado correctamente!', [
+            $this->alert('success', '¡Cliente registrado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -61,7 +61,7 @@ class CreateComponent extends Component
                 'timerProgressBar' => true,
             ]);
         } else {
-            $this->alert('error', '¡No se ha podido guardar la información del alumno!', [
+            $this->alert('error', '¡No se ha podido guardar la información del cliente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,

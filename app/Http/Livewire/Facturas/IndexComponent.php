@@ -25,4 +25,16 @@ class IndexComponent extends Component
         return view('livewire.facturas.index-component');
     }
 
+    public function seleccionarProducto($factura)
+    {
+        $this->emit("seleccionarProducto", $factura);
+    }
+    public function redirectToCaja($factura, $metodo_pago)
+    {
+        session()->flash('factura', $factura);
+        session()->flash('metodo_pago', $metodo_pago);
+
+        return redirect()->route('caja.index');
+    }
+
 }

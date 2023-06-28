@@ -1,6 +1,6 @@
 <div class="container mx-auto" style="min-height: 100vh">
     <div class="card text-dark bg-light mb-3">
-        <div class="card-header"> Añadir proveedor</div>
+        <h5 class="card-header"> Añadir proveedor</h5>
         <div class="card-body">
             <form wire:submit.prevent="submit">
                 <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
@@ -71,13 +71,10 @@
                         @enderror
                     </div>
                 </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <button type="submit" class="btn btn-outline-info">Guardar</button>
-                </div>
-
-
-            </form>
         </div>
     </div>
+    <div class="mb-3 row d-flex align-items-center">
+        <button type="submit" class="btn btn-primary">Añadir proveedor</button>
+    </div>
+    </form>
 </div>

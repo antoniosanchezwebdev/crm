@@ -1,6 +1,6 @@
 <div class="container mx-auto">
     <div class="card">
-        <div class="card-header">{{ __('Editar fabricante') }}</div>
+        <h5 class="card-header">{{ __('Editar fabricante') }}</h5>
 
         <div class="card-body">
             <form wire:submit.prevent="update">
@@ -21,17 +21,13 @@
                         @enderror
                     </div>
                 </div>
-                <div class="row mb-0">
-                    <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Editar fabricante') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
     <br>
-
-    </form>
+    <div class="row d-flex align-items-center">
+        <button type="submit" class="btn btn-primary">
+            {{ __('Editar fabricante') }}
+        </button>
+    </div>
+</form>
 </div>

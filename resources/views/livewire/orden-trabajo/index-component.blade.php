@@ -38,7 +38,6 @@
 
                                 <td> <button type="button" class="btn btn-primary boton-producto"
                                         onclick="Livewire.emit('seleccionarProducto', {{ $tarea->id }});">Asignar</button>
-
                                 </td>
                             </tr>
                         @endforeach

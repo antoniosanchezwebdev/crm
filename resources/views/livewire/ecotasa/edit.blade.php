@@ -1,7 +1,7 @@
 <div class="container mx-auto">
     <div class="card mb-3">
         <h5 class="card-header">
-            Ecotasa
+            Revisar ecotasas
         </h5>
         <div class="card-body">
             <form wire:submit.prevent="submit">

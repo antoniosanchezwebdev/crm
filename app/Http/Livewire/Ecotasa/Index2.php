@@ -6,7 +6,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Index extends Component
+class Index2 extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -14,10 +14,15 @@ class Index extends Component
 
     public function render()
     {
-            $this->ecotasa = Ecotasa::where('diametro_mayor_1400', 0)->paginate(5);
+            $this->ecotasa = Ecotasa::where('diametro_mayor_1400', 1)->paginate(5);
 
-        return view('livewire.ecotasa.index', [
+        return view('livewire.ecotasa.index2', [
             'ecotasa' => $this->ecotasa]);
+    }
+
+    public function seleccionarProducto($ecotasa)
+    {
+        $this->emit("seleccionarProducto", $ecotasa);
     }
 
 }

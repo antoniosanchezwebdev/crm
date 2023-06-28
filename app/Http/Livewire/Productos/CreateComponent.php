@@ -40,7 +40,7 @@ class CreateComponent extends Component
     public $categoria_id;
     public $precio_baremo;
     public $descuento;
-    public $coeficiente;
+    public $coeficiente = 1.6;
     public $precio_costoNeto;
     public $precio_venta;
 
@@ -86,7 +86,7 @@ class CreateComponent extends Component
     public function submit()
     {
         $validatedData = $this->validate([
-            'cod_producto' => 'required',
+            'cod_producto' => 'required | unique',
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
             'fabricante' => 'required',
@@ -136,6 +136,7 @@ class CreateComponent extends Component
             }
 
             if ($this->mueve_existencias == true) {
+                $this->nombre = ListaAlmacen::where('id', $this->nombre)->first()->nombre;
                 $this->existencias_almacenes = $this->existencias;
                 $validateData3 = $this->validate([
                     'nombre' => 'required',
@@ -192,11 +193,9 @@ class CreateComponent extends Component
     {
         if ($this->precio_baremo != null) {
             if ($this->ecotasa != null) {
-                $this->coeficiente = 1.6;
                 $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
                 $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente) + Ecotasa::find($this->ecotasa)->valor;
             } else {
-                $this->coeficiente = 1.6;
                 $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
                 $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente);
             }

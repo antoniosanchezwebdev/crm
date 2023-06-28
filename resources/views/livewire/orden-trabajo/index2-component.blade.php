@@ -1,4 +1,22 @@
 <div class="container mx-auto">
+
+    <div class="card mb-3">
+        <h5 class="card-header">Buscador</h5>
+        <div class="card-body">
+            <h5>Selecciona el estado de la tarea</h5>
+            <div class="col-sm-10" wire:ignore.self>
+                <select name="tipo_producto" id="tipo_producto" wire:model="tipo_producto" wire:change="select_producto"
+                    class="form-control">
+                    <option selected value="">Todas las tareas</option>
+                    <option value="Asignada">Asignada</option>
+                    <option value="Completada">Completada</option>
+                    <option value="Facturada">Facturada</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
     <div class="card" wire:ignore>
         <h5 class="card-header">Resultados</h5>
         <div class="card-body" x-data="{}" x-init="$nextTick(() => {
@@ -14,9 +32,9 @@
                     <table class="table responsive" id="tableAsignar">
                         <thead>
                             <tr>
-                                <th scope="col">Número</th>
-                                <th scope="col">ID de cliente</th>
-                                <th scope="col">Nombre de cliente</th>
+                                <th scope="col">Presupuesto</th>
+                                <th scope="col">Operarios</th>
+                                <th scope="col">Cliente</th>
                                 <th scope="col">Fecha emisión</th>
                                 <th scope="col">Marca vehículo</th>
                                 <th scope="col">Modelo vehículo</th>
@@ -31,11 +49,14 @@
                                 <tr>
                                     <td>{{ $tarea->presupuesto->numero_presupuesto }}</th>
 
-                                    <td>{{ $tarea->presupuesto->cliente->id }} </td>
+                                    <td> @foreach(json_decode($tarea->operarios, true) as $operario)
+                                        {{User::where('id', $operario)->name}} ,
+                                        @endforeach
+                                    </td>
 
-                                    <td>{{ $tarea->presupuesto->cliente->nombre }} </td>
+                                    <td>{{ $tarea->presupuesto->cliente }} </td>
 
-                                    <td>{{ $tarea->presupuesto->fecha_emision }}</th>
+                                    <td>{{ $tarea->fecha }}</th>
 
                                     <td>{{ $tarea->presupuesto->marca }} </td>
 
@@ -47,10 +68,6 @@
 
                                     <td> <button type="button" class="btn btn-primary boton-producto"
                                             onclick="Livewire.emit('seleccionarProducto', {{ $tarea->id }});">Ver/Editar</button>
-                                        <div class="mb-3 row d-flex align-items-center ">
-                                            <a href="{{ route('clients.create') }}" class="btn btn-primary">Mensaje de
-                                                Whatsapp al cliente</a>
-                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

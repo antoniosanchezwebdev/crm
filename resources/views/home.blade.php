@@ -25,6 +25,9 @@ integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="ano
             margin-left: 10px;
             margin-top: -5px;
         }
+        .tab-pane{
+            background-color:transparent !important;
+        }
     </style>
 @endsection
 

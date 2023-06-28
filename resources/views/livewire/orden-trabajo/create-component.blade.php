@@ -199,10 +199,6 @@
 <div class="mb-3 row d-flex align-items-center ">
     <a href="{{ route('clients.create') }}" class="btn btn-primary">Crear cliente</a>
 </div>
-<div class="mb-3 row d-flex align-items-center ">
-    <a href="{{ route('clients.create') }}" class="btn btn-primary">Mensaje de Whatsapp al cliente</a>
-</div>
-
 
 </div>
 

@@ -138,7 +138,7 @@
                             paging: false,
                         });
                     })">
-                        <div class="mb-3 row d-flex align-items-center" wire:ignore>
+                        <div class="mb-3 row d-flex align-items-center">
                             <table class="table responsive" id="tableProductos">
                                 <thead>
                                     <tr>
@@ -475,12 +475,16 @@
         @endif
     @endif
 
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Opciones de cobro
+    <div class="row d-flex align-items-center">
+        <button class="btn btn-primary" wire:click="submit('No pagado')">Guardar factura sin cobrar
         </button>
+    </div>
+    <div class="p-1"></div>
+    <div class="dropdown row d-flex align-items-center">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Cobrar factura directamente </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" wire:click="submit('No pagado')">Guardar sin cobrar</a>
             <a class="dropdown-item" href="#" wire:click="submit('Contado')">Contado</a>
             <a class="dropdown-item" href="#" wire:click="submit('Tarjeta de crédito')">Tarjeta de crédito</a>
             <a class="dropdown-item" href="#" wire:click="submit('Transferencia bancaria')">Transferencia

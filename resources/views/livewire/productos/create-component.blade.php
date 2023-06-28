@@ -47,7 +47,7 @@
 
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="fabricante" class="col-sm-2 col-form-label">
-                            <h5>Selecciona al fabricante</h5>
+                            Fabricante
                         </label>
                         <div class="col-sm-10">
                             <select name="fabricante" id="fabricante" wire:model="fabricante" class="form-control">
@@ -302,6 +302,16 @@
             </div>
         @endif
         <div class="mb-3 row d-flex align-items-center">
+            <label for="coeficiente" class="col-sm-2 col-form-label">Coeficiente</label>
+            <div class="col-sm-10">
+                <input type="text" wire:model="coeficiente" class="form-control" name="coeficiente"
+                    id="coeficiente" placeholder="Coeficiente" step="0.01" disabled>
+                @error('coeficiente')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="mb-3 row d-flex align-items-center">
             <label for="precio_venta" class="col-sm-2 col-form-label">Precio venta</label>
             <div class="col-sm-10">
                 <input type="text" wire:model="precio_venta" class="form-control" name="precio_venta"
@@ -365,7 +375,7 @@
 </div>
 <br>
 <div class="mb-3 row d-flex align-items-center">
-    <button type="submit" class="btn btn-outline-info">Guardar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
 </div>
 
 @endif

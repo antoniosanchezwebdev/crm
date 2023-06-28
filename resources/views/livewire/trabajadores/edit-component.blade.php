@@ -1,11 +1,9 @@
 <div class="container mx-auto">
-    <div class="card">
-        <div class="card-header">{{ __('Editar trabajador') }}</div>
-
-        <div class="card-body">
-            <form wire:submit.prevent="update">
-                <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-
+    <form wire:submit.prevent="update">
+        <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+        <div class="card">
+            <h5 class="card-header">{{ __('Editar trabajador') }}</h5>
+            <div class="card-body">
                 <div class="row mb-3">
                     <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('ID de usuario') }}</label>
 
@@ -76,7 +74,8 @@
 
                     <div class="col-md-6">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" wire:model="email" required autocomplete="email">
+                            name="email" value="{{ old('email') }}" wire:model="email" required
+                            autocomplete="email">
 
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -101,77 +100,12 @@
                         @enderror
                     </div>
                 </div>
-
-                <input type="hidden" id="inactive" name="inactive" value="true">
-                <div class="row mb-0">
-                    <div class="col-md-6 offset-md-4">
-                        <button class="btn btn-primary">
-                            {{ __('Editar trabajador') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <br>
-
+        <br>
+        <input type="hidden" id="inactive" name="inactive" wire:model="inactive" value="true">
+        <div class="mb-3 row d-flex align-items-center">
+            <button type="submit" class="btn btn-primary">Editar datos del trabajador</button>
+        </div>
     </form>
 </div>
-
-
-
-
-
-</div>
-
-</tbody>
-</table>
-@section('scripts')
-    <script>
-        $.datepicker.regional['es'] = {
-            closeText: 'Cerrar',
-            prevText: '< Ant',
-            nextText: 'Sig >',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-                'Octubre', 'Noviembre', 'Diciembre'
-            ],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-        };
-        $.datepicker.setDefaults($.datepicker.regional['es']);
-        document.addEventListener('livewire:load', function() {
-
-
-        })
-        $(document).ready(function() {
-            console.log('select2')
-            $("#datepicker").datepicker();
-
-            $("#datepicker").on('change', function(e) {
-                @this.set('fecha_nac', $('#datepicker').val());
-            });
-
-        });
-
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var eyeIcon = document.getElementById("eye-icon");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.className = "fas fa-eye-slash";
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.className = "fas fa-eye";
-            }
-        }
-    </script>
-@endsection

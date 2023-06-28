@@ -72,4 +72,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(OrdenTrabajo::class, 'orden_asignacion', 'trabajador_id', 'tarea_id');
     }
+
+    public function tareasEnCurso()
+{
+    // 'orden_asignacion' es la tabla intermedia,
+    // 'trabajador_id' es la clave foránea en la tabla intermedia que se relaciona con este modelo (Trabajador)
+    // 'tarea_id' es la clave foránea en la tabla intermedia que se relaciona con el otro modelo (OrdenTrabajo)
+    return $this->belongsToMany(OrdenTrabajo::class, 'orden_asignacion', 'trabajador_id', 'tarea_id')->whereHas('logsEnCurso');
+}
 }

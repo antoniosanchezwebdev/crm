@@ -40,7 +40,7 @@ class EditComponent extends Component
     public $categoria_id;
     public $precio_baremo;
     public $descuento;
-    public $coeficiente;
+    public $coeficiente = 1.6;
     public $precio_costoNeto;
     public $precio_venta;
 
@@ -92,14 +92,14 @@ class EditComponent extends Component
         $this->coeficiente = $product->coeficiente;
         $this->precio_costoNeto = $product->precio_costoNeto;
         $this->precio_venta = $product->precio_venta;
-        if($product->mueve_existencias == 1){
+        if ($product->mueve_existencias == 1) {
             $this->mueve_existencias = true;
-        } else{
+        } else {
             $this->mueve_existencias = false;
         }
 
-        if($product->tipo_producto == 2){
-            $neumatico = Neumatico::where('articulo_id',$product->cod_producto)->first();
+        if ($product->tipo_producto == 2) {
+            $neumatico = Neumatico::where('articulo_id', $product->cod_producto)->first();
             $this->articulo_id = $neumatico->articulo_id;
             $this->resistencia_rodadura = $neumatico->resistencia_rodadura;
             $this->agarre_mojado = $neumatico->agarre_mojado;
@@ -114,15 +114,14 @@ class EditComponent extends Component
 
 
 
-        if($product->mueve_existencias == true){
+        if ($product->mueve_existencias == true) {
             $this->almacen = ListaAlmacen::where('id', $product->almacen)->first()->id;
             $this->nombre = ListaAlmacen::where('id', $product->almacen)->first()->nombre;
-            $almacen = Almacen::where('nombre', $this->nombre   )->where('cod_producto', $this->cod_producto)->first();
+            $almacen = Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first();
             $this->existencias = $almacen->existencias;
             $this->existencias_almacenes = $almacen->existencias_almacenes;
             $this->existencias_depositos = $almacen->existencias_depositos;
         }
-
     }
 
     public function render()
@@ -177,35 +176,35 @@ class EditComponent extends Component
             'mueve_existencias' => $this->mueve_existencias,
         ]);
 
-        if($productSave){
+        if ($productSave) {
 
             if ($this->tipo_producto == 2) {
                 $neumatico = Neumatico::where('articulo_id', $this->cod_producto)->first();
 
                 $neumaticoSave = $neumatico->update([
                     'articulo_id' => $this->articulo_id,
-                        'resistencia_rodadura' => $this->resistencia_rodadura,
-                        'agarre_mojado' => $this->agarre_mojado,
-                        'emision_ruido' => $this->emision_ruido,
-                        'ancho' => $this->ancho,
-                        'serie' => $this->serie,
-                        'uso' => $this->uso,
-                        'llanta' => $this->llanta,
-                        'indice_carga' => $this->indice_carga,
-                        'codigo_velocidad' => $this->codigo_velocidad,
+                    'resistencia_rodadura' => $this->resistencia_rodadura,
+                    'agarre_mojado' => $this->agarre_mojado,
+                    'emision_ruido' => $this->emision_ruido,
+                    'ancho' => $this->ancho,
+                    'serie' => $this->serie,
+                    'uso' => $this->uso,
+                    'llanta' => $this->llanta,
+                    'indice_carga' => $this->indice_carga,
+                    'codigo_velocidad' => $this->codigo_velocidad,
                 ]);
             }
 
-            if($this->mueve_existencias != false){
-                if(Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first() != null){
+            if ($this->mueve_existencias != false) {
+                if (Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first() != null) {
                     $almacen = Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first();
-                $almacenSave = $almacen->update([
-                    'nombre' => $this->nombre,
-                    'existencias' => $this->existencias,
-                    'existencias_almacenes' => $this->existencias,
-                    'existencias_depositos' => $this->existencias_depositos,
-                ]);
-                } else{
+                    $almacenSave = $almacen->update([
+                        'nombre' => $this->nombre,
+                        'existencias' => $this->existencias,
+                        'existencias_almacenes' => $this->existencias,
+                        'existencias_depositos' => $this->existencias_depositos,
+                    ]);
+                } else {
                     $this->alert('info', 'Nueva información de almacén creada');
                     $nuevoAlmacen = Almacen::create($this->validate([
                         'nombre' => 'required',
@@ -239,8 +238,9 @@ class EditComponent extends Component
         $this->emit('productUpdated');
     }
 
-      // Elimina el producto
-      public function destroy(){
+    // Elimina el producto
+    public function destroy()
+    {
         // $product = Productos::find($this->identificador);
         // $product->delete();
 
@@ -255,7 +255,6 @@ class EditComponent extends Component
             'denyButtonText' => 'No',
             'timerProgressBar' => true,
         ]);
-
     }
 
     // Función para cuando se llama a la alerta
@@ -272,30 +271,26 @@ class EditComponent extends Component
     {
         // Do something
         return redirect()->route('productos.index');
-
     }
     // Función para cuando se llama a la alerta
     public function confirmDelete()
     {
         $product = Productos::find($this->identificador);
         $product->delete();
-        $neumatico = Neumatico::where('articulo_id',$product->cod_producto)->first();
+        $neumatico = Neumatico::where('articulo_id', $product->cod_producto)->first();
         $neumatico->delete();
         $almacen = Almacen::where('cod_producto', $this->cod_producto);
         $almacen->delete();
         return redirect()->route('productos.index');
-
     }
 
     public function precio_costo()
     {
         if ($this->precio_baremo != null) {
             if ($this->ecotasa != null) {
-                $this->coeficiente = 1.6;
                 $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
                 $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente) + Ecotasa::find($this->ecotasa)->valor;
             } else {
-                $this->coeficiente = 1.6;
                 $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
                 $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente);
             }
@@ -306,24 +301,24 @@ class EditComponent extends Component
     {
         if ($this->existencias_almacenes > 0) {
             $this->existencias = $this->existencias_almacenes + $this->existencias_depositos;
-        }else{
+        } else {
             $this->existencias = $this->existencias_depositos;
         }
     }
 
-    public function comprobarAlmacen(){
-        if(Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null){
-        $almacen = Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first();
-        $this->nombre = $almacen->nombre;
-        $this->existencias = $almacen->existencias;
-        $this->existencias_almacenes = $almacen->existencias_almacenes;
-        $this->existencias_depositos = $almacen->existencias_depositos;
-        } else{
-        $this->nombre = $this->almacen;
-        $this->existencias = 0;
-        $this->existencias_almacenes = 0;
-        $this->existencias_depositos = 0;
+    public function comprobarAlmacen()
+    {
+        if (Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null) {
+            $almacen = Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first();
+            $this->nombre = $almacen->nombre;
+            $this->existencias = $almacen->existencias;
+            $this->existencias_almacenes = $almacen->existencias_almacenes;
+            $this->existencias_depositos = $almacen->existencias_depositos;
+        } else {
+            $this->nombre = $this->almacen;
+            $this->existencias = 0;
+            $this->existencias_almacenes = 0;
+            $this->existencias_depositos = 0;
         }
-
     }
 }

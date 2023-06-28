@@ -1,6 +1,6 @@
 <div class="container mx-auto" style="min-height: 100vh">
     <div class="card text-dark bg-light mb-3">
-        <div class="card-header"> Añadir proveedor</div>
+        <h5 class="card-header"> Modificar proveedor {{ $nombre }}</h5>
         <div class="card-body">
             <form wire:submit.prevent="update">
                 <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
@@ -61,13 +61,22 @@
                 </div>
 
                 <div class="mb-3 row d-flex align-items-center">
-                    <button type="submit" class="btn btn-outline-info">Guardar</button>
+                    <label for="observaciones" class="col-sm-2 col-form-label">Observaciones </label>
+                    <div class="col-sm-10">
+                        <input type="text" wire:model="observaciones" class="form-control" name="observaciones"
+                            id="observaciones" placeholder="Pérez">
+                        @error('observaciones')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
-            </form>
-            <div class="mb-3 row d-flex align-items-center">
-                <button wire:click="destroy" class="btn btn-outline-danger">Eliminar</button>
-            </div>
         </div>
     </div>
+    <div class="mb-3 row d-flex align-items-center">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+    </form>
+    <div class="mb-3 row d-flex align-items-center">
+        <button wire:click="destroy" class="btn btn-danger">Eliminar</button>
+    </div>
 </div>
-

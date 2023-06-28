@@ -191,7 +191,7 @@ class EditComponent extends Component
         $presupuestos->presupuesto->update(['estado' => 'Asignado']);
 
         if ($presupuestosSave) {
-            $this->alert('success', '¡Presupuesto actualizado correctamente!', [
+            $this->alert('success', '¡Tarea actualizada correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
@@ -201,14 +201,14 @@ class EditComponent extends Component
                 'timerProgressBar' => true,
             ]);
         } else {
-            $this->alert('error', '¡No se ha podido guardar la información del presupuesto!', [
+            $this->alert('error', '¡No se ha podido guardar la información de la tarea!', [
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
             ]);
         }
 
-        session()->flash('message', 'Presupuesto actualizado correctamente.');
+        session()->flash('message', '¡Tarea actualizada correctamente!');
 
         $this->emit('productUpdated');
     }
@@ -217,7 +217,7 @@ class EditComponent extends Component
     public function destroy()
     {
 
-        $this->alert('warning', '¿Seguro que desea borrar el presupuesto? No hay vuelta atrás', [
+        $this->alert('warning', '¿Seguro que desea borrar la tarea? No hay vuelta atrás', [
             'position' => 'center',
             'timer' => 3000,
             'toast' => false,

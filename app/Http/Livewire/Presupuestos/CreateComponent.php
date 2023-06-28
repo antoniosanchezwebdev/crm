@@ -26,7 +26,7 @@ class CreateComponent extends Component
     public $estado;
     public $matricula;
     public $kilometros;
-    public $trabajador_id = 0; // 0 por defecto por si no se selecciona ninguna
+    public $trabajador_id = Auth::id(); // 0 por defecto por si no se selecciona ninguna
     public $precio = 0;
     public $observaciones = "";
     public $origen;

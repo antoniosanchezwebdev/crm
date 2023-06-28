@@ -15,14 +15,19 @@ class Dashboard extends Component
     public $tareas_no_completadas;
     public $tareas_completadas;
     public $tareas_facturadas;
+    public $tareas_en_curso;
+
+    public $tab = "tab1";
 
     public $productos;
 
     public function mount()
     {
-        $this->tareas_no_completadas = Auth::user()->tareas->where('estado' ,'!=', 'Completada')->where('estado' ,'!=', 'Facturada');
+        $this->tareas_en_curso = Auth::user()->tareasEnCurso;
+        $this->tareas_no_completadas = Auth::user()->tareas->where('estado' ,'Asignada');
         $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
         $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
+
 
         $this->productos = Productos::all();
     }
@@ -116,5 +121,9 @@ class Dashboard extends Component
         session()->flash('metodo_pago', $metodo_pago);
 
         return redirect()->route('caja.index');
+    }
+
+    public function cambioTab($tab){
+        $this->tab = $tab;
     }
 }

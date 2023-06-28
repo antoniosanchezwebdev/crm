@@ -3,7 +3,14 @@
         <h5 class="card-header">
             Proveedores
         </h5>
-        <div class="card-body">
+        <div class="card-body"  x-data="{}" x-init="$nextTick(() => {
+            $('#tableProveedor').DataTable({
+                responsive: true,
+                fixedHeader: true,
+                searching: false,
+                paging: false,
+            });
+        })">
             @if (count($proveedores) > 0)
                 <table class="table" id="tableProveedor">
                     <thead>
@@ -30,8 +37,9 @@
                                 <td>{{ $proveedor->direccion }}</td>
                                 <td>{{ $proveedor->telefono }}</td>
                                 <td>{{ $proveedor->observaciones }}</td>
-                                <td><a href="/admin/proveedores/edit/{{ $proveedor->id }}" class="btn btn-primary">Editar</a>
-                                </td>
+                                <td> <button type="button" class="btn btn-primary boton-producto"
+                                    onclick="Livewire.emit('seleccionarProducto', {{ $proveedor->id }});">Ver/Editar</button>
+                            </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -40,7 +48,6 @@
                 <h5>No hay proveedores en la base de datos</h5>
             @endif
             <br>
-            <a href="{{ route('proveedores.create') }}" class="btn btn-primary">Añadir proveedor</a>
         </div>
     </div>
 </div>

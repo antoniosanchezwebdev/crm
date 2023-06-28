@@ -80,6 +80,9 @@ class CreateComponent extends Component
                 'estado' => 'Facturada'
             ]);
         }
+        if($this->metodo_pago != 'No pagado'){
+            $this->estado = "Pagada";
+        }
 
         // Validación de datos
         $validatedData = $this->validate(

@@ -1,9 +1,6 @@
 <div class="container mx-auto">
     <div class="card mb-3">
-        <h5 class="card-header">
-            Ecotasas de neumáticos ≤ 1400 mm
-        </h5>
-        <div class="card-body" x-data="{}" x-init="$nextTick(() => {
+        <h5 class="card-header" x-data="{}" x-init="$nextTick(() => {
             $('#tableEcotasa').DataTable({
                 responsive: true,
                 fixedHeader: true,
@@ -11,6 +8,9 @@
                 paging: false,
             });
         })">
+            Ecotasas de neumáticos > 1400 mm
+        </h5>
+        <div class="card-body">
             @if ($ecotasa != null)
                 <table class="table" id="tableEcotasa">
                     <thead>

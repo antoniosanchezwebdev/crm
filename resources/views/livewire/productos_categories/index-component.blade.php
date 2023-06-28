@@ -3,7 +3,14 @@
         <h5 class="card-header">
             Categorías de productos
         </h5>
-        <div class="card-body">
+        <div class="card-body" x-data="{}" x-init="$nextTick(() => {
+            $('#tableProductos').DataTable({
+                responsive: true,
+                fixedHeader: true,
+                searching: false,
+                paging: false,
+            });
+        })">
             @if ($productosCategories != null)
                 <table class="table" id="tableProductos">
                     <thead>
@@ -29,7 +36,6 @@
             @else
                 <h5> Añade una categoría para tus productos. </h5>
             @endif
-            <a href="{{ route('productos-categories.create') }}" class="btn btn-primary">Añadir categorías</a>
         </div>
     </div>
 </div>

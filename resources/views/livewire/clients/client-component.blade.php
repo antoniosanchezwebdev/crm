@@ -3,7 +3,14 @@
         <h5 class="card-header">
             Clientes
         </h5>
-        <div class="card-body">
+        <div class="card-body" x-data="{}" x-init="$nextTick(() => {
+            $('#tableCliente').DataTable({
+                responsive: true,
+                fixedHeader: true,
+                searching: false,
+                paging: false,
+            });
+        })">
             @if (count($clientes) > 0)
                 <table class="table" id="tableCliente">
                     <thead>
@@ -30,8 +37,9 @@
                                 <td>{{ $cliente->direccion }}</td>
                                 <td>{{ $cliente->telefono }}</td>
                                 <td>{{ $cliente->observaciones }}</td>
-                                <td><a href="/admin/clients/edit/{{ $cliente->id }}" class="btn btn-primary">Editar</a>
-                                </td>
+                                <td> <button type="button" class="btn btn-primary boton-producto"
+                                    onclick="Livewire.emit('seleccionarProducto', {{ $cliente->id }});">Ver/Editar</button>
+                            </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -40,7 +48,6 @@
                 <h5>No hay clientes en la base de datos</h5>
             @endif
             <br>
-            <a href="{{ route('clients.create') }}" class="btn btn-primary">Añadir cliente</a>
         </div>
     </div>
 </div>

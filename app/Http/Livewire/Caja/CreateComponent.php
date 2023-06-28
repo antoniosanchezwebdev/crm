@@ -35,9 +35,9 @@ class CreateComponent extends Component
             $this->factura = session('factura');
             $this->metodo_pago = session('metodo_pago');
             $this->cantidad = $this->facturas->where('id', $this->factura)->first()->precio_iva;
-            $this->descripcion = "Marca: " . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->marca . '&nbsp;'
-                . "Modelo: " . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->modelo . '&nbsp;'
-                . "Matricula: " . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->matricula . '&nbsp;';
+            $this->descripcion = $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->marca
+                . " " . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->modelo
+                . " (" . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->matricula . ')';
         }
 
         if (!empty(session('tarea'))) {
@@ -45,9 +45,9 @@ class CreateComponent extends Component
             $this->tarea = $this->tareas->where('id', $this->factura)->first();
             $this->metodo_pago = session('metodo_pago');
             $this->cantidad = round($this->tarea->presupuesto->precio + ($this->tarea->presupuesto->precio * 0.21), 2);
-            $this->descripcion = "Marca: " . $this->tarea->presupuesto->marca . '&nbsp;'
-                . "Modelo: " . $this->tarea->presupuesto->modelo . '&nbsp;'
-                . "Matricula: " . $this->tarea->presupuesto->matricula . '&nbsp;';
+            $this->descripcion = $this->tarea->presupuesto->marca
+                . " " . $this->tarea->presupuesto->modelo
+                . " (" . $this->tarea->presupuesto->matricula . ')';
         }
     }
 
@@ -110,15 +110,39 @@ class CreateComponent extends Component
                     ]);
                 }
             } else {
-                $this->alert('success', 'Factura registrada correctamente!', [
-                    'position' => 'center',
-                    'timer' => 3000,
-                    'toast' => false,
-                    'showConfirmButton' => true,
-                    'onConfirmed' => 'confirmed',
-                    'confirmButtonText' => 'ok',
-                    'timerProgressBar' => true,
-                ]);
+                if ($this->factura != null) {
+                    $factSave = $this->factura->update([
+                        'estado' => "Pagada"
+                    ]);
+
+                    if ($factSave) {
+                        $this->alert('success', '¡Movimiento registrado correctamente!', [
+                            'position' => 'center',
+                            'timer' => 3000,
+                            'toast' => false,
+                            'showConfirmButton' => true,
+                            'onConfirmed' => 'confirmed',
+                            'confirmButtonText' => 'ok',
+                            'timerProgressBar' => true,
+                        ]);
+                    } else {
+                        $this->alert('error', '¡No se ha podido guardar la información del movimiento!', [
+                            'position' => 'center',
+                            'timer' => 3000,
+                            'toast' => false,
+                        ]);
+                    }
+                } else {
+                    $this->alert('success', 'Factura registrada correctamente!', [
+                        'position' => 'center',
+                        'timer' => 3000,
+                        'toast' => false,
+                        'showConfirmButton' => true,
+                        'onConfirmed' => 'confirmed',
+                        'confirmButtonText' => 'ok',
+                        'timerProgressBar' => true,
+                    ]);
+                }
             }
         } else {
             $this->alert('error', '¡No se ha podido guardar la información de la factura!', [

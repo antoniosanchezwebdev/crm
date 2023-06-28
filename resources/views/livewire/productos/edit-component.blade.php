@@ -299,6 +299,17 @@
         </div>
 
         <div class="mb-3 row d-flex align-items-center">
+            <label for="coeficiente" class="col-sm-2 col-form-label">Coeficiente</label>
+            <div class="col-sm-10">
+                <input type="text" wire:model="coeficiente" class="form-control" name="coeficiente"
+                    id="coeficiente" placeholder="Coeficiente" step="0.01" disabled>
+                @error('coeficiente')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="mb-3 row d-flex align-items-center">
             <label for="precio_venta" class="col-sm-2 col-form-label">Precio venta</label>
             <div class="col-sm-10">
                 <input type="text" wire:model="precio_venta" class="form-control" name="precio_venta"
@@ -384,13 +395,13 @@
 </div>
 <br>
 <div class="mb-3 row d-flex align-items-center">
-    <button type="submit" class="btn btn-outline-info">Actualizar</button>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
 </div>
 
 @endif
 
 </form>
 <div class="mb-3 row d-flex align-items-center">
-    <button wire:click="destroy" class="btn btn-outline-danger">Eliminar</button>
+    <button wire:click="destroy" class="btn btn-danger">Eliminar</button>
 </div>
 </div>
