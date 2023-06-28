@@ -46,10 +46,16 @@
                     </div>
 
                     <div class="mb-3 row d-flex align-items-center">
-                        <label for="fabricante" class="col-sm-2 col-form-label">Fabricante</label>
+                        <label for="fabricante" class="col-sm-2 col-form-label">
+                            Fabricante
+                        </label>
                         <div class="col-sm-10">
-                            <input type="text" wire:model="fabricante" class="form-control" name="fabricante"
-                                id="fabricante" placeholder="Fabricante">
+                            <select name="fabricante" id="fabricante" wire:model="fabricante" class="form-control">
+                                <option selected value="">-- Selecciona al fabricante --</option>
+                                @foreach ($fabricantes as $fabricant)
+                                    <option value="{{ $fabricant->id }}">{{ $fabricant->nombre }}</option>
+                                @endforeach
+                            </select>
                             @error('fabricante')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -323,30 +329,50 @@
 
         @if ($mueve_existencias == true)
 
-        <div class="mb-3 row d-flex align-items-center">
-            <label for="nombre" class="col-sm-2 col-form-label">
-                <h5>Selecciona el almacén</h5>
-            </label>
-            <div class="col-sm-10">
-                <select class="form-control" wire:model="nombre" id="nombre" name="nombre">
-                    @if(empty($nombre))
-                        <option selected value="">-- Selecciona una opción --</option>
-                    @endif
-                    @foreach ($almacenes as $alm)
-                        <option value="{{ $alm->id }}" @if($almacen == $alm->id) selected @endif>{{ $alm->nombre }}</option>
-                    @endforeach
-                </select>
-                @error('tipo_producto')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+            <div class="mb-3 row d-flex align-items-center">
+                <label for="nombre" class="col-sm-2 col-form-label">
+                    <h5>Selecciona el almacén</h5>
+                </label>
+                <div class="col-sm-10">
+                    <select class="form-control" wire:model="nombre" id="nombre" name="nombre">
+                        @if (empty($nombre))
+                            <option selected value="">-- Selecciona una opción --</option>
+                        @endif
+                        @foreach ($almacenes as $alm)
+                            <option value="{{ $alm->id }}" @if ($almacen == $alm->id) selected @endif>
+                                {{ $alm->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('tipo_producto')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
-        </div>
 
             <div class="mb-3 row d-flex align-items-center">
-                <label for="existencias" class="col-sm-2 col-form-label">Número de artículos</label>
+                <label for="existencias" class="col-sm-2 col-form-label">Existencias totales</label>
                 <div class="col-sm-10">
-                    <input type="number" wire:model="existencias" class="form-control" name="existencias"
-                        id="existencias" placeholder="Existencias">
+                    <input type="number" wire:model="existencias" class="form-control" name="existencias" disabled
+                        id="existencias" placeholder="Existencias totales">
+                    @error('existencias')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <br>
+                <label for="existencias" class="col-sm-2 col-form-label">Existencias reservadas</label>
+                <div class="col-sm-10">
+                    <input type="number" wire:model="existencias_depositos" class="form-control" name="existencias_depositos" disabled
+                        id="existencias_depositos" placeholder="Existencias reservadas">
+                    @error('existencias')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <br>
+
+                <label for="existencias" class="col-sm-2 col-form-label">Existencias disponibles</label>
+                <div class="col-sm-10">
+                    <input type="number" wire:model="existencias_almacenes" class="form-control" name="existencias_almacenes"
+                        id="existencias_almacenes" placeholder="Existencias disponibles" wire:change="modificarExistencias">
                     @error('existencias')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Facturas;
 
+use App\Models\Almacen;
 use App\Models\Alumno;
 use App\Models\Cursos;
 use App\Models\Empresa;
@@ -10,6 +11,7 @@ use App\Models\Facturas;
 use App\Models\Neumatico;
 use App\Models\OrdenTrabajo;
 use App\Models\Productos;
+use App\Models\Reserva;
 use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -40,6 +42,8 @@ class CreateComponent extends Component
     public $tareas;
     public $neumaticos;
     public $presupuestos;
+    public $reservas;
+
 
     public $ident;
 
@@ -47,6 +51,7 @@ class CreateComponent extends Component
     public function mount()
     {
         $this->presupuestos = Presupuesto::all();
+        $this->reservas = Reserva::all();
         $this->productos = Productos::all();
         $this->neumaticos = Neumatico::all();
         $this->tareas = OrdenTrabajo::all();
@@ -64,13 +69,13 @@ class CreateComponent extends Component
         $this->metodo_pago = $metodo_pago;
 
         if ($this->tipo_documento == 'albaran_credito') {
-            foreach($this->listaPresupuestos as $presupuestos){
+            foreach ($this->listaPresupuestos as $presupuestos) {
                 $this->presupuestos->where('id', $presupuestos)->first()->update([
                     'estado' => 'Facturada'
                 ]);
             }
             $this->id_presupuesto = json_encode($this->listaPresupuestos);
-        } else{
+        } else {
             $this->presupuestos->where('id', $this->id_presupuesto)->first()->update([
                 'estado' => 'Facturada'
             ]);
@@ -108,6 +113,20 @@ class CreateComponent extends Component
         if ($facturasSave) {
             $this->ident = $facturasSave->id;
 
+            $reservas = Reserva::where('presupuesto_id', $facturasSave->id_presupuesto)->get();
+
+            foreach ($reservas as $reserva) {
+                $reserva->update([
+                    'estado' => "Aceptado"
+                ]);
+
+                $stock = Almacen::where('cod_producto', Productos::where('id', $reserva->producto_id)->first()->cod_producto)->where('nombre', Presupuesto::where('id', $facturasSave->id_presupuesto)->first()->servicio)->first();
+                $existencias = $stock->existencias_depositos -= $reserva->cantidad;
+                $stock->update([
+                    'existencias_depositos' => $existencias
+                ]);
+            }
+
             $this->alert('success', 'Factura registrada correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
@@ -137,6 +156,7 @@ class CreateComponent extends Component
     // Función para cuando se llama a la alerta
     public function confirmed()
     {
+
         if ($this->metodo_pago == 'No pagado') {
             return redirect()->route('facturas.index');
         } else {

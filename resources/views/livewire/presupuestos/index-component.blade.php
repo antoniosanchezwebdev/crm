@@ -80,6 +80,12 @@
 
                                     <td> <button type="button" class="btn btn-primary boton-producto"
                                             onclick="Livewire.emit('seleccionarProducto', {{ $presup->id }});">Ver/Editar</button>
+                                            @if($presup->estado == "Pendiente")
+                                            <button type="button" class="btn btn-success btn-sm"
+                                            wire:click="aceptarPresupuesto('{{$presup->id}}')">Aceptar</button>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                            wire:click="rechazarPresupuesto('{{$presup->id}}')">Rechazar</button>
+                                            @endif
                                     </td>
                                 </tr>
                             @endforeach

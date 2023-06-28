@@ -78,12 +78,6 @@
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/newsletter">
-                            <i class="fas fa-bell"></i>
-                            <strong>Newsletter</strong>
-                        </a>
-                    </li>
-                    <li class="nav-item mx-2">
                         <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/caja">
                             <i class="fas fa-cart-shopping"></i>
                             <strong>Caja</strong>
@@ -126,12 +120,6 @@
                     <a class="btn btn-outline-light" href="/admin/informes">
                         <i class="fas fa-file-invoice"></i>
                         <strong>Informes</strong>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/admin/newsletter">
-                        <i class="fas fa-bell"></i>
-                        <strong>Newsletter</strong>
                     </a>
                 </li>
                 <li class="nav-item">

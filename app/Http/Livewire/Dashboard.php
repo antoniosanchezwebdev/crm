@@ -11,12 +11,19 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public $tareas;
+
+    public $tareas_no_completadas;
+    public $tareas_completadas;
+    public $tareas_facturadas;
+
     public $productos;
 
     public function mount()
     {
-        $this->tareas = Auth::user()->tareas;
+        $this->tareas_no_completadas = Auth::user()->tareas->where('estado' ,'!=', 'Completada')->where('estado' ,'!=', 'Facturada');
+        $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
+        $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
+
         $this->productos = Productos::all();
     }
 

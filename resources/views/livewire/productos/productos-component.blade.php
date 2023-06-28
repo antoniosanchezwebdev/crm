@@ -393,6 +393,9 @@
                         editar proveedores </a>
                     <a class="btn btn-primary btn-lg" href="{{ route('ecotasa.index') }}"> Consultar y editar
                         ecotasas </a>
+                        <a class="btn btn-primary btn-lg" href="{{ route('fabricantes.index') }}"> Consultar y
+                            editar
+                            fabricantes </a>
                     <a class="btn btn-primary btn-lg" href="{{ route('productos-categories.index') }}"> Consultar y
                         editar
                         categorías </a>

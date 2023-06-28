@@ -2,8 +2,12 @@
 
 namespace App\Http\Livewire\Presupuestos;
 
+use App\Models\Almacen;
+use App\Models\OrdenTrabajo;
+use App\Models\Productos;
 use App\Models\Trabajador;
 use App\Models\Clients;
+use App\Models\Reserva;
 use App\Models\Presupuesto;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -49,7 +53,6 @@ class IndexComponent extends Component
             'trabajador_id' => "ID de trabajador",
             'precio' => "Importe total"
         ];
-
     }
 
     public function seleccionarProducto($id)
@@ -60,7 +63,7 @@ class IndexComponent extends Component
     public function render()
     {
         $this->tabla = $this->pagination($this->presupuestos);
-        return view('livewire.presupuestos.index-component',[
+        return view('livewire.presupuestos.index-component', [
             'tabla' => $this->tabla,
         ]);
     }
@@ -70,12 +73,12 @@ class IndexComponent extends Component
      */
     public function filtroCat()
     {
-            if ($this->filtro_categoria != "" && $this->filtro_busqueda != "") {
-                $this->alert('warning', "Hola");
-                $this->presupuestos = Presupuesto::where($this->filtro_categoria, 'LIKE', '%' . $this->filtro_busqueda . '%')->get();
-            } else {
-                $this->presupuestos = Presupuesto::all();
-            }
+        if ($this->filtro_categoria != "" && $this->filtro_busqueda != "") {
+            $this->alert('warning', "Hola");
+            $this->presupuestos = Presupuesto::where($this->filtro_categoria, 'LIKE', '%' . $this->filtro_busqueda . '%')->get();
+        } else {
+            $this->presupuestos = Presupuesto::all();
+        }
 
         $this->tabla = $this->pagination($this->presupuestos);
         $this->emit("refreshComponent");
@@ -99,4 +102,52 @@ class IndexComponent extends Component
         );
     }
 
+    public function aceptarPresupuesto($id)
+    {
+        $presupuesto = $this->presupuestos->where('id', $id)->first();
+        $presupuesto->update([
+            'estado' => "Aceptado"
+        ]);
+        $orden = new OrdenTrabajo;
+        $orden->fecha = $presupuesto->fecha_emision;
+        $orden->id_cliente = $presupuesto->cliente_id;
+        $orden->id_presupuesto = $presupuesto->id;
+        $ordenSave = $orden->save();
+
+        if ($ordenSave) {
+            $this->alert('success', '¡Presupuesto aceptado correctamente!', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+                'showConfirmButton' => true,
+                'onConfirmed' => 'confirmed',
+                'confirmButtonText' => 'ok',
+                'timerProgressBar' => true,
+            ]);
+        } else {
+            $this->alert('error', '¡No se ha podido crear una tarea!', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+            ]);
+        }
+    }
+
+    public function rechazarPresupuesto($id)
+    {
+        $presupuesto = $this->presupuestos->find($id);
+        $presupuesto->update([
+            'estado' => "Rechazado"
+        ]);
+        $rechazados = Reserva::where('presupuesto_id', $id)->get();
+        foreach ($rechazados as $reserva) {
+            $pro = $reserva->producto_id;
+            $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+                $articulo->update([
+                    'existencias' => ($articulo->existencias_almacenes += $reserva->cantidad),
+                    'existencias_depositos' => ($articulo->existencias_depositos -= $reserva->cantidad)
+                ]);
+            $reserva->estado = "Rechazado";
+        }
+    }
 }

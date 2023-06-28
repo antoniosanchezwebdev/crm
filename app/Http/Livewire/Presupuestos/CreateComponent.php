@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Presupuestos;
 
 use App\Models\Presupuesto;
 use App\Models\Clients;
+use App\Models\Reserva;
 use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -18,7 +19,7 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
-    public $servicio = 1;
+    public $servicio = "";
     public $numero_presupuesto;
     public $fecha_emision;
     public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
@@ -49,13 +50,17 @@ class CreateComponent extends Component
     {
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
-        $this->productos = Productos::all();
         $this->almacenes = ListaAlmacen::all();
         $this->existencias_productos = Almacen::all();
     }
 
     public function render()
     {
+        if($this->servicio == ""){
+            $this->productos = Productos::where('mueve_existencias', 0)->get();
+        }else{
+            $this->productos = Productos::where('almacen', ListaAlmacen::where('nombre', $this->servicio)->first()->id)->orWhere('mueve_existencias', 0)->get();
+        }
         return view('livewire.presupuestos.create-component');
     }
 
@@ -68,7 +73,7 @@ class CreateComponent extends Component
             if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
                 $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
                 $articulo->update([
-                    'existencias' => ($articulo->existencias -= $cantidad),
+                    'existencias' => ($articulo->existencias_almacenes -= $cantidad),
                     'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
                 ]);
             }
@@ -88,6 +93,7 @@ class CreateComponent extends Component
                 'precio' => 'required',
                 'origen' => 'required',
                 'marca' => 'required',
+                'servicio' => 'required',
                 'modelo' => 'required',
                 'vehiculo_renting' => 'required',
                 'estado' => 'nullable',
@@ -115,29 +121,27 @@ class CreateComponent extends Component
         // Alertas de guardado exitoso
         if ($presupuesosSave) {
 
-            $orden = new OrdenTrabajo;
-            $orden->fecha = $this->fecha_emision;
-            $orden->id_cliente = $this->cliente_id;
-            $orden->id_presupuesto = $presupuesosSave->id;
-            $ordenSave = $orden->save();
-
-            if ($ordenSave) {
-                $this->alert('success', '¡Presupuesto registrado correctamente!', [
-                    'position' => 'center',
-                    'timer' => 3000,
-                    'toast' => false,
-                    'showConfirmButton' => true,
-                    'onConfirmed' => 'confirmed',
-                    'confirmButtonText' => 'ok',
-                    'timerProgressBar' => true,
-                ]);
-            } else {
-                $this->alert('error', '¡No se ha podido guardar la información del presupuesto!', [
-                    'position' => 'center',
-                    'timer' => 3000,
-                    'toast' => false,
-                ]);
+            foreach ($this->lista as $pro => $cantidad) {
+                if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
+                    $reserva = Reserva::create();
+                    $reserva->cantidad = $cantidad;
+                    $reserva->estado = "Pendiente";
+                    $reserva->presupuesto_id = $presupuesosSave->id;
+                    $reserva->producto_id = $pro;
+                    $reserva->save();
+                }
             }
+
+            $this->alert('success', '¡Producto registrado correctamente!', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+                'showConfirmButton' => true,
+                'onConfirmed' => 'confirmed',
+                'confirmButtonText' => 'ok',
+                'timerProgressBar' => true,
+            ]);
+
         } else {
             $this->alert('error', '¡No se ha podido guardar la información del presupuesto!', [
                 'position' => 'center',
@@ -261,5 +265,15 @@ class CreateComponent extends Component
         } else {
             $this->alert('warning', "Este producto no está en la lista");
         }
+    }
+
+
+    public function updatedServicio()
+    {
+        $this->emit('refreshTomSelect');
+    }
+    public function updatedProducto_seleccionado()
+    {
+        $this->emit('refreshTomSelect');
     }
 }

@@ -46,10 +46,16 @@
                     </div>
 
                     <div class="mb-3 row d-flex align-items-center">
-                        <label for="fabricante" class="col-sm-2 col-form-label">Fabricante</label>
+                        <label for="fabricante" class="col-sm-2 col-form-label">
+                            <h5>Selecciona al fabricante</h5>
+                        </label>
                         <div class="col-sm-10">
-                            <input type="text" wire:model="fabricante" class="form-control" name="fabricante"
-                                id="fabricante" placeholder="Fabricante">
+                            <select name="fabricante" id="fabricante" wire:model="fabricante" class="form-control">
+                                <option selected value="">-- Selecciona al fabricante --</option>
+                                @foreach ($fabricantes as $fabricant)
+                                    <option value="{{ $fabricant->id }}">{{ $fabricant->nombre }}</option>
+                                @endforeach
+                            </select>
                             @error('fabricante')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

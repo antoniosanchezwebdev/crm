@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FabricantesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetReferenceAutopincrementsController;
@@ -221,6 +222,8 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('clients/edit/{id}', [ClientsController::class, 'edit'])->name('clients.edit');
 
     Route::get('informes', [InformesController::class, 'index'])->name('informes.index');
+    Route::get('fabricantes', [FabricantesController::class, 'index'])->name('fabricantes.index');
+
 
 
 });

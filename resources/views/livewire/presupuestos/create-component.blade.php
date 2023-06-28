@@ -1,63 +1,5 @@
 <div class="container mx-auto">
-    <script>
-        console.log('hola');
 
-        $('#select2-producto-create').select2({
-            placeholder: "Seleccione un producto"
-        });
-
-        $('#select2-producto-create').on('load', function(e) {
-            var data = $('#select2-producto-create').select2("val");
-            @this.set('producto_seleccionado', data);
-        });
-
-        $('#select2-producto-create').on('change', function(e) {
-            var data = $('#select2-producto-create').select2("val");
-            @this.set('producto_seleccionado', data);
-        });
-
-        $('#select2-servicio-create').select2({
-            placeholder: "Localización del servicio"
-        });
-
-        $('#select2-servicio-create').on('load', function(e) {
-            var data = $('#select2-servicio-create').select2("val");
-            @this.set('servicio', data);
-        });
-
-        $('#select2-servicio-create').on('change', function(e) {
-            var data = $('#select2-servicio-create').select2("val");
-            @this.set('servicio', data);
-        });
-
-        $('#select2-origen-create').select2({
-            placeholder: "Origen del presupuesto"
-        });
-
-        $('#select2-origen-create').on('load', function(e) {
-            var data = $('#select2-origen-create').select2("val");
-            @this.set('origen', data);
-        });
-
-        $('#select2-origen-create').on('change', function(e) {
-            var data = $('#select2-origen-create').select2("val");
-            @this.set('origen', data);
-        });
-
-        $('#select2-cliente-create').select2({
-            placeholder: "Seleccione un cliente"
-        });
-
-        $('#select2-cliente-create').on('load', function(e) {
-            var data = $('#select2-cliente-create').select2("val");
-            @this.set('cliente_id', data);
-        });
-
-        $('#select2-cliente-create').on('change', function(e) {
-            var data = $('#select2-cliente-create').select2("val");
-            @this.set('cliente_id', data);
-        });
-    </script>
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 
@@ -71,16 +13,41 @@
             <div class="card-body">
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="servicio" class="col-sm-2 col-form-label"><strong>Servicio dado en:</strong></label>
-                    <div class="col-sm-10" wire:ignore>
-                        <select class="form-control" id="select2-servicio-create">
-                            @foreach ($almacenes as $listalmacen)
-                                <option value={{ $listalmacen->id }}>{{ $listalmacen->nombre }}</option>
-                            @endforeach
-                        </select>
+                    <div x-data="" x-init="$('#select2-servicio-create').select2();
+                    $('#select2-servicio-create').on('change', function(e) {
+                        var data = $('#select2-servicio-create').select2('val');
+                        @this.set('servicio', data);
+                    });
+                    livewire.on('refreshTomSelect', () => {
+                        $('#select2-servicio-create').select2();
+                        $('#select2-servicio-create').on('change', function(e) {
+                            var data = $('#select2-servicio-create').select2('val');
+                            @this.set('servicio', data);
+                        });
+                    });">
+                        <div class="col-sm-10" wire:ignore>
+                            <select class="form-control" id="select2-servicio-create">
+                                <option value="">-- Elige un almacén --</option>
+                                @foreach ($almacenes as $listalmacen)
+                                    <option value={{ $listalmacen->nombre }}>{{ $listalmacen->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mb-3 row d-flex align-items-center">
+                <div class="mb-3 row d-flex align-items-center" x-data="" x-init="$('#select2-origen-create').select2();
+                $('#select2-origen-create').on('change', function(e) {
+                    var data = $('#select2-origen-create').select2('val');
+                    @this.set('origen', data);
+                });
+                livewire.on('refreshTomSelect', () => {
+                    $('#select2-origen-create').select2();
+                    $('#select2-origen-create').on('change', function(e) {
+                        var data = $('#select2-origen-create').select2('val');
+                        @this.set('origen', data);
+                    });
+                });">
                     <label for="origen" class="col-sm-2 col-form-label">Presupuesto dado en:</label>
                     <div class="col-sm-10" wire:ignore>
                         <select id="select2-origen-create" class="form-control seleccion">
@@ -130,7 +97,18 @@
                     </div>
                 </div>
 
-                <div class="mb-3 row d-flex align-items-center">
+                <div class="mb-3 row d-flex align-items-center" x-data="" x-init="$('#select2-cliente-create').select2();
+                $('#select2-cliente-create').on('change', function(e) {
+                    var data = $('#select2-cliente-create').select2('val');
+                    @this.set('cliente_id', data);
+                });
+                livewire.on('refreshTomSelect', () => {
+                    $('#select2-cliente-create').select2();
+                    $('#select2-cliente-create').on('change', function(e) {
+                        var data = $('#select2-cliente-create').select2('val');
+                        @this.set('cliente_id', data);
+                    });
+                });">
                     <label for="cliente_id" class="col-sm-2 col-form-label">Cliente</label>
                     <div class="col-sm-10" wire:ignore>
                         <select id="select2-cliente-create" class="form-control seleccion">
@@ -186,7 +164,8 @@
                 </div>
 
                 <div class="mb-3 row d-flex align-items-left">
-                    <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de renting?</label>
+                    <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de
+                        renting?</label>
                     <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculo_renting"
                         name="vehiculo_renting" id="vehiculo_renting" />
                     @error('vehiculo_renting')
@@ -289,17 +268,25 @@
                 </div>
                 <br>
                 <h2>Selección de artículos</h2>
-                <div class="mb-3 row d-flex align-items-center">
+                <div class="mb-3 row d-flex align-items-center" wire:key="select-2-{{ $servicio }}"
+                    x-data="" x-init="$('#select2-producto-create').select2();
+                    $('#select2-producto-create').on('change', function(e) {
+                        var data = $('#select2-producto-create').select2('val');
+                        @this.set('producto_seleccionado', data);
+                    });
+                    livewire.on('refreshTomSelect', () => {
+                        $('#select2-producto-create').select2();
+                        $('#select2-producto-create').on('change', function(e) {
+                            var data = $('#select2-producto-create').select2('val');
+                            @this.set('producto_seleccionado', data);
+                        });
+                    });">
                     <div class="col-sm-10" wire:ignore>
                         <select class="form-control" id="select2-producto-create">
+                            <option value="">-- Elige un artículo --</option>
                             @foreach ($productos as $producti)
-                                @if (
-                                    $producti->mueve_existencias == 0 ||
-                                        ($producti->mueve_existencias == 1 && $producti->almacenes()->first()->nombre == $servicio))
-                                    <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                                        {{ $producti->descripcion }}
-                                    </option>
-                                @endif
+                                <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
+                                    {{ $producti->descripcion }} </option>
                             @endforeach
                         </select>
                     </div>

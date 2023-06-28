@@ -6,6 +6,7 @@ use App\Models\Almacen;
 use App\Models\Presupuesto;
 use Carbon\Carbon;
 use App\Models\Clients;
+use App\Models\ListaAlmacen;
 use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -56,7 +57,7 @@ class EditComponent extends Component
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->productos = Productos::all(); // datos que se envian al select2
-        $this->almacenes = Almacen::all();
+        $this->almacenes = ListaAlmacen::all();
 
         $this->numero_presupuesto = $presupuestos->numero_presupuesto;
         $this->fecha_emision = $presupuestos->fecha_emision;

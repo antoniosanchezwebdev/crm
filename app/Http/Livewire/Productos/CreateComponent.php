@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Productos;
 
 use App\Models\Almacen;
 use App\Models\Ecotasa;
+use App\Models\Fabricante;
 use App\Models\ListaAlmacen;
 use App\Models\Neumatico;
 use App\Models\Productos;
@@ -50,6 +51,8 @@ class CreateComponent extends Component
     public $uso;
     public $ancho;
     public $serie;
+    public $fabricantes;
+
     public $llanta;
     public $indice_carga;
     public $codigo_velocidad;
@@ -69,6 +72,7 @@ class CreateComponent extends Component
         $this->categorias = ProductosCategories::all();
         $this->neumaticos = Neumatico::all();
         $this->almacenes = ListaAlmacen::all();
+        $this->fabricantes = Fabricante::all();
         $this->proveedores = Proveedores::all();
         $this->tasas = Ecotasa::all();
     }

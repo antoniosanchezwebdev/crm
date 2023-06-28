@@ -25,6 +25,7 @@ class Presupuesto extends Model
         'observaciones',
         'modelo',
         'marca',
+        'servicio',
         'vehiculo_renting'
 
     ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Productos;
 
+use App\Models\Fabricante;
 use App\Models\Productos;
 use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
@@ -24,6 +25,7 @@ class EditComponent extends Component
     public $almacenes;
     public $neumaticos;
     public $proveedores;
+    public $fabricantes;
     public $tasas;
 
 
@@ -71,6 +73,7 @@ class EditComponent extends Component
         $this->tipos_producto = TipoProducto::all();
         $this->tasas = Ecotasa::all();
         $this->proveedores = Proveedores::all();
+        $this->fabricantes = Fabricante::all();
 
 
 
@@ -112,9 +115,9 @@ class EditComponent extends Component
 
 
         if($product->mueve_existencias == true){
-            $this->almacen = $product->almacen;
-            $almacen = Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first();
-            $this->nombre = ListaAlmacen::where('id', $this->almacen)->first()->nombre;
+            $this->almacen = ListaAlmacen::where('id', $product->almacen)->first()->id;
+            $this->nombre = ListaAlmacen::where('id', $product->almacen)->first()->nombre;
+            $almacen = Almacen::where('nombre', $this->nombre   )->where('cod_producto', $this->cod_producto)->first();
             $this->existencias = $almacen->existencias;
             $this->existencias_almacenes = $almacen->existencias_almacenes;
             $this->existencias_depositos = $almacen->existencias_depositos;
@@ -194,8 +197,8 @@ class EditComponent extends Component
             }
 
             if($this->mueve_existencias != false){
-                if(Almacen::where('nombre', $this->almacen)->where('cod_producto', $this->cod_producto)->first() != null){
-                    $almacen = Almacen::where('cod_producto', $this->cod_producto)->first();
+                if(Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first() != null){
+                    $almacen = Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first();
                 $almacenSave = $almacen->update([
                     'nombre' => $this->nombre,
                     'existencias' => $this->existencias,
@@ -296,6 +299,15 @@ class EditComponent extends Component
                 $this->precio_costoNeto = $this->precio_baremo - $this->descuento;
                 $this->precio_venta = ($this->precio_costoNeto * $this->coeficiente);
             }
+        }
+    }
+
+    public function modificarExistencias()
+    {
+        if ($this->existencias_almacenes > 0) {
+            $this->existencias = $this->existencias_almacenes + $this->existencias_depositos;
+        }else{
+            $this->existencias = $this->existencias_depositos;
         }
     }
 
