@@ -13,6 +13,7 @@ use App\Models\Productos;
 use App\Models\ListaAlmacen;
 use App\Models\OrdenTrabajo;
 use App\Models\Almacen;
+use Auth;
 
 class CreateComponent extends Component
 {

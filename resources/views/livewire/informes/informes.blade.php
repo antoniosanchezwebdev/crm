@@ -1,6 +1,6 @@
 <div>
     @mobile
-        @if ($movimiento != null)
+        @if ($datos != null)
             @if ($tab == 'tab1')
                 <div style="border-bottom: 1px solid black !important;">
                     <div class="row">
@@ -24,7 +24,7 @@
                 </div>
                 <br>
 
-                @livewire('informes.grupos');
+                @livewire('informes.grupos')
             @elseif ($tab == 'tab2')
                 <div style="border-bottom: 1px solid black !important;">
                     <div class="row">
@@ -49,7 +49,7 @@
                 </div>
                 <br>
 
-                @livewire('informes.index');
+                @livewire('informes.index')
 
                 <br>
             @elseif ($tab == 'tab3')
@@ -74,7 +74,7 @@
                     </div>
                     <br>
                 </div>
-                <br>
+                @livewire('informes.resultado', ['datos' => $datos, 'tipo_informe' => $tipo_informe, 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'servicio' => $servicio])
             @endif
         @else
             @if ($tab == 'tab1')
@@ -103,7 +103,7 @@
                 </div>
                 <br>
 
-                @livewire('informes.grupos');
+                @livewire('informes.grupos')
             @elseif ($tab == 'tab2')
                 <div style="border-bottom: 1px solid black !important;">
                     <div class="row">
@@ -126,13 +126,13 @@
                     <br>
                 </div>
                 <br>
-                @livewire('informes.index');
+                @livewire('informes.index')
 
                 <br>
             @endif
         @endif
     @elsemobile
-        @if ($movimiento != null)
+        @if ($datos != null)
             @if ($tab == 'tab1')
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item">
@@ -153,7 +153,7 @@
                 </ul>
                 <br>
 
-                @livewire('informes.grupos');
+                @livewire('informes.grupos')
             @elseif ($tab == 'tab2')
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item">
@@ -173,7 +173,7 @@
                     </li>
                 </ul>
                 <br>
-                @livewire('informes.index');
+                @livewire('informes.index')
 
 
                 <br>
@@ -195,6 +195,8 @@
                         </button>
                     </li>
                 </ul>
+
+                @livewire('informes.resultado', ['datos' => $datos, 'tipo_informe' => $tipo_informe, 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'servicio' => $servicio])
                 <br>
             @endif
         @else
@@ -217,7 +219,7 @@
                     </li>
                 </ul>
                 <br>
-                @livewire('informes.grupos');
+                @livewire('informes.grupos')
             @elseif ($tab == 'tab2')
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item">
@@ -227,18 +229,18 @@
                     </li>
                     <li class="nav-item">
                         <button class="nav-link active" wire:click.prevent="cambioTab('tab2')">
-                            <h5>Tipo de informe</h5>
+                            <h3>Tipo de informe</h3>
                         </button>
                     </li>
                     <li class="nav-item">
                         <button class="nav-link" wire:click.prevent="cambioTab('tab3')" disabled>
-                            <h3>Ver informe</h3>
+                            <h5>Ver informe</h5>
                         </button>
                     </li>
                 </ul>
                 <br>
 
-                @livewire('informes.index');
+                @livewire('informes.index')
             @endif
         @endif
     @endmobile
