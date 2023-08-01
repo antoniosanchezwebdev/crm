@@ -1,4 +1,3 @@
-
 <div class="container mx-auto">
     <script>
         console.log('hola');
@@ -167,8 +166,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="marca" class="col-sm-2 col-form-label">Marca</label>
                     <div class="col-sm-10">
-                        <input type="text" wire:model="marca" class="form-control" name="marca"
-                            id="marca">
+                        <input type="text" wire:model="marca" class="form-control" name="marca" id="marca">
                         @error('marca')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -187,7 +185,8 @@
                 </div>
 
                 <div class="mb-3 row d-flex align-items-left">
-                    <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de renting?</label>
+                    <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de
+                        renting?</label>
                     <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculo_renting"
                         name="vehiculo_renting" id="vehiculo_renting" />
                     @error('vehiculo_renting')
@@ -250,63 +249,58 @@
                                 <th></th>
                             <tbody>
                         </table>
-                        <div>
-                @endif
 
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="precio" class="col-sm-2 col-form-label">Precio</label>
-                    <div class="col-sm-10">
-                        <input type="number" wire:model="precio" class="form-control" name="precio"
-                            id="precio" disabled>
-                        @error('fecha_emision')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                @endif
+                <div>
+                    <div class="mb-3 row d-flex align-items-center">
+                        <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+                        <div class="col-sm-10">
+                            <input type="number" wire:model="precio" class="form-control" name="precio"
+                                id="precio" disabled>
+                            @error('fecha_emision')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <br>
-        <div class="card">
-            <h5 class="card-header">Buscador de artículos</h5>
-            <div class="card-body">
-                <div class="mb-3 row d-flex align-items-center">
-                    <h2>Buscador de artículos</h2>
-                    @if ($producto_seleccionado != null)
-                        <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
-                        <div class="col-sm-10">
-                            <input id="prod_sel" class="form-control" type="text" disabled
-                                value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
-                        </div>
-                        @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
-                            <label for="exis_sel" class="col-sm-2 col-form-label">Existencias disponibles:</label>
+            <br>
+            <div class="card">
+                <h5 class="card-header">Buscador de artículos</h5>
+                <div class="card-body">
+                    <div class="mb-3 row d-flex align-items-center">
+                        <h2>Buscador de artículos</h2>
+                        @if ($producto_seleccionado != null)
+                            <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
                             <div class="col-sm-10">
-                                <input id="exis_sel" class="form-control" type="text" disabled
-                                    value="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias - (int) $cantidad }}" />
+                                <input id="prod_sel" class="form-control" type="text" disabled
+                                    value="{{ $productos->where('id', $producto_seleccionado)->first()->cod_producto }} - {{ $productos->where('id', $producto_seleccionado)->first()->descripcion }}" />
                             </div>
+                            @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
+                                <label for="exis_sel" class="col-sm-2 col-form-label">Existencias disponibles:</label>
+                                <div class="col-sm-10">
+                                    <input id="exis_sel" class="form-control" type="text" disabled
+                                        value="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias - (int) $cantidad }}" />
+                                </div>
+                            @endif
                         @endif
-                    @endif
-                </div>
-                <br>
-                <h2>Selección de artículos</h2>
-                <div class="mb-3 row d-flex align-items-center">
-                    <div class="col-sm-10" wire:ignore>
-                        <select class="form-control" id="select2-producto-edit">
-                            @foreach ($productos as $producti)
-                                @if (
-                                    $producti->mueve_existencias == 0 ||
-                                        ($producti->mueve_existencias == 1 &&
-                                            $producti->almacenes()->first()->nombre == $servicio))
+                    </div>
+                    <br>
+                    <h2>Selección de artículos</h2>
+                    <div class="mb-3 row d-flex align-items-center">
+                        <div class="col-sm-10" wire:ignore>
+                            <select class="form-control" id="select2-producto-create">
+                                <option value="">-- Elige un artículo --</option>
+                                @foreach ($productos as $producti)
                                     <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
-                                        {{ $producti->descripcion }}
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
+                                        {{ $producti->descripcion }} </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
-
                 @if ($producto_seleccionado != null)
                     <div class="mb-3 row d-flex align-items-center">
                         @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
@@ -320,17 +314,17 @@
                                 @enderror
                             </div>
                         @endif
-                        <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto" style="margin-top:10px;">Añadir a la
+                        <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
+                            style="margin-top:10px;">Añadir a la
                             lista</button>
                     </div>
                 @endif
             </div>
-        </div>
 
-        <div class="mb-3 row d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary self-center"
-                style="margin-bottom: 20px !important; width: 80% !important;">Actualizar presupuesto</button>
-        </div>
+            <div class="mb-3 row d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary self-center"
+                    style="margin-bottom: 20px !important; width: 80% !important;">Actualizar presupuesto</button>
+            </div>
     </form>
     <script>
         document.addEventListener("DOMContentLoaded", () => {

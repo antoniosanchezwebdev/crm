@@ -45,11 +45,13 @@ use App\Http\Livewire\Productos\IndexComponent;
 |
 */
 
-Route::name('inicio')->get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
+
+Route::name('inicio')->get('/', function () {
+    return view('auth.login');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('/clients', [App\Http\Controllers\ClientController::class, 'index'])->name('clients.index');

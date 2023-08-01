@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Informes;
 
 use App\Models\Fabricante;
 use App\Models\Presupuesto;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -38,8 +39,8 @@ class Index extends Component
     public $tipoTodos = 0;
     public $tipo_producto = "";
 
-    public $busqueda_codigo = "";
-    public $busqueda_descripcion = "";
+    public $art_codigo = "";
+    public $art_desc = "";
 
 
     public $busqueda_res_rod = "";
@@ -264,13 +265,101 @@ class Index extends Component
                     ];
                 }
                 break;
+
             case '3':
+                $codigo = $this->art_busc == 0 ? $this->art_codigo : $this->art_desc;
 
+                $producto = Productos::where(
+                    $this->art_busc == 0 ? 'cod_producto' : 'descripcion',
+                    $codigo
+                )->first();
+
+                if ($producto) {
+                    $articulos = Reserva::where('producto_id', $producto->id)
+                        ->pluck('presupuesto_id')
+                        ->all();
+
+                    $albaranes = Presupuesto::whereIn('id', $articulos)
+                        ->whereBetween('fecha_emision', [$this->fecha_inicio, $this->fecha_fin])
+                        ->get();
+                } else {
+                    $albaranes = Presupuesto::whereBetween('fecha_emision', [$this->fecha_inicio, $this->fecha_fin])
+                        ->get();
+                }
+
+                foreach ($albaranes as $albaran) {
+                    $productos = Reserva::where('presupuesto_id', $albaran->id)->get();
+                    $importe = 0;
+                    $datosProductos = [];
+                    foreach ($productos as $prod) {
+                        $producto = Productos::find($prod->producto_id);
+                        $importe += ($producto->precio_venta * $prod->cantidad);
+                        $datosProductos[] = [
+                            'cod_producto' => $producto->cod_producto,
+                            'descripcion' => $producto->descripcion,
+                            'precio_baremo' => $producto->precio_baremo,
+                            'descuento' => $producto->descuento,
+                            'ecotasa' => $producto->ecotasa,
+                            'precio_venta' => $producto->precio_venta,
+                            'cantidad' => $prod->cantidad,
+                        ];
+                    }
+                    $cliente = Clients::where('id', $albaran->cliente_id)->first()->nombre;
+                    $iva = ($importe * 0.21);
+                    $datos[] = [
+                        'codigo' => $codigo,
+                        'tipo_codigo' => $this->art_busc,
+                        'cliente' => $cliente,
+                        'albaran' => $albaran->numero,
+                        'fecha' => $albaran->fecha_emision,
+                        'matricula' => $albaran->matricula,
+                        'servicio' => $albaran->servicio,
+                        'iva' => $iva,
+                        'total' => $importe,
+                        'productos' => $datosProductos,
+                    ];
+                }
 
                 break;
+
             case '4':
-                # code...
+
+                $albaranes = Presupuesto::where('matricula', $this->matricula)->whereBetween('fecha_emision', [$this->fecha_inicio, $this->fecha_fin])
+                    ->get();
+
+                foreach ($albaranes as $albaran) {
+                    $productos = Reserva::where('presupuesto_id', $albaran->id)->get();
+                    $importe = 0;
+                    $datosProductos = [];
+                    foreach ($productos as $prod) {
+                        $producto = Productos::find($prod->producto_id);
+                        $importe += ($producto->precio_venta * $prod->cantidad);
+                        $datosProductos[] = [
+                            'cod_producto' => $producto->cod_producto,
+                            'descripcion' => $producto->descripcion,
+                            'precio_baremo' => $producto->precio_baremo,
+                            'descuento' => $producto->descuento,
+                            'ecotasa' => $producto->ecotasa,
+                            'precio_venta' => $producto->precio_venta,
+                            'cantidad' => $prod->cantidad,
+                        ];
+                    }
+                    $cliente = Clients::where('id', $albaran->cliente_id)->first()->nombre;
+                    $iva = ($importe * 0.21);
+                    $datos[] = [
+                        'cliente' => $cliente,
+                        'albaran' => $albaran->numero,
+                        'fecha' => $albaran->fecha_emision,
+                        'matricula' => $albaran->matricula,
+                        'servicio' => $albaran->servicio,
+                        'iva' => $iva,
+                        'total' => $importe,
+                        'productos' => $datosProductos,
+                    ];
+                }
+
                 break;
+
             case '5':
 
                 $albaranes = Presupuesto::where('cliente_id', $this->cliente)->whereBetween('fecha_emision', [$this->fecha_inicio, $this->fecha_fin])
@@ -308,7 +397,56 @@ class Index extends Component
 
                 break;
             case '6':
-                # code...
+                $year = Carbon::now()->format('Y');
+                $data = [];
+                $dataMedia = [];
+
+
+                for ($i = 1; $i <= 12; $i++) {
+                    if(Presupuesto::whereBetween('fecha_emision', [$year . "-" . $i . "-1", $year . "-" . $i . "-31"])->sum('precio') != null){
+                        $data[$i] = Presupuesto::whereBetween('fecha_emision', [$year . "-" . $i . "-1", $year . "-" . $i . "-31"])->sum('precio');
+                    }else{
+                        $data[$i] = 0;
+                    }
+
+                    if(Presupuesto::whereBetween('fecha_emision', [$year . "-" . $i . "-1", $year . "-" . $i . "-31"])->avg('precio') != null){
+                        $dataMedia[$i] = Presupuesto::whereBetween('fecha_emision', [$year . "-" . $i . "-1", $year . "-" . $i . "-31"])->avg('precio');
+                    }else{
+                        $dataMedia[$i] = 0;
+                    }
+                }
+
+
+                $chartData = [
+                    'type' => 'line',
+                    'data' => [
+                        'labels' => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],  // meses, por ejemplo
+                        'datasets' => [[
+                            'label' => 'Ventas mensuales',
+                            'data' => [$data[1], $data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10], $data[11], $data[12]], // datos de ventas, por ejemplo
+                            'fill' => false,
+                            'borderColor' => 'blue'
+                        ], [
+                            'label' => 'Ventas acumuladas',
+                            'data' => [$dataMedia[1], $dataMedia[2], $dataMedia[3], $dataMedia[4], $dataMedia[5], $dataMedia[6], $dataMedia[7], $dataMedia[8], $dataMedia[9], $dataMedia[10], $dataMedia[11], $dataMedia[12]],  // datos de tendencia, por ejemplo
+                            'fill' => false,
+                            'borderColor' => 'red'
+                        ]]
+                    ],
+                    'options' => [
+                        'responsive' => true,
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Gráfico de Ventas y Tendencia'
+                        ]
+                    ]
+                ];
+
+                $chartDataString = json_encode($chartData);
+                $chartDataURL = 'https://quickchart.io/chart?c=' . urlencode($chartDataString);
+
+                $datos['chart'] = $chartDataURL;
+
                 break;
             case '7':
                 # code...
@@ -319,36 +457,7 @@ class Index extends Component
             case '9':
                 # code...
                 break;
-            case '10':
-                # code...
-                break;
-            case '11':
-                # code...
-                break;
-            case '12':
-                # code...
-                break;
-            case '13':
-                # code...
-                break;
-            case '14':
-                # code...
-                break;
-            case '15':
-                # code...
-                break;
-            case '16':
-                # code...
-                break;
-            case '17':
-                # code...
-                break;
-            case '18':
-                # code...
-                break;
-            case '19':
-                # code...
-                break;
+
 
             default:
                 # code...

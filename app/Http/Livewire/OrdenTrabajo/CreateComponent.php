@@ -4,7 +4,7 @@ namespace App\Http\Livewire\OrdenTrabajo;
 
 use App\Models\Presupuesto;
 use App\Models\Clients;
-use App\Models\Trabajador;
+use App\Models\User;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Carbon\Carbon;
@@ -16,7 +16,7 @@ class CreateComponent extends Component
 {
 
     use LivewireAlert;
-    
+
     public $identificador;
 
     public $trabajo;

@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Presupuestos;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PresupuestosComponent extends Component
 {
+    use WithPagination;
 
     public $tab = "tab1";
     public $presupuesto;

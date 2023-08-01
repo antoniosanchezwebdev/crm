@@ -50,11 +50,11 @@
                                     <td>{{ $tarea->presupuesto->numero_presupuesto }}</th>
 
                                     <td> @foreach(json_decode($tarea->operarios, true) as $operario)
-                                        {{User::where('id', $operario)->name}} ,
+                                        {{$trabajadores->where('id', $operario)->first()->name}} ,
                                         @endforeach
                                     </td>
 
-                                    <td>{{ $tarea->presupuesto->cliente }} </td>
+                                    <td>{{ $tarea->presupuesto->cliente->nombre }} </td>
 
                                     <td>{{ $tarea->fecha }}</th>
 

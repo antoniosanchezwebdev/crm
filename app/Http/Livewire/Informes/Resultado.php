@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Informes;
 
 use App\Models\Clients;
+use App\Models\Productos;
 use App\Models\TipoInforme;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
@@ -55,17 +56,60 @@ class Resultado extends Component
                 // Devuelve la ruta del archivo
                 $this->ruta = $nombreArchivo;
                 break;
+
             case '3':
+                $nombreInforme = TipoInforme::find($this->tipo_informe)->nombre;
+                $total = 0;
+                foreach ($datos as $dato) {
+                    if($dato['tipo_codigo'] == 0){
+                        $cod_producto = $dato['codigo'];
+                        $descripcion = Productos::where('cod_producto', $dato['codigo'])->first()->descripcion;
+                    }else{
+                        $cod_producto = Productos::where('descripcion', $dato['codigo'])->first()->cod_producto;
+                        $descripcion = $dato['codigo'];
+                    }
+                    $total += $dato['total'];
+                    $matricula = $dato['matricula'];
+                }
+
+                $pdf = PDF::loadView('informes.informe', ['datos' => $datos, 'cod_producto' => $cod_producto, 'descripcion' => $descripcion, 'tipo_informe' => $tipo_informe, 'nombreInforme' => $nombreInforme, 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'servicio' => $servicio, 'total' => $total]);
+
+                // Genera un nombre de archivo único
+                $nombreArchivo = 'informe_' . time() . '.pdf';
+
+                // Guarda el PDF en el directorio storage/app/public
+                $pdf->save($nombreArchivo, 'public');
+                // Devuelve la ruta del archivo
+                $this->ruta = $nombreArchivo;
 
                 break;
+
             case '4':
-                # code...
+
+                $nombreInforme = TipoInforme::find($this->tipo_informe)->nombre;
+                $total = 0;
+                foreach ($datos as $dato) {
+                    $total += $dato['total'];
+                    $matricula = $dato['matricula'];
+                }
+
+                $pdf = PDF::loadView('informes.informe', ['datos' => $datos, 'matricula' => $matricula, 'tipo_informe' => $tipo_informe, 'nombreInforme' => $nombreInforme, 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'servicio' => $servicio, 'total' => $total]);
+
+                // Genera un nombre de archivo único
+                $nombreArchivo = 'informe_' . time() . '.pdf';
+
+                // Guarda el PDF en el directorio storage/app/public
+                $pdf->save($nombreArchivo, 'public');
+                // Devuelve la ruta del archivo
+                $this->ruta = $nombreArchivo;
+
                 break;
+
             case '5':
 
                 $nombreInforme = TipoInforme::find($this->tipo_informe)->nombre;
                 $total = 0;
-                foreach($datos as $dato){
+                foreach ($datos as $dato) {
                     $total += $dato['total'];
                     $cliente = $dato['cliente'];
                 }
@@ -82,7 +126,18 @@ class Resultado extends Component
 
                 break;
             case '6':
-                # code...
+
+                $nombreInforme = TipoInforme::find($this->tipo_informe)->nombre;
+                $pdf = PDF::loadView('informes.informe', ['datos' => $datos, 'tipo_informe' => $tipo_informe, 'nombreInforme' => $nombreInforme, 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'servicio' => $servicio]);
+
+                // Genera un nombre de archivo único
+                $nombreArchivo = 'informe_' . time() . '.pdf';
+
+                // Guarda el PDF en el directorio storage/app/public
+                $pdf->save($nombreArchivo, 'public');
+                // Devuelve la ruta del archivo
+                $this->ruta = $nombreArchivo;
+
                 break;
             case '7':
                 # code...
@@ -91,36 +146,6 @@ class Resultado extends Component
                 # code...
                 break;
             case '9':
-                # code...
-                break;
-            case '10':
-                # code...
-                break;
-            case '11':
-                # code...
-                break;
-            case '12':
-                # code...
-                break;
-            case '13':
-                # code...
-                break;
-            case '14':
-                # code...
-                break;
-            case '15':
-                # code...
-                break;
-            case '16':
-                # code...
-                break;
-            case '17':
-                # code...
-                break;
-            case '18':
-                # code...
-                break;
-            case '19':
                 # code...
                 break;
 

@@ -13,7 +13,7 @@ use App\Models\Productos;
 use App\Models\ListaAlmacen;
 use App\Models\OrdenTrabajo;
 use App\Models\Almacen;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class CreateComponent extends Component
 {
@@ -27,7 +27,7 @@ class CreateComponent extends Component
     public $estado;
     public $matricula;
     public $kilometros;
-    public $trabajador_id = Auth::id(); // 0 por defecto por si no se selecciona ninguna
+    public $trabajador_id; // 0 por defecto por si no se selecciona ninguna
     public $precio = 0;
     public $observaciones = "";
     public $origen;
@@ -49,6 +49,7 @@ class CreateComponent extends Component
 
     public function mount()
     {
+        $this->trabajador_id = Auth::id();
         $this->clientes = Clients::all(); // datos que se envian al select2
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->almacenes = ListaAlmacen::all();

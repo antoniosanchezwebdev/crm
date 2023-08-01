@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class IndexComponent extends Component
 {
     use LivewireAlert;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $presupuestos;
     public $clientes;
     public $trabajadores;
@@ -62,7 +66,7 @@ class IndexComponent extends Component
 
     public function render()
     {
-        $this->tabla = $this->pagination($this->presupuestos);
+        $this->tabla = Presupuesto::paginate(10);
         return view('livewire.presupuestos.index-component', [
             'tabla' => $this->tabla,
         ]);

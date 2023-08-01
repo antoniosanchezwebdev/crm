@@ -30,7 +30,7 @@ class Index2Component extends Component
     {
         $this->tareas = OrdenTrabajo::where('operarios', '!=' , null)->get();
         $this->clientes = Clients::all();
-        $this->trabajadores = Trabajador::all();
+        $this->trabajadores = User::all();
         if(count($this->tareas) > 0){
             $this->tareaSel = $this->tareas->last()->id;
         }    }

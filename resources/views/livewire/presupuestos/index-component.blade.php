@@ -38,8 +38,8 @@
                 paging: false,
             });
         })">
-            <div wire:ignore>
-                @if ($presupuestos->count() > 0)
+            <div>
+                @if ($tabla->count() > 0)
                     <table class="table responsive" id="tablePresupuestos">
                         <thead>
                             <tr>

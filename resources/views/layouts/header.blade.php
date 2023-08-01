@@ -32,13 +32,20 @@
     body {
         background-color: #d9d9d9;
     }
+
+    .bg-dark{
+        background-color: #12396e !important;
+    }
+     .btn-outline-light:hover{
+        color: #12396e !important;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     @mobile
         <div class="container-fluid">
             <div class="navbar-brand">
-                <a href="/../home/"><img class="img-fluid" src="{{ asset('images/logo.png') }}" alt="Logo"></a>
+                <img class="img-fluid" src="{{ asset('images/logo.png') }}" alt="Logo">
                 <button class="navbar-toggler float-end !important" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -137,83 +144,83 @@
             <ul class="navbar-nav me-auto mb-0 mb-lg-0 col order-2">
                 <li class="nav-item">
                     @if (Request::is('admin/presupuestos'))
-                    <a class="btn btn-light text-dark" href="/admin/presupuestos">
-                        <i class="fas fa-book"></i>
-                        <strong>Presupuestos</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/presupuestos">
+                            <i class="fas fa-book"></i>
+                            <strong>Presupuestos</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/presupuestos">
-                        <i class="fas fa-book"></i>
-                        <strong>Presupuestos</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/presupuestos">
+                            <i class="fas fa-book"></i>
+                            <strong>Presupuestos</strong>
+                        </a>
                     @endif
 
                 </li>
                 <li class="nav-item">
                     @if (Request::is('admin/productos'))
-                    <a class="btn btn-light text-dark" href="/admin/productos">
-                        <i class="fas fa-boxes-stacked"></i>
-                        <strong>Inventario</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/productos">
+                            <i class="fas fa-boxes-stacked"></i>
+                            <strong>Inventario</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/productos">
-                        <i class="fas fa-boxes-stacked"></i>
-                        <strong>Inventario</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/productos">
+                            <i class="fas fa-boxes-stacked"></i>
+                            <strong>Inventario</strong>
+                        </a>
                     @endif
                 </li>
                 <li class="nav-item">
                     @if (Request::is('admin/orden-trabajo'))
-                    <a class="btn btn-light text-dark" href="/admin/orden-trabajo">
-                        <i class="fas fa-wrench"></i>
-                        <strong>Tareas</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/orden-trabajo">
+                            <i class="fas fa-wrench"></i>
+                            <strong>Tareas</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/orden-trabajo">
-                        <i class="fas fa-wrench"></i>
-                        <strong>Tareas</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/orden-trabajo">
+                            <i class="fas fa-wrench"></i>
+                            <strong>Tareas</strong>
+                        </a>
                     @endif
 
                 </li>
                 <li class="nav-item">
                     @if (Request::is('admin/facturas'))
-                    <a class="btn btn-light text-dark" href="/admin/facturas">
-                        <i class="fas fa-wallet"></i>
-                        <strong>Facturación</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/facturas">
+                            <i class="fas fa-wallet"></i>
+                            <strong>Facturación</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/facturas">
-                        <i class="fas fa-wallet"></i>
-                        <strong>Facturación</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/facturas">
+                            <i class="fas fa-wallet"></i>
+                            <strong>Facturación</strong>
+                        </a>
                     @endif
                 </li>
                 <li class="nav-item">
                     @if (Request::is('admin/informes'))
-                    <a class="btn btn-light text-dark" href="/admin/informes">
-                        <i class="fas fa-file-invoice"></i>
-                        <strong>Informes</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/informes">
+                            <i class="fas fa-file-invoice"></i>
+                            <strong>Informes</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/informes">
-                        <i class="fas fa-file-invoice"></i>
-                        <strong>Informes</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/informes">
+                            <i class="fas fa-file-invoice"></i>
+                            <strong>Informes</strong>
+                        </a>
                     @endif
 
                 </li>
                 <li class="nav-item">
                     @if (Request::is('admin/caja'))
-                    <a class="btn btn-light text-dark" href="/admin/caja">
-                        <i class="fas fa-cart-shopping"></i>
-                        <strong>Caja</strong>
-                    </a>
+                        <a class="btn btn-light text-dark" href="/admin/caja">
+                            <i class="fas fa-cart-shopping"></i>
+                            <strong>Caja</strong>
+                        </a>
                     @else
-                    <a class="btn btn-outline-light" href="/admin/caja">
-                        <i class="fas fa-cart-shopping"></i>
-                        <strong>Caja</strong>
-                    </a>
+                        <a class="btn btn-outline-light" href="/admin/caja">
+                            <i class="fas fa-cart-shopping"></i>
+                            <strong>Caja</strong>
+                        </a>
                     @endif
                 </li>
             </ul>
