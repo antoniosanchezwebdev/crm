@@ -70,7 +70,6 @@
                     margin-left: 200px;
                     /* min-width: 600px; */
                 }
-
             }
         </style>
         <div class="page-wrapper chiller-theme toggled sticky-sidebar" id="wrapper">
