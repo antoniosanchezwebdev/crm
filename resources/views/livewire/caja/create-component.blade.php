@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div id="contenedorCajaCreate">
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
         <div class="card mb-3">

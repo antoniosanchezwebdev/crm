@@ -8,6 +8,8 @@ use Livewire\WithPagination;
 class PresupuestosComponent extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
 
     public $tab = "tab1";
     public $presupuesto;

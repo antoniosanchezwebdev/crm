@@ -4,7 +4,7 @@
         <h5 class="card-header">Buscador</h5>
         <div class="card-body">
             <div style="margin-bottom:10px;">
-                <h2> Categoría </h2>
+                <h4> Categoría </h4>
             </div>
 
             <div class="col-sm-10">
@@ -18,7 +18,7 @@
             </div>
             <br>
             <div style="margin-bottom:10px;">
-                <h2> Búsqueda </h2>
+                <h4> Búsqueda </h4>
             </div>
 
             <div class="col-sm-10">

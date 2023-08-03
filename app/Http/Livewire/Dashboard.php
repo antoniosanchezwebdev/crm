@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\OrdenLog;
 use App\Models\OrdenTrabajo;
 use App\Models\Productos;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -12,10 +13,13 @@ use Livewire\Component;
 class Dashboard extends Component
 {
 
-    public $tareas_no_completadas;
+    public $tareas_asignadas;
     public $tareas_completadas;
     public $tareas_facturadas;
-    public $tareas_en_curso;
+    public $tarea_en_curso;
+    public $alertas;
+    public $trabajadores;
+
 
     public $tab = "tab1";
 
@@ -23,11 +27,16 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->tareas_en_curso = Auth::user()->tareasEnCurso;
-        $this->tareas_no_completadas = Auth::user()->tareas->where('estado' ,'Asignada');
+        if(Auth::user()->tareasEnCurso->first() != null){
+            $this->tarea_en_curso = Auth::user()->tareasEnCurso->first();
+        }else{
+            $this->tarea_en_curso = 0;
+        }
+        $this->tareas_asignadas = Auth::user()->tareas->where('estado' ,'Asignada');
         $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
         $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
-
+        $this->alertas = [];
+        $this->trabajadores = User::all();
 
         $this->productos = Productos::all();
     }

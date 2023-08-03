@@ -22,6 +22,6 @@
 @section('encabezado', 'Caja')
 @section('subtitulo', 'Consultar movimientos')
 <br>
-<livewire:caja.caja-component>
+@livewire('caja.caja-component', ['tab' => $tab])
 @endsection
 

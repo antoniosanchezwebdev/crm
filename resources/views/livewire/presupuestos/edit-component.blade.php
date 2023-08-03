@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div id="contenedorPresupuestosEdit">
     <script>
         console.log('hola');
 
@@ -249,7 +249,6 @@
                                 <th></th>
                             <tbody>
                         </table>
-
                 @endif
                 <div>
                     <div class="mb-3 row d-flex align-items-center">

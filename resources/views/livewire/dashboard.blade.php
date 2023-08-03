@@ -1,2177 +1,620 @@
 <div class="row justify-content-center">
+    <style>
+        .dropdown-menu.show {
+            position: relative !important;
+        }
+    </style>
     @mobile
-        <div class="col-md-11">
-            <div class="accordion" id="accordionDashboard">
-                <div class="accordion-item">
-                    <button class="card-header accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseActiva" aria-expanded="false" aria-controls="collapseActiva">
-                        <h4 class="accordion-header text-center" id="headingActiva">Tareas activas</h4>
-                    </button>
-                    <div id="collapseActiva" class="accordion-collapse collapse" aria-labelledby="headingActiva"
-                        data-bs-parent="#accordionDashboard">
-                        <div class="accordion-body">
-                            @if (count($tareas_en_curso) > 0)
-                                <div class="accordion border-primary" id="accordionExample1">
-                                    @foreach ($tareas_en_curso as $tareaIndex => $tarea)
-                                        <div class="card accordion-item">
-                                            @if ($tarea->estado == 'Facturada')
-                                                <button class="card-header accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
-                                                    data-bs-target="#collapseEC{{ $tareaIndex }}" aria-expanded="false"
-                                                    aria-controls="collapseEC{{ $tareaIndex }}">
-                                                    <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                        {{ $tarea->presupuesto->cliente->nombre }} -
-                                                        {{ $tarea->presupuesto->matricula }}
-                                                    </h5>
-                                                </button>
-                                            @else
-                                                @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                                    <button class="card-header accordion-button collapsed bg-warning"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseEC{{ $tareaIndex }}"
-                                                        aria-expanded="false" aria-controls="collapseEC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @else
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseEC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseEC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @endif
-                                            @endif
-
-                                            <div id="collapseEC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                                aria-labelledby="headingEC{{ $tareaIndex }}"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="card-body accordion-body">
-                                                    <h5>ESTADO:</h5>
-                                                    {{ $tarea->estado }}
-                                                    <hr />
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample1EC{{ $tareaIndex }}">
-                                                        <div class="card accordion-item">
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse1EC{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse1EC{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading1EC{{ $tareaIndex }}">
-                                                                    Datos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse1EC{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading1EC{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample1EC{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <h5 class="card-title">Fecha de emisión:</h5>
-                                                                    <p class="card-text">{{ $tarea->fecha }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Descripción del trabajo:</h5>
-                                                                    <p class="card-text">{{ $tarea->descripcion }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Datos del vehículo:</h5>
-                                                                    <p><b>Matrícula:</b>
-                                                                        {{ $tarea->presupuesto->matricula }}</p>
-                                                                    <p><b>Marca:</b> {{ $tarea->presupuesto->marca }}</p>
-                                                                    <p><b>Modelo:</b> {{ $tarea->presupuesto->modelo }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Precio (IVA incluido):</h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Comentarios:</h5>
-                                                                    <p class="card-text" id="comentarios">
-                                                                        {{ $tarea->observaciones }}
-                                                                    </p>
-                                                                    <hr />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample2EC{{ $tareaIndex }}">
-                                                        <div class="card accordion-item" wire:ignore>
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse2EC{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse2EC{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading2EC{{ $tareaIndex }}">
-                                                                    Productos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse2EC{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading2EC{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample2EC{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <div x-data="{}" x-init="$nextTick(() => {
-                                                                        console.log('hola');
-                                                                        $('#tableProductosNCEC{{ $tareaIndex }}').DataTable({
-                                                                            responsive: true,
-                                                                            fixedHeader: true,
-                                                                            searching: false,
-                                                                            paging: false,
-                                                                            autoWidth: false,
-                                                                        });
-                                                                    })">
-                                                                        <table class="table responsive"
-                                                                            id="tableProductosEC{{ $tareaIndex }}">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Código</th>
-                                                                                    <th scope="col">Nombre</th>
-                                                                                    <th scope="col" class="none">
-                                                                                        Cantidad</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                                <tbody>
-                                                                                    @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                        <tr>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                            </td>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                            </td>
-                                                                                            <td>{{ $cantidad }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    @endforeach
-                                                                                <tbody>
-                                                                            @endif
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @if ($tarea->estado == 'Facturada')
-                                                        @else
-                                                            <hr />
-                                                            @if ($tarea->estado == 'Completada')
-                                                                <div class="col">
-                                                                    <div class="d-grid gap-2">
-                                                                        <div class="dropdown">
-                                                                            <button
-                                                                                class="btn btn-secondary dropdown-toggle"
-                                                                                type="button" data-bs-toggle="dropdown"
-                                                                                aria-expanded="false">
-                                                                                Opciones de cobro
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                                    sin cobrar</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                                    de crédito</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                                    bancaria</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                                    bancario
-                                                                                    a 30 días</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                @if ($tarea->logsEnCurso()->count() > 0)
-                                                                    <div class="col-6"> <button type="button"
-                                                                            class="btn btn-danger"
-                                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                            tarea</button></div>
-                                                                @else
-                                                                    @if ($tarea->logs()->count() > 0)
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                                tarea</button></div>
-                                                                    @else
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                                tarea</button></div>
-                                                                    @endif
-                                                                @endif
-                                                                <div class="col-6"><button
-                                                                        wire:click="completarTarea({{ $tarea->id }})"
-                                                                        id="delete-button-{{ $tarea->id }}"
-                                                                        type="button" class="btn btn-secondary">Completar
-                                                                        tarea</button>
-
-                                                                    <script>
-                                                                        document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                            event.preventDefault();
-
-                                                                            Swal.fire({
-                                                                                title: '¿Estás seguro?',
-                                                                                text: "Asegúrate de que todo en la tarea está listo.",
-                                                                                icon: 'warning',
-                                                                                showCancelButton: true,
-                                                                                confirmButtonColor: '#3085d6',
-                                                                                cancelButtonColor: '#d33',
-                                                                                confirmButtonText: 'Marcar como completada'
-                                                                            }).then((result) => {
-                                                                                if (result.isConfirmed) {
-                                                                                    // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                                    @this.call('completarTarea', {{ $tarea->id }})
-                                                                                }
-                                                                            })
-                                                                        });
-                                                                    </script>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    </div>
-
-                                                    <hr />
-
-                                                </div>
-                                            </div>
-                                            @if ($tareaIndex < count($tareas_en_curso) - 1)
-                                                <div class="p-1"></div>
-                                            @endif
-                                    @endforeach
-                                </div>
-                            @else
-                                <h5 class="mt-1 text-center"> <b> No hay tareas activas. </b> </h5>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="card-header accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseAsignada" aria-expanded="false" aria-controls="collapseAsignada">
-                        <h4 class="accordion-header text-center" id="headingAsignada">Tareas asignadas</h4>
-                    </button>
-                    <div id="collapseAsignada" class="accordion-collapse collapse" aria-labelledby="headingAsignada"
-                        data-bs-parent="#accordionDashboard">
-                        <div class="accordion-body">
-                            @if (count($tareas_no_completadas) > 0)
-                                <div class="accordion border-primary" id="accordionExample1">
-                                    @foreach ($tareas_no_completadas as $tareaIndex => $tarea)
-                                        <div class="card accordion-item">
-                                            @if ($tarea->estado == 'Facturada')
-                                                <button class="card-header accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    style="background-color: #7dc15b !important;"
-                                                    data-bs-target="#collapseNC{{ $tareaIndex }}" aria-expanded="false"
-                                                    aria-controls="collapseNC{{ $tareaIndex }}">
-                                                    <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                        {{ $tarea->presupuesto->cliente->nombre }} -
-                                                        {{ $tarea->presupuesto->matricula }}
-                                                    </h5>
-                                                </button>
-                                            @else
-                                                @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                                    <button class="card-header accordion-button collapsed bg-warning"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseNC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseNC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @else
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseNC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseNC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @endif
-                                            @endif
-
-                                            <div id="collapseNC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                                aria-labelledby="headingNC{{ $tareaIndex }}"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="card-body accordion-body">
-                                                    <h5>ESTADO:</h5>
-                                                    {{ $tarea->estado }}
-                                                    <hr />
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample1NC{{ $tareaIndex }}">
-                                                        <div class="card accordion-item">
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse1NC{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse1NC{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading1NC{{ $tareaIndex }}">
-                                                                    Datos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse1NC{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading1NC{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample1NC{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <h5 class="card-title">Fecha de emisión:</h5>
-                                                                    <p class="card-text">{{ $tarea->fecha }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Descripción del trabajo:
-                                                                    </h5>
-                                                                    <p class="card-text">{{ $tarea->descripcion }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Datos del vehículo:</h5>
-                                                                    <p><b>Matrícula:</b>
-                                                                        {{ $tarea->presupuesto->matricula }}</p>
-                                                                    <p><b>Marca:</b> {{ $tarea->presupuesto->marca }}
-                                                                    </p>
-                                                                    <p><b>Modelo:</b> {{ $tarea->presupuesto->modelo }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Precio (IVA incluido):</h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Comentarios:</h5>
-                                                                    <p class="card-text" id="comentarios">
-                                                                        {{ $tarea->observaciones }}
-                                                                    </p>
-                                                                    <hr />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample2NC{{ $tareaIndex }}">
-                                                        <div class="card accordion-item" wire:ignore>
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse2NC{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse2NC{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading2NC{{ $tareaIndex }}">
-                                                                    Productos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse2NC{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading2NC{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample2NC{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <div x-data="{}" x-init="$nextTick(() => {
-                                                                        console.log('hola');
-                                                                        $('#tableProductosNCNC{{ $tareaIndex }}').DataTable({
-                                                                            responsive: true,
-                                                                            fixedHeader: true,
-                                                                            searching: false,
-                                                                            paging: false,
-                                                                            autoWidth: false,
-                                                                        });
-                                                                    })">
-                                                                        <table class="table responsive"
-                                                                            id="tableProductosNC{{ $tareaIndex }}">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Código</th>
-                                                                                    <th scope="col">Nombre</th>
-                                                                                    <th scope="col" class="none">
-                                                                                        Cantidad
-                                                                                    </th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                                <tbody>
-                                                                                    @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                        <tr>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                            </td>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                            </td>
-                                                                                            <td>{{ $cantidad }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    @endforeach
-                                                                                <tbody>
-                                                                            @endif
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @if ($tarea->estado == 'Facturada')
-                                                        @else
-                                                            <hr />
-                                                            @if ($tarea->estado == 'Completada')
-                                                                <div class="col">
-                                                                    <div class="d-grid gap-2">
-                                                                        <div class="dropdown">
-                                                                            <button
-                                                                                class="btn btn-secondary dropdown-toggle"
-                                                                                type="button" data-bs-toggle="dropdown"
-                                                                                aria-expanded="false">
-                                                                                Opciones de cobro
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                                    sin cobrar</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                                    de crédito</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                                    bancaria</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                                    bancario
-                                                                                    a 30 días</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                @if ($tarea->logsEnCurso()->count() > 0)
-                                                                    <div class="col-6"> <button type="button"
-                                                                            class="btn btn-danger"
-                                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                            tarea</button></div>
-                                                                @else
-                                                                    @if ($tarea->logs()->count() > 0)
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                                tarea</button></div>
-                                                                    @else
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                                tarea</button></div>
-                                                                    @endif
-                                                                @endif
-                                                                <div class="col-6"><button
-                                                                        wire:click="completarTarea({{ $tarea->id }})"
-                                                                        id="delete-button-{{ $tarea->id }}"
-                                                                        type="button" class="btn btn-secondary">Completar
-                                                                        tarea</button>
-
-                                                                    <script>
-                                                                        document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                            event.preventDefault();
-
-                                                                            Swal.fire({
-                                                                                title: '¿Estás seguro?',
-                                                                                text: "Asegúrate de que todo en la tarea está listo.",
-                                                                                icon: 'warning',
-                                                                                showCancelButton: true,
-                                                                                confirmButtonColor: '#3085d6',
-                                                                                cancelButtonColor: '#d33',
-                                                                                confirmButtonText: 'Marcar como completada'
-                                                                            }).then((result) => {
-                                                                                if (result.isConfirmed) {
-                                                                                    // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                                    @this.call('completarTarea', {{ $tarea->id }})
-                                                                                }
-                                                                            })
-                                                                        });
-                                                                    </script>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    </div>
-                                                    <hr />
-                                                </div>
-                                            </div>
-                                            @if ($tareaIndex < count($tareas_no_completadas) - 1)
-                                                <div class="p-1"></div>
-                                            @endif
-                                    @endforeach
-                                </div>
-                            @else
-                                <h5 class="mt-1 text-center"> <b> No hay tareas asignadas. </b> </h5>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="card-header accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseCompletada" aria-expanded="false" aria-controls="collapseCompletada">
-                        <h4 class="accordion-header text-center" id="headingCompletada">Tareas completadas</h4>
-                    </button>
-
-                    <div id="collapseCompletada" class="accordion-collapse collapse" aria-labelledby="headingCompletada"
-                        data-bs-parent="#accordionDashboard">
-                        <div class="accordion-body">
-                            @if (count($tareas_completadas) > 0)
-                                <div class="accordion border-primary" id="accordionExampleC">
-                                    @foreach ($tareas_completadas as $tareaIndex => $tarea)
-                                        <div class="card accordion-item">
-                                            @if ($tarea->estado == 'Facturada')
-                                                <button class="card-header accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    style="background-color: #7dc15b !important;"
-                                                    data-bs-target="#collapseC{{ $tareaIndex }}" aria-expanded="false"
-                                                    aria-controls="collapseC{{ $tareaIndex }}">
-                                                    <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                        {{ $tarea->presupuesto->cliente->nombre }} -
-                                                        {{ $tarea->presupuesto->matricula }}
-                                                    </h5>
-                                                </button>
-                                            @else
-                                                @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                                    <button class="card-header accordion-button collapsed bg-warning"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @else
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @endif
-                                            @endif
-
-                                            <div id="collapseC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                                aria-labelledby="headingC{{ $tareaIndex }}"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="card-body accordion-body">
-                                                    <h5>ESTADO:</h5>
-                                                    {{ $tarea->estado }}
-                                                    <hr />
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample1C{{ $tareaIndex }}">
-                                                        <div class="card accordion-item">
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse1C{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse1C{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading1C{{ $tareaIndex }}">
-                                                                    Datos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse1C{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading1C{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample1C{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <h5 class="card-title">Fecha de emisión:</h5>
-                                                                    <p class="card-text">{{ $tarea->fecha }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Descripción del trabajo:
-                                                                    </h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->descripcion }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Datos del vehículo:</h5>
-                                                                    <p><b>Matrícula:</b>
-                                                                        {{ $tarea->presupuesto->matricula }}</p>
-                                                                    <p><b>Marca:</b>
-                                                                        {{ $tarea->presupuesto->marca }}
-                                                                    </p>
-                                                                    <p><b>Modelo:</b>
-                                                                        {{ $tarea->presupuesto->modelo }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Precio (IVA incluido):
-                                                                    </h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Comentarios:</h5>
-                                                                    <p class="card-text" id="comentarios">
-                                                                        {{ $tarea->observaciones }}
-                                                                    </p>
-                                                                    <hr />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample2C{{ $tareaIndex }}">
-                                                        <div class="card accordion-item" wire:ignore>
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse2C{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse2C{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading2C{{ $tareaIndex }}">
-                                                                    Productos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse2C{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading2C{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample2C{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <div x-data="{}" x-init="$nextTick(() => {
-                                                                        console.log('hola');
-                                                                        $('#tableProductosC{{ $tareaIndex }}').DataTable({
-                                                                            responsive: true,
-                                                                            fixedHeader: true,
-                                                                            searching: false,
-                                                                            paging: false,
-                                                                            autoWidth: false,
-                                                                        });
-                                                                    })">
-                                                                        <table class="table responsive"
-                                                                            id="tableProductosC{{ $tareaIndex }}">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Código</th>
-                                                                                    <th scope="col">Nombre</th>
-                                                                                    <th scope="col" class="none">
-                                                                                        Cantidad
-                                                                                    </th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                                <tbody>
-                                                                                    @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                        <tr>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                            </td>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                            </td>
-                                                                                            <td>{{ $cantidad }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    @endforeach
-                                                                                <tbody>
-                                                                            @endif
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @if ($tarea->estado == 'Facturada')
-                                                        @else
-                                                            <hr />
-                                                            @if ($tarea->estado == 'Completada')
-                                                                <div class="col">
-                                                                    <div class="d-grid gap-2">
-                                                                        <div class="dropdown">
-                                                                            <button
-                                                                                class="btn btn-secondary dropdown-toggle"
-                                                                                type="button" data-bs-toggle="dropdown"
-                                                                                aria-expanded="false">
-                                                                                Opciones de cobro
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                                    sin cobrar</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                                    de crédito</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                                    bancaria</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                                    bancario
-                                                                                    a 30 días</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                @if ($tarea->logsEnCurso()->count() > 0)
-                                                                    <div class="col-6"> <button type="button"
-                                                                            class="btn btn-danger"
-                                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                            tarea</button></div>
-                                                                @else
-                                                                    @if ($tarea->logs()->count() > 0)
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                                tarea</button></div>
-                                                                    @else
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                                tarea</button></div>
-                                                                    @endif
-                                                                @endif
-                                                                <div class="col-6"><button
-                                                                        wire:click="completarTarea({{ $tarea->id }})"
-                                                                        id="delete-button-{{ $tarea->id }}"
-                                                                        type="button" class="btn btn-secondary">Completar
-                                                                        tarea</button>
-
-                                                                    <script>
-                                                                        document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                            event.preventDefault();
-
-                                                                            Swal.fire({
-                                                                                title: '¿Estás seguro?',
-                                                                                text: "Asegúrate de que todo en la tarea está listo.",
-                                                                                icon: 'warning',
-                                                                                showCancelButton: true,
-                                                                                confirmButtonColor: '#3085d6',
-                                                                                cancelButtonColor: '#d33',
-                                                                                confirmButtonText: 'Marcar como completada'
-                                                                            }).then((result) => {
-                                                                                if (result.isConfirmed) {
-                                                                                    // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                                    @this.call('completarTarea', {{ $tarea->id }})
-                                                                                }
-                                                                            })
-                                                                        });
-                                                                    </script>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    </div>
-
-                                                    <hr />
-
-                                                </div>
-                                            </div>
-                                            @if ($tareaIndex < count($tareas_completadas) - 1)
-                                                <div class="p-1"></div>
-                                            @endif
-                                    @endforeach
-                                </div>
-                            @else
-                                <h5 class="mt-1 text-center"> <b> No hay tareas completadas. </b> </h5>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <button class="card-header accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFacturada" aria-expanded="false" aria-controls="collapseFacturada">
-                        <h4 class="accordion-header text-center" id="headingFacturada">Tareas facturadas</h4>
-                    </button>
-                    <div id="collapseFacturada" class="accordion-collapse collapse" aria-labelledby="headingFacturada"
-                        data-bs-parent="#accordionDashboard">
-                        <div class="accordion-body">
-                            @if (count($tareas_facturadas) > 0)
-                                <div class="accordion border-primary" id="accordionExampleF">
-                                    @foreach ($tareas_facturadas as $tareaIndex => $tarea)
-                                        <div class="card accordion-item">
-                                            @if ($tarea->estado == 'Facturada')
-                                                <button class="card-header accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    style="background-color: #7dc15b !important;"
-                                                    data-bs-target="#collapseF{{ $tareaIndex }}" aria-expanded="false"
-                                                    aria-controls="collapseF{{ $tareaIndex }}">
-                                                    <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                        {{ $tarea->presupuesto->cliente->nombre }} -
-                                                        {{ $tarea->presupuesto->matricula }}
-                                                    </h5>
-                                                </button>
-                                            @else
-                                                @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                                    <button class="card-header accordion-button collapsed bg-warning"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseF{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseF{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @else
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseF{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseF{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                            {{ $tarea->presupuesto->cliente->nombre }} -
-                                                            {{ $tarea->presupuesto->matricula }}
-                                                        </h5>
-                                                    </button>
-                                                @endif
-                                            @endif
-
-                                            <div id="collapseF{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                                aria-labelledby="headingF{{ $tareaIndex }}"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="card-body accordion-body">
-                                                    <h5>ESTADO:</h5>
-                                                    {{ $tarea->estado }}
-                                                    <hr />
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample1F{{ $tareaIndex }}">
-                                                        <div class="card accordion-item">
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse1F{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse1F{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading1F{{ $tareaIndex }}">
-                                                                    Datos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse1F{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading1F{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample1F{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <h5 class="card-title">Fecha de emisión:
-                                                                    </h5>
-                                                                    <p class="card-text">{{ $tarea->fecha }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Descripción del
-                                                                        trabajo:
-                                                                    </h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->descripcion }}</p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Datos del vehículo:
-                                                                    </h5>
-                                                                    <p><b>Matrícula:</b>
-                                                                        {{ $tarea->presupuesto->matricula }}
-                                                                    </p>
-                                                                    <p><b>Marca:</b>
-                                                                        {{ $tarea->presupuesto->marca }}</p>
-                                                                    <p><b>Modelo:</b>
-                                                                        {{ $tarea->presupuesto->modelo }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Precio (IVA
-                                                                        incluido):
-                                                                    </h5>
-                                                                    <p class="card-text">
-                                                                        {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                                    </p>
-                                                                    <hr />
-                                                                    <h5 class="card-title">Comentarios:</h5>
-                                                                    <p class="card-text" id="comentarios">
-                                                                        {{ $tarea->observaciones }}
-                                                                    </p>
-                                                                    <hr />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="accordion border-primary"
-                                                        id="accordionExample2F{{ $tareaIndex }}">
-                                                        <div class="card accordion-item" wire:ignore>
-                                                            <button class="card-header accordion-button collapsed"
-                                                                type="button" data-bs-toggle="collapse"
-                                                                data-bs-target="#collapse2F{{ $tareaIndex }}"
-                                                                aria-expanded="false"
-                                                                aria-controls="collapse2F{{ $tareaIndex }}">
-                                                                <h5 class="accordion-header"
-                                                                    id="heading2F{{ $tareaIndex }}">
-                                                                    Productos
-                                                                </h5>
-                                                            </button>
-                                                            <div id="collapse2F{{ $tareaIndex }}"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="heading2F{{ $tareaIndex }}"
-                                                                data-bs-parent="#accordionExample2F{{ $tareaIndex }}">
-                                                                <div class="card-body accordion-body">
-                                                                    <div x-data="{}" x-init="$nextTick(() => {
-                                                                        console.log('hola');
-                                                                        $('#tableProductosF{{ $tareaIndex }}').DataTable({
-                                                                            responsive: true,
-                                                                            fixedHeader: true,
-                                                                            searching: false,
-                                                                            paging: false,
-                                                                            autoWidth: false,
-                                                                        });
-                                                                    })">
-                                                                        <table class="table responsive"
-                                                                            id="tableProductosF{{ $tareaIndex }}">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Código
-                                                                                    </th>
-                                                                                    <th scope="col">Nombre
-                                                                                    </th>
-                                                                                    <th scope="col" class="none">
-                                                                                        Cantidad
-                                                                                    </th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                                <tbody>
-                                                                                    @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                        <tr>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                            </td>
-                                                                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                            </td>
-                                                                                            <td>{{ $cantidad }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    @endforeach
-                                                                                <tbody>
-                                                                            @endif
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @if ($tarea->estado == 'Facturada')
-                                                        @else
-                                                            <hr />
-                                                            @if ($tarea->estado == 'Completada')
-                                                                <div class="col">
-                                                                    <div class="d-grid gap-2">
-                                                                        <div class="dropdown">
-                                                                            <button
-                                                                                class="btn btn-secondary dropdown-toggle"
-                                                                                type="button" data-bs-toggle="dropdown"
-                                                                                aria-expanded="false">
-                                                                                Opciones de cobro
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                                    sin cobrar</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                                    de crédito</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                                    bancaria</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                                    bancario
-                                                                                    a 30 días</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                                <a class="dropdown-item" href="#"
-                                                                                    wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                @if ($tarea->logsEnCurso()->count() > 0)
-                                                                    <div class="col-6"> <button type="button"
-                                                                            class="btn btn-danger"
-                                                                            wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                            tarea</button></div>
-                                                                @else
-                                                                    @if ($tarea->logs()->count() > 0)
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                                tarea</button></div>
-                                                                    @else
-                                                                        <div class="col-6"> <button type="button"
-                                                                                class="btn btn-primary"
-                                                                                wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                                tarea</button></div>
-                                                                    @endif
-                                                                @endif
-                                                                <div class="col-6"><button
-                                                                        wire:click="completarTarea({{ $tarea->id }})"
-                                                                        id="delete-button-{{ $tarea->id }}"
-                                                                        type="button" class="btn btn-secondary">Completar
-                                                                        tarea</button>
-
-                                                                    <script>
-                                                                        document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                            event.preventDefault();
-
-                                                                            Swal.fire({
-                                                                                title: '¿Estás seguro?',
-                                                                                text: "Asegúrate de que todo en la tarea está listo.",
-                                                                                icon: 'warning',
-                                                                                showCancelButton: true,
-                                                                                confirmButtonColor: '#3085d6',
-                                                                                cancelButtonColor: '#d33',
-                                                                                confirmButtonText: 'Marcar como completada'
-                                                                            }).then((result) => {
-                                                                                if (result.isConfirmed) {
-                                                                                    // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                                    @this.call('completarTarea', {{ $tarea->id }})
-                                                                                }
-                                                                            })
-                                                                        });
-                                                                    </script>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    </div>
-
-                                                    <hr />
-
-                                                </div>
-                                            </div>
-                                            @if ($tareaIndex < count($tareas_facturadas) - 1)
-                                                <div class="p-1"></div>
-                                            @endif
-                                    @endforeach
-                                </div>
-                            @else
-                                <h5 class="mt-1 text-center"> <b> No hay tareas facturadas. </b> </h5>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     @elsemobile
-        <ul class="nav nav-tabs nav-fill">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link @if ($tab == 'tab1') active @endif" wire:click="cambioTab('tab1')"
-                    id="curso-tab" data-bs-toggle="tab" data-bs-target="#curso" type="button" role="tab"
-                    aria-controls="curso" aria-selected="false">
-                    @if ($tab == 'tab1')
-                        <h3>Tareas activas</h3>
-                    @else
-                        <h5>Tareas activas</h5>
-                    @endif
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link @if ($tab == 'tab2') active @endif" wire:click="cambioTab('tab2')"
-                    id="asignada-tab" data-bs-toggle="tab" data-bs-target="#asignada" type="button" role="tab"
-                    aria-controls="asignada" aria-selected="false">
-                    @if ($tab == 'tab2')
-                        <h3>Tareas asignadas</h3>
-                    @else
-                        <h5>Tareas asignadas</h5>
-                    @endif
+        <div class="col-4">
+            <div class="card">
+                <h5 class="card-header">Tarea activa</h5>
+                <div class="card-body">
+                    @if ($tarea_en_curso != null)
+                        <div id="accordion-activa">
+                            <div class="card mb-0">
+                                <div class="card-header" id="headingOne-activa"
+                                    @if ($tarea_en_curso->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
+                                    <h5 class="mb-0 mt-0 font-14">
+                                        <a data-toggle="collapse" data-parent="#accordion-activa" href="#collapseOne-activa"
+                                            aria-expanded="true" aria-controls="collapseOne-activa" class="text-dark">
+                                            {{ $tarea_en_curso->descripcion }}
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne-activa" class="collapse show" aria-labelledby="headingOne-activa"
+                                    data-parent="#accordion-activa">
+                                    <div class="card-body">
+                                        <h5 class="border-bottom"> Datos </h5>
+                                        <ul>
+                                            <li><b>Cliente:</b> {{ $tarea_en_curso->presupuesto->cliente->nombre }} -
+                                                {{ $tarea_en_curso->presupuesto->matricula }}
+                                            </li>
+                                            <li><b>Presupuesto:</b>
+                                                {{ $tarea_en_curso->presupuesto->numero_presupuesto }} </li>
+                                            <li><b>Operarios:</b>
+                                                <ul>
+                                                    @foreach (json_decode($tarea_en_curso->operarios, true) as $operario)
+                                                        <li> {{ $trabajadores->where('id', $operario)->first()->name }}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            <li><b>Trabajos solicitados:</b>
+                                                <ul>
+                                                    @foreach (json_decode($tarea_en_curso->trabajos_solicitados, true) as $trabajo)
+                                                        <li> {{ $trabajo }} </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            <li><b>Trabajos a realizar:</b>
+                                                <ul>
+                                                    @foreach (json_decode($tarea_en_curso->trabajos_realizar, true) as $trabajo)
+                                                        <li> {{ $trabajo }} </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                            <li><b>Daños localizados</b>
+                                                <ul>
+                                                    @foreach (json_decode($tarea_en_curso->danos_localizados, true) as $trabajo)
+                                                        <li> {{ $trabajo }} </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <h5 class="border-bottom"> Productos </h5>
+                                        <table class="table responsive" id="tableProductosCurso">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Código</th>
+                                                    <th scope="col">Nombre</th>
+                                                    <th scope="col" class="none">
+                                                        Cantidad
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @if (count(json_decode($tarea_en_curso->presupuesto->listaArticulos, true)) != 0)
+                                                <tbody>
+                                                    @foreach (json_decode($tarea_en_curso->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                        <tr>
+                                                            <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
+                                                            </td>
+                                                            <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
+                                                            </td>
+                                                            <td>{{ $cantidad }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                <tbody>
+                                            @endif
+                                        </table>
+                                        <h5 class="border-bottom">&nbsp;</h5>
+                                        <div class="row justify-content-center">
+                                            <div class="col-6"> <button type="button" class="btn btn-primary"
+                                                    wire:click="pausarTarea('{{ $tarea_en_curso->id }}', '{{ Auth::id() }}')">Pausar
+                                                    tarea</button></div>
+                                            <div class="col-6"><button
+                                                    wire:click="completarTarea({{ $tarea_en_curso->id }})"
+                                                    id="delete-button-{{ $tarea_en_curso->id }}" type="button"
+                                                    class="btn btn-secondary">Completar
+                                                    tarea</button>
 
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link @if ($tab == 'tab3') active @endif" wire:click="cambioTab('tab3')"
-                    id="completa-tab" data-bs-toggle="tab" data-bs-target="#completa" type="button" role="tab"
-                    aria-controls="completa" aria-selected="false">
-                    @if ($tab == 'tab3')
-                        <h3>Tareas completadas</h3>
-                    @else
-                        <h5>Tareas completadas</h5>
-                    @endif
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link @if ($tab == 'tab4') active @endif" wire:click="cambioTab('tab4')"
-                    id="factura-tab" data-bs-toggle="tab" data-bs-target="#factura" type="button" role="tab"
-                    aria-controls="factura" aria-selected="false">
-                    @if ($tab == 'tab4')
-                        <h3>Tareas facturadas</h3>
-                    @else
-                        <h5>Tareas facturadas</h5>
-                    @endif
+                                                <script>
+                                                    document.getElementById('delete-button-{{ $tarea_en_curso->id }}').addEventListener('click', function(event) {
+                                                        event.preventDefault();
 
-                </button>
-            </li>
-        </ul>
-        <div class="col-md-11">
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade @if ($tab == 'tab1') show active @endif" id="curso"
-                    role="tabpanel" aria-labelledby="curso-tab">
-                    @if (count($tareas_en_curso) > 0)
-                        <br>
-                        <div class="accordion border-primary" id="accordionExample1">
-                            @foreach ($tareas_en_curso as $tareaIndex => $tarea)
-                                <div class="card accordion-item">
-                                    @if ($tarea->estado == 'Facturada')
-                                        <button class="card-header accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
-                                            data-bs-target="#collapseEC{{ $tareaIndex }}" aria-expanded="false"
-                                            aria-controls="collapseEC{{ $tareaIndex }}">
-                                            <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                {{ $tarea->presupuesto->cliente->nombre }} -
-                                                {{ $tarea->presupuesto->matricula }}
-                                            </h5>
-                                        </button>
-                                    @else
-                                        @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                            <button class="card-header accordion-button collapsed bg-warning"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseEC{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseEC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @else
-                                            <button class="card-header accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseEC{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseEC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingEC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @endif
-                                    @endif
-
-                                    <div id="collapseEC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingEC{{ $tareaIndex }}"
-                                        data-bs-parent="#accordionExample">
-                                        <div class="card-body accordion-body">
-                                            <h5>ESTADO:</h5>
-                                            {{ $tarea->estado }}
-                                            <hr />
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample1EC{{ $tareaIndex }}">
-                                                <div class="card accordion-item">
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse1EC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse1EC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading1EC{{ $tareaIndex }}">
-                                                            Datos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse1EC{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading1EC{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample1EC{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <h5 class="card-title">Fecha de emisión:</h5>
-                                                            <p class="card-text">{{ $tarea->fecha }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Descripción del trabajo:</h5>
-                                                            <p class="card-text">{{ $tarea->descripcion }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Datos del vehículo:</h5>
-                                                            <p><b>Matrícula:</b>
-                                                                {{ $tarea->presupuesto->matricula }}</p>
-                                                            <p><b>Marca:</b> {{ $tarea->presupuesto->marca }}</p>
-                                                            <p><b>Modelo:</b> {{ $tarea->presupuesto->modelo }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Precio (IVA incluido):</h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Comentarios:</h5>
-                                                            <p class="card-text" id="comentarios">
-                                                                {{ $tarea->observaciones }}
-                                                            </p>
-                                                            <hr />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        Swal.fire({
+                                                            title: '¿Estás seguro?',
+                                                            text: "Asegúrate de que todo en la tarea está listo.",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Marcar como completada'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
+                                                                @this.call('completarTarea', {{ $tarea_en_curso->id }})
+                                                            }
+                                                        })
+                                                    });
+                                                </script>
                                             </div>
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample2EC{{ $tareaIndex }}">
-                                                <div class="card accordion-item" wire:ignore>
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse2EC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse2EC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading2EC{{ $tareaIndex }}">
-                                                            Productos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse2EC{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading2EC{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample2EC{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <div x-data="{}" x-init="$nextTick(() => {
-                                                                console.log('hola');
-                                                                $('#tableProductosNCEC{{ $tareaIndex }}').DataTable({
-                                                                    responsive: true,
-                                                                    fixedHeader: true,
-                                                                    searching: false,
-                                                                    paging: false,
-                                                                    autoWidth: false,
-                                                                });
-                                                            })">
-                                                                <table class="table responsive"
-                                                                    id="tableProductosEC{{ $tareaIndex }}">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Código</th>
-                                                                            <th scope="col">Nombre</th>
-                                                                            <th scope="col" class="none">
-                                                                                Cantidad</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                        <tbody>
-                                                                            @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                <tr>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                    </td>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                    </td>
-                                                                                    <td>{{ $cantidad }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        <tbody>
-                                                                    @endif
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                @if ($tarea->estado == 'Facturada')
-                                                @else
-                                                    <hr />
-                                                    @if ($tarea->estado == 'Completada')
-                                                        <div class="col">
-                                                            <div class="d-grid gap-2">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        Opciones de cobro
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                            sin cobrar</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                            de crédito</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                            bancaria</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                            bancario
-                                                                            a 30 días</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        @if ($tarea->logsEnCurso()->count() > 0)
-                                                            <div class="col-6"> <button type="button"
-                                                                    class="btn btn-danger"
-                                                                    wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                    tarea</button></div>
-                                                        @else
-                                                            @if ($tarea->logs()->count() > 0)
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                        tarea</button></div>
-                                                            @else
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                        tarea</button></div>
-                                                            @endif
-                                                        @endif
-                                                        <div class="col-6"><button
-                                                                wire:click="completarTarea({{ $tarea->id }})"
-                                                                id="delete-button-{{ $tarea->id }}" type="button"
-                                                                class="btn btn-secondary">Completar
-                                                                tarea</button>
-
-                                                            <script>
-                                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                    event.preventDefault();
-
-                                                                    Swal.fire({
-                                                                        title: '¿Estás seguro?',
-                                                                        text: "Asegúrate de que todo en la tarea está listo.",
-                                                                        icon: 'warning',
-                                                                        showCancelButton: true,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        confirmButtonText: 'Marcar como completada'
-                                                                    }).then((result) => {
-                                                                        if (result.isConfirmed) {
-                                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                            @this.call('completarTarea', {{ $tarea->id }})
-                                                                        }
-                                                                    })
-                                                                });
-                                                            </script>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-
-                                            <hr />
-
                                         </div>
                                     </div>
-                                    @if ($tareaIndex < count($tareas_en_curso) - 1)
-                                        <div class="p-1"></div>
-                                    @endif
-                            @endforeach
+                                </div>
+                            </div>
                         </div>
                     @else
-                        <h3 class="mt-3 text-center"> <b> No hay tareas activas. </b> </h3>
-                    @endif
-                </div>
-                <div class="tab-pane fade @if ($tab == 'tab2') show active @endif" id="asignada"
-                    role="tabpanel" aria-labelledby="asignada-tab">
-                    @if (count($tareas_no_completadas) > 0)
-                        <br>
-                        <div class="accordion border-primary" id="accordionExample1">
-                            @foreach ($tareas_no_completadas as $tareaIndex => $tarea)
-                                <div class="card accordion-item">
-                                    @if ($tarea->estado == 'Facturada')
-                                        <button class="card-header accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
-                                            data-bs-target="#collapseNC{{ $tareaIndex }}" aria-expanded="false"
-                                            aria-controls="collapseNC{{ $tareaIndex }}">
-                                            <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                {{ $tarea->presupuesto->cliente->nombre }} -
-                                                {{ $tarea->presupuesto->matricula }}
-                                            </h5>
-                                        </button>
-                                    @else
-                                        @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                            <button class="card-header accordion-button collapsed bg-warning"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseNC{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseNC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @else
-                                            <button class="card-header accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseNC{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseNC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingNC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @endif
-                                    @endif
-
-                                    <div id="collapseNC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingNC{{ $tareaIndex }}"
-                                        data-bs-parent="#accordionExample">
-                                        <div class="card-body accordion-body">
-                                            <h5>ESTADO:</h5>
-                                            {{ $tarea->estado }}
-                                            <hr />
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample1NC{{ $tareaIndex }}">
-                                                <div class="card accordion-item">
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse1NC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse1NC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading1NC{{ $tareaIndex }}">
-                                                            Datos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse1NC{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading1NC{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample1NC{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <h5 class="card-title">Fecha de emisión:</h5>
-                                                            <p class="card-text">{{ $tarea->fecha }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Descripción del trabajo:
-                                                            </h5>
-                                                            <p class="card-text">{{ $tarea->descripcion }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Datos del vehículo:</h5>
-                                                            <p><b>Matrícula:</b>
-                                                                {{ $tarea->presupuesto->matricula }}</p>
-                                                            <p><b>Marca:</b> {{ $tarea->presupuesto->marca }}
-                                                            </p>
-                                                            <p><b>Modelo:</b> {{ $tarea->presupuesto->modelo }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Precio (IVA incluido):</h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Comentarios:</h5>
-                                                            <p class="card-text" id="comentarios">
-                                                                {{ $tarea->observaciones }}
-                                                            </p>
-                                                            <hr />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample2NC{{ $tareaIndex }}">
-                                                <div class="card accordion-item" wire:ignore>
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse2NC{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse2NC{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading2NC{{ $tareaIndex }}">
-                                                            Productos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse2NC{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading2NC{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample2NC{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <div x-data="{}" x-init="$nextTick(() => {
-                                                                console.log('hola');
-                                                                $('#tableProductosNCNC{{ $tareaIndex }}').DataTable({
-                                                                    responsive: true,
-                                                                    fixedHeader: true,
-                                                                    searching: false,
-                                                                    paging: false,
-                                                                    autoWidth: false,
-                                                                });
-                                                            })">
-                                                                <table class="table responsive"
-                                                                    id="tableProductosNC{{ $tareaIndex }}">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Código</th>
-                                                                            <th scope="col">Nombre</th>
-                                                                            <th scope="col" class="none">
-                                                                                Cantidad
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                        <tbody>
-                                                                            @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                <tr>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                    </td>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                    </td>
-                                                                                    <td>{{ $cantidad }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        <tbody>
-                                                                    @endif
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                @if ($tarea->estado == 'Facturada')
-                                                @else
-                                                    <hr />
-                                                    @if ($tarea->estado == 'Completada')
-                                                        <div class="col">
-                                                            <div class="d-grid gap-2">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        Opciones de cobro
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                            sin cobrar</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                            de crédito</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                            bancaria</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                            bancario
-                                                                            a 30 días</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        @if ($tarea->logsEnCurso()->count() > 0)
-                                                            <div class="col-6"> <button type="button"
-                                                                    class="btn btn-danger"
-                                                                    wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                    tarea</button></div>
-                                                        @else
-                                                            @if ($tarea->logs()->count() > 0)
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                        tarea</button></div>
-                                                            @else
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                        tarea</button></div>
-                                                            @endif
-                                                        @endif
-                                                        <div class="col-6"><button
-                                                                wire:click="completarTarea({{ $tarea->id }})"
-                                                                id="delete-button-{{ $tarea->id }}" type="button"
-                                                                class="btn btn-secondary">Completar
-                                                                tarea</button>
-
-                                                            <script>
-                                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                    event.preventDefault();
-
-                                                                    Swal.fire({
-                                                                        title: '¿Estás seguro?',
-                                                                        text: "Asegúrate de que todo en la tarea está listo.",
-                                                                        icon: 'warning',
-                                                                        showCancelButton: true,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        confirmButtonText: 'Marcar como completada'
-                                                                    }).then((result) => {
-                                                                        if (result.isConfirmed) {
-                                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                            @this.call('completarTarea', {{ $tarea->id }})
-                                                                        }
-                                                                    })
-                                                                });
-                                                            </script>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                            <hr />
-                                        </div>
-                                    </div>
-                                    @if ($tareaIndex < count($tareas_no_completadas) - 1)
-                                        <div class="p-1"></div>
-                                    @endif
-                            @endforeach
-                        </div>
-                    @else
-                        <h3 class="mt-3 text-center"> <b> No hay tareas asignadas. </b> </h3>
-                    @endif
-                </div>
-                <div class="tab-pane fade @if ($tab == 'tab3') show active @endif" id="completa"
-                    role="tabpanel" aria-labelledby="completa-tab">
-                    @if (count($tareas_completadas) > 0)
-                        <br>
-                        <div class="accordion border-primary" id="accordionExampleC">
-                            @foreach ($tareas_completadas as $tareaIndex => $tarea)
-                                <div class="card accordion-item">
-                                    @if ($tarea->estado == 'Facturada')
-                                        <button class="card-header accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
-                                            data-bs-target="#collapseC{{ $tareaIndex }}" aria-expanded="false"
-                                            aria-controls="collapseC{{ $tareaIndex }}">
-                                            <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                {{ $tarea->presupuesto->cliente->nombre }} -
-                                                {{ $tarea->presupuesto->matricula }}
-                                            </h5>
-                                        </button>
-                                    @else
-                                        @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                            <button class="card-header accordion-button collapsed bg-warning"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseC{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @else
-                                            <button class="card-header accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseC{{ $tareaIndex }}"
-                                                aria-expanded="false" aria-controls="collapseC{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingC{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @endif
-                                    @endif
-
-                                    <div id="collapseC{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingC{{ $tareaIndex }}"
-                                        data-bs-parent="#accordionExample">
-                                        <div class="card-body accordion-body">
-                                            <h5>ESTADO:</h5>
-                                            {{ $tarea->estado }}
-                                            <hr />
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample1C{{ $tareaIndex }}">
-                                                <div class="card accordion-item">
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse1C{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse1C{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading1C{{ $tareaIndex }}">
-                                                            Datos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse1C{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading1C{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample1C{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <h5 class="card-title">Fecha de emisión:</h5>
-                                                            <p class="card-text">{{ $tarea->fecha }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Descripción del trabajo:
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->descripcion }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Datos del vehículo:</h5>
-                                                            <p><b>Matrícula:</b>
-                                                                {{ $tarea->presupuesto->matricula }}</p>
-                                                            <p><b>Marca:</b>
-                                                                {{ $tarea->presupuesto->marca }}
-                                                            </p>
-                                                            <p><b>Modelo:</b>
-                                                                {{ $tarea->presupuesto->modelo }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Precio (IVA incluido):
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Comentarios:</h5>
-                                                            <p class="card-text" id="comentarios">
-                                                                {{ $tarea->observaciones }}
-                                                            </p>
-                                                            <hr />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample2C{{ $tareaIndex }}">
-                                                <div class="card accordion-item" wire:ignore>
-                                                    <button class="card-header accordion-button collapsed" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse2C{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse2C{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header" id="heading2C{{ $tareaIndex }}">
-                                                            Productos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse2C{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading2C{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample2C{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <div x-data="{}" x-init="$nextTick(() => {
-                                                                console.log('hola');
-                                                                $('#tableProductosC{{ $tareaIndex }}').DataTable({
-                                                                    responsive: true,
-                                                                    fixedHeader: true,
-                                                                    searching: false,
-                                                                    paging: false,
-                                                                    autoWidth: false,
-                                                                });
-                                                            })">
-                                                                <table class="table responsive"
-                                                                    id="tableProductosC{{ $tareaIndex }}">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Código</th>
-                                                                            <th scope="col">Nombre</th>
-                                                                            <th scope="col" class="none">
-                                                                                Cantidad
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                        <tbody>
-                                                                            @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                <tr>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                    </td>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                    </td>
-                                                                                    <td>{{ $cantidad }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        <tbody>
-                                                                    @endif
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                @if ($tarea->estado == 'Facturada')
-                                                @else
-                                                    <hr />
-                                                    @if ($tarea->estado == 'Completada')
-                                                        <div class="col">
-                                                            <div class="d-grid gap-2">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        Opciones de cobro
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                            sin cobrar</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                            de crédito</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                            bancaria</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                            bancario
-                                                                            a 30 días</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        @if ($tarea->logsEnCurso()->count() > 0)
-                                                            <div class="col-6"> <button type="button"
-                                                                    class="btn btn-danger"
-                                                                    wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                    tarea</button></div>
-                                                        @else
-                                                            @if ($tarea->logs()->count() > 0)
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                        tarea</button></div>
-                                                            @else
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                        tarea</button></div>
-                                                            @endif
-                                                        @endif
-                                                        <div class="col-6"><button
-                                                                wire:click="completarTarea({{ $tarea->id }})"
-                                                                id="delete-button-{{ $tarea->id }}" type="button"
-                                                                class="btn btn-secondary">Completar
-                                                                tarea</button>
-
-                                                            <script>
-                                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                    event.preventDefault();
-
-                                                                    Swal.fire({
-                                                                        title: '¿Estás seguro?',
-                                                                        text: "Asegúrate de que todo en la tarea está listo.",
-                                                                        icon: 'warning',
-                                                                        showCancelButton: true,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        confirmButtonText: 'Marcar como completada'
-                                                                    }).then((result) => {
-                                                                        if (result.isConfirmed) {
-                                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                            @this.call('completarTarea', {{ $tarea->id }})
-                                                                        }
-                                                                    })
-                                                                });
-                                                            </script>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-
-                                            <hr />
-
-                                        </div>
-                                    </div>
-                                    @if ($tareaIndex < count($tareas_completadas) - 1)
-                                        <div class="p-1"></div>
-                                    @endif
-                            @endforeach
-                        </div>
-                                                                    </div>
-
-                    @else
-                        <h3 class="mt-3 text-center"> <b> No hay tareas completadas. </b> </h3>
-                    @endif
-                </div>
-                <div class="tab-pane fade @if ($tab == 'tab4') show active @endif" id="factura"
-                    role="tabpanel" aria-labelledby="factura-tab">
-                    @if (count($tareas_facturadas) > 0)
-                        <br>
-                        <div class="accordion border-primary" id="accordionExampleF">
-                            @foreach ($tareas_facturadas as $tareaIndex => $tarea)
-                                <div class="card accordion-item">
-                                    @if ($tarea->estado == 'Facturada')
-                                        <button class="card-header accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" style="background-color: #7dc15b !important;"
-                                            data-bs-target="#collapseF{{ $tareaIndex }}" aria-expanded="false"
-                                            aria-controls="collapseF{{ $tareaIndex }}">
-                                            <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                {{ $tarea->presupuesto->cliente->nombre }} -
-                                                {{ $tarea->presupuesto->matricula }}
-                                            </h5>
-                                        </button>
-                                    @else
-                                        @if ($tarea->presupuesto->vehiculo_renting == 1)
-                                            <button class="card-header accordion-button collapsed bg-warning"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseF{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseF{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @else
-                                            <button class="card-header accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseF{{ $tareaIndex }}" aria-expanded="false"
-                                                aria-controls="collapseF{{ $tareaIndex }}">
-                                                <h5 class="accordion-header" id="headingF{{ $tareaIndex }}">
-                                                    {{ $tarea->presupuesto->cliente->nombre }} -
-                                                    {{ $tarea->presupuesto->matricula }}
-                                                </h5>
-                                            </button>
-                                        @endif
-                                    @endif
-
-                                    <div id="collapseF{{ $tareaIndex }}" class="accordion-collapse collapse"
-                                        aria-labelledby="headingF{{ $tareaIndex }}"
-                                        data-bs-parent="#accordionExample">
-                                        <div class="card-body accordion-body">
-                                            <h5>ESTADO:</h5>
-                                            {{ $tarea->estado }}
-                                            <hr />
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample1F{{ $tareaIndex }}">
-                                                <div class="card accordion-item">
-                                                    <button class="card-header accordion-button collapsed"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse1F{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse1F{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header"
-                                                            id="heading1F{{ $tareaIndex }}">
-                                                            Datos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse1F{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading1F{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample1F{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <h5 class="card-title">Fecha de emisión:
-                                                            </h5>
-                                                            <p class="card-text">{{ $tarea->fecha }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Descripción del
-                                                                trabajo:
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->descripcion }}</p>
-                                                            <hr />
-                                                            <h5 class="card-title">Datos del vehículo:
-                                                            </h5>
-                                                            <p><b>Matrícula:</b>
-                                                                {{ $tarea->presupuesto->matricula }}
-                                                            </p>
-                                                            <p><b>Marca:</b>
-                                                                {{ $tarea->presupuesto->marca }}</p>
-                                                            <p><b>Modelo:</b>
-                                                                {{ $tarea->presupuesto->modelo }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Precio (IVA
-                                                                incluido):
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                {{ $tarea->presupuesto->precio + $tarea->presupuesto->precio * 0.21 }}
-                                                            </p>
-                                                            <hr />
-                                                            <h5 class="card-title">Comentarios:</h5>
-                                                            <p class="card-text" id="comentarios">
-                                                                {{ $tarea->observaciones }}
-                                                            </p>
-                                                            <hr />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="accordion border-primary"
-                                                id="accordionExample2F{{ $tareaIndex }}">
-                                                <div class="card accordion-item" wire:ignore>
-                                                    <button class="card-header accordion-button collapsed"
-                                                        type="button" data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse2F{{ $tareaIndex }}"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapse2F{{ $tareaIndex }}">
-                                                        <h5 class="accordion-header"
-                                                            id="heading2F{{ $tareaIndex }}">
-                                                            Productos
-                                                        </h5>
-                                                    </button>
-                                                    <div id="collapse2F{{ $tareaIndex }}"
-                                                        class="accordion-collapse collapse"
-                                                        aria-labelledby="heading2F{{ $tareaIndex }}"
-                                                        data-bs-parent="#accordionExample2F{{ $tareaIndex }}">
-                                                        <div class="card-body accordion-body">
-                                                            <div x-data="{}" x-init="$nextTick(() => {
-                                                                console.log('hola');
-                                                                $('#tableProductosF{{ $tareaIndex }}').DataTable({
-                                                                    responsive: true,
-                                                                    fixedHeader: true,
-                                                                    searching: false,
-                                                                    paging: false,
-                                                                    autoWidth: false,
-                                                                });
-                                                            })">
-                                                                <table class="table responsive"
-                                                                    id="tableProductosF{{ $tareaIndex }}">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Código
-                                                                            </th>
-                                                                            <th scope="col">Nombre
-                                                                            </th>
-                                                                            <th scope="col" class="none">
-                                                                                Cantidad
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
-                                                                        <tbody>
-                                                                            @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
-                                                                                <tr>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
-                                                                                    </td>
-                                                                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
-                                                                                    </td>
-                                                                                    <td>{{ $cantidad }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        <tbody>
-                                                                    @endif
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                @if ($tarea->estado == 'Facturada')
-                                                @else
-                                                    <hr />
-                                                    @if ($tarea->estado == 'Completada')
-                                                        <div class="col">
-                                                            <div class="d-grid gap-2">
-                                                                <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        Opciones de cobro
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'No pagado')">Guardar
-                                                                            sin cobrar</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Contado')">Contado</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Tarjeta de crédito')">Tarjeta
-                                                                            de crédito</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Transferencia bancaria')">Transferencia
-                                                                            bancaria</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Recibo bancario a 30 días')">Recibo
-                                                                            bancario
-                                                                            a 30 días</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}','Bizum')">Bizum</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            wire:click="redirectToCaja('{{ $tarea->id }}', 'Financiado')">Financiado</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        @if ($tarea->logsEnCurso()->count() > 0)
-                                                            <div class="col-6"> <button type="button"
-                                                                    class="btn btn-danger"
-                                                                    wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
-                                                                    tarea</button></div>
-                                                        @else
-                                                            @if ($tarea->logs()->count() > 0)
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Reanudar
-                                                                        tarea</button></div>
-                                                            @else
-                                                                <div class="col-6"> <button type="button"
-                                                                        class="btn btn-primary"
-                                                                        wire:click="iniciarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Iniciar
-                                                                        tarea</button></div>
-                                                            @endif
-                                                        @endif
-                                                        <div class="col-6"><button
-                                                                wire:click="completarTarea({{ $tarea->id }})"
-                                                                id="delete-button-{{ $tarea->id }}" type="button"
-                                                                class="btn btn-secondary">Completar
-                                                                tarea</button>
-
-                                                            <script>
-                                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
-                                                                    event.preventDefault();
-
-                                                                    Swal.fire({
-                                                                        title: '¿Estás seguro?',
-                                                                        text: "Asegúrate de que todo en la tarea está listo.",
-                                                                        icon: 'warning',
-                                                                        showCancelButton: true,
-                                                                        confirmButtonColor: '#3085d6',
-                                                                        cancelButtonColor: '#d33',
-                                                                        confirmButtonText: 'Marcar como completada'
-                                                                    }).then((result) => {
-                                                                        if (result.isConfirmed) {
-                                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                                            @this.call('completarTarea', {{ $tarea->id }})
-                                                                        }
-                                                                    })
-                                                                });
-                                                            </script>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-
-                                            <hr />
-
-                                        </div>
-                                    </div>
-                                    @if ($tareaIndex < count($tareas_facturadas) - 1)
-                                        <div class="p-1"></div>
-                                    @endif
-                            @endforeach
-                        </div>
-                    @else
-                        <h3 class="mt-3 text-center"> <b> No hay tareas facturadas. </b> </h3>
+                        <h5>No hay ninguna tarea en curso. </h5>
                     @endif
                 </div>
             </div>
         </div>
+        <div class="col-4">
+            <div class="card">
+                <h5 class="card-header">Tareas asignadas</h5>
+                <div class="card-body">
+                    @if ($tareas_asignadas->count() > 0)
+                        <div id="accordionTA">
+                            @foreach ($tareas_asignadas as $tarea_asignadaIndex => $tarea_asignada)
+                                @if ($tarea_en_curso != null)
+                                    @if ($tarea_en_curso->id == $tarea_asignada->id)
+                                    @else
+                                        <div class="card mb-0">
+                                            <div class="card-header" id="headingTA-{{ $tarea_asignadaIndex }}"
+                                                @if ($tarea_asignada->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
+                                                <h5 class="mb-0 mt-0 font-14">
+                                                    <a data-toggle="collapse" data-parent="#accordionTA"
+                                                        href="#collapseTA-{{ $tarea_asignadaIndex }}" aria-expanded="true"
+                                                        aria-controls="collapseTA-{{ $tarea_asignadaIndex }}"
+                                                        class="text-dark">
+                                                        {{ $tarea_asignada->descripcion }}
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseTA-{{ $tarea_asignadaIndex }}" class="collapse"
+                                                aria-labelledby="headingTA-{{ $tarea_asignadaIndex }}"
+                                                data-parent="#accordionTA">
+                                                <div class="card-body">
+                                                    <h5 class="border-bottom"> Datos </h5>
+                                                    <ul>
+                                                        <li><b>Cliente:</b>
+                                                            {{ $tarea_asignada->presupuesto->cliente->nombre }}
+                                                            -
+                                                            {{ $tarea_asignada->presupuesto->matricula }}
+                                                        </li>
+                                                        <li><b>Presupuesto:</b>
+                                                            {{ $tarea_asignada->presupuesto->numero_presupuesto }} </li>
+                                                        <li><b>Operarios:</b>
+                                                            <ul>
+                                                                @foreach (json_decode($tarea_asignada->operarios, true) as $operario)
+                                                                    <li> {{ $trabajadores->where('id', $operario)->first()->name }}
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                        <li><b>Trabajos solicitados:</b>
+                                                            <ul>
+                                                                @foreach (json_decode($tarea_asignada->trabajos_solicitados, true) as $trabajo)
+                                                                    <li> {{ $trabajo }} </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                        <li><b>Trabajos a realizar:</b>
+                                                            <ul>
+                                                                @foreach (json_decode($tarea_asignada->trabajos_realizar, true) as $trabajo)
+                                                                    <li> {{ $trabajo }} </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                        <li><b>Daños localizados</b>
+                                                            <ul>
+                                                                @foreach (json_decode($tarea_asignada->danos_localizados, true) as $trabajo)
+                                                                    <li> {{ $trabajo }} </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <h5 class="border-bottom"> Productos </h5>
+                                                    <table class="table responsive"
+                                                        id="tableProductosTA{{ $tarea_asignadaIndex }}">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Código</th>
+                                                                <th scope="col">Nombre</th>
+                                                                <th scope="col" class="none">
+                                                                    Cantidad
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        @if (count(json_decode($tarea_asignada->presupuesto->listaArticulos, true)) != 0)
+                                                            <tbody>
+                                                                @foreach (json_decode($tarea_asignada->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                                    <tr>
+                                                                        <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
+                                                                        </td>
+                                                                        <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
+                                                                        </td>
+                                                                        <td>{{ $cantidad }}
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            <tbody>
+                                                        @endif
+                                                    </table>
+                                                    <h5 class="border-bottom">&nbsp;</h5>
+                                                    <div class="row justify-content-center">
+                                                        @if ($tarea_asignada->logs()->count() > 0)
+                                                            <div class="col-6"> <button type="button"
+                                                                    class="btn btn-primary"
+                                                                    wire:click="iniciarTarea('{{ $tarea_asignada->id }}', '{{ Auth::id() }}')">Reanudar
+                                                                    tarea</button></div>
+                                                        @else
+                                                            <div class="col-6"> <button type="button"
+                                                                    class="btn btn-primary"
+                                                                    wire:click="iniciarTarea('{{ $tarea_asignada->id }}', '{{ Auth::id() }}')">Iniciar
+                                                                    tarea</button></div>
+                                                        @endif
+                                                        <div class="col-6"><button
+                                                                wire:click="completarTarea({{ $tarea_asignada->id }})"
+                                                                id="delete-button-{{ $tarea_asignada->id }}" type="button"
+                                                                class="btn btn-secondary">Completar
+                                                                tarea</button>
 
-    @endmobile
+                                                            <script>
+                                                                document.getElementById('delete-button-{{ $tarea_asignada->id }}').addEventListener('click', function(event) {
+                                                                    event.preventDefault();
+
+                                                                    Swal.fire({
+                                                                        title: '¿Estás seguro?',
+                                                                        text: "Asegúrate de que todo en la tarea está listo.",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        cancelButtonColor: '#d33',
+                                                                        confirmButtonText: 'Marcar como completada'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
+                                                                            @this.call('completarTarea', {{ $tarea_asignada->id }})
+                                                                        }
+                                                                    })
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="card mb-0">
+                                        <div class="card-header" id="headingTA-{{ $tarea_asignadaIndex }}"
+                                            @if ($tarea_asignada->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
+                                            <h5 class="mb-0 mt-0 font-14">
+                                                <a data-toggle="collapse" data-parent="#accordionTA"
+                                                    href="#collapseTA-{{ $tarea_asignadaIndex }}" aria-expanded="true"
+                                                    aria-controls="collapseTA-{{ $tarea_asignadaIndex }}" class="text-dark"
+                                                    wire:key='TA-{{ $tarea_asignadaIndex }}'>
+                                                    {{ $tarea_asignada->descripcion }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseTA-{{ $tarea_asignadaIndex }}" class="collapse"
+                                            aria-labelledby="headingTA-{{ $tarea_asignadaIndex }}"
+                                            data-parent="#accordionTA">
+                                            <div class="card-body">
+                                                <h5 class="border-bottom"> Datos </h5>
+                                                <ul>
+                                                    <li><b>Cliente:</b> {{ $tarea_asignada->presupuesto->cliente->nombre }}
+                                                        -
+                                                        {{ $tarea_asignada->presupuesto->matricula }}
+                                                    </li>
+                                                    <li><b>Presupuesto:</b>
+                                                        {{ $tarea_asignada->presupuesto->numero_presupuesto }} </li>
+                                                    <li><b>Operarios:</b>
+                                                        <ul>
+                                                            @foreach (json_decode($tarea_asignada->operarios, true) as $operario)
+                                                                <li> {{ $trabajadores->where('id', $operario)->first()->name }}
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                    <li><b>Trabajos solicitados:</b>
+                                                        <ul>
+                                                            @foreach (json_decode($tarea_asignada->trabajos_solicitados, true) as $trabajo)
+                                                                <li> {{ $trabajo }} </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                    <li><b>Trabajos a realizar:</b>
+                                                        <ul>
+                                                            @foreach (json_decode($tarea_asignada->trabajos_realizar, true) as $trabajo)
+                                                                <li> {{ $trabajo }} </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                    <li><b>Daños localizados</b>
+                                                        <ul>
+                                                            @foreach (json_decode($tarea_asignada->danos_localizados, true) as $trabajo)
+                                                                <li> {{ $trabajo }} </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <h5 class="border-bottom"> Productos </h5>
+                                                <table class="table responsive"
+                                                    id="tableProductosTA{{ $tarea_asignadaIndex }}">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Código</th>
+                                                            <th scope="col">Nombre</th>
+                                                            <th scope="col" class="none">
+                                                                Cantidad
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    @if (count(json_decode($tarea_asignada->presupuesto->listaArticulos, true)) != 0)
+                                                        <tbody>
+                                                            @foreach (json_decode($tarea_asignada->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                                <tr>
+                                                                    <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
+                                                                    </td>
+                                                                    <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
+                                                                    </td>
+                                                                    <td>{{ $cantidad }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        <tbody>
+                                                    @endif
+                                                </table>
+                                                <h5 class="border-bottom">&nbsp;</h5>
+                                                <div class="row justify-content-center">
+                                                    @if ($tarea_asignada->logs()->count() > 0)
+                                                        <div class="col-6"> <button type="button"
+                                                                class="btn btn-primary"
+                                                                wire:click="iniciarTarea('{{ $tarea_asignada->id }}', '{{ Auth::id() }}')">Reanudar
+                                                                tarea</button></div>
+                                                    @else
+                                                        <div class="col-6"> <button type="button"
+                                                                class="btn btn-primary"
+                                                                wire:click="iniciarTarea('{{ $tarea_asignada->id }}', '{{ Auth::id() }}')">Iniciar
+                                                                tarea</button></div>
+                                                    @endif
+                                                    <div class="col-6"><button
+                                                            wire:click="completarTarea({{ $tarea_asignada->id }})"
+                                                            id="delete-button-{{ $tarea_asignada->id }}" type="button"
+                                                            class="btn btn-secondary">Completar
+                                                            tarea</button>
+
+                                                        <script>
+                                                            document.getElementById('delete-button-{{ $tarea_asignada->id }}').addEventListener('click', function(event) {
+                                                                event.preventDefault();
+
+                                                                Swal.fire({
+                                                                    title: '¿Estás seguro?',
+                                                                    text: "Asegúrate de que todo en la tarea está listo.",
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#3085d6',
+                                                                    cancelButtonColor: '#d33',
+                                                                    confirmButtonText: 'Marcar como completada'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
+                                                                        @this.call('completarTarea', {{ $tarea_asignada->id }})
+                                                                    }
+                                                                })
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @else
+                        <h5> No tienes tareas asignadas. </h5>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <h5 class="card-header">Tareas completadas</h5>
+                <div class="card-body">
+                    <div id="accordionTC">
+                        @if ($tareas_completadas->count() > 0)
+                            @foreach ($tareas_completadas as $tarea_completadaIndex => $tarea_completada)
+                                <div class="card mb-0">
+                                    <div class="card-header" id="headingTC-{{ $tarea_completadaIndex }}"
+                                        @if ($tarea_completada->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
+                                        <h5 class="mb-0 mt-0 font-14">
+                                            <a data-toggle="collapse" data-parent="#accordionTC"
+                                                data-target="#collapseTC-{{ $tarea_completadaIndex }}"
+                                                href="#headingTC-{{ $tarea_completadaIndex }}" aria-expanded="true"
+                                                aria-controls="collapseTC-{{ $tarea_completadaIndex }}"
+                                                class="text-dark">
+                                                {{ $tarea_completada->descripcion }}
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTC-{{ $tarea_completadaIndex }}" class="collapse"
+                                        aria-labelledby="headingTC-{{ $tarea_completadaIndex }}"
+                                        data-parent="#accordionTC" wire:key='TC-{{ $tarea_completadaIndex }}'>
+                                        <div class="card-body">
+                                            <h5 class="border-bottom"> Datos </h5>
+                                            <ul>
+                                                <li><b>Cliente:</b>
+                                                    {{ $tarea_completada->presupuesto->cliente->nombre }}
+                                                    -
+                                                    {{ $tarea_completada->presupuesto->matricula }}
+                                                </li>
+                                                <li><b>Presupuesto:</b>
+                                                    {{ $tarea_completada->presupuesto->numero_presupuesto }} </li>
+                                                <li><b>Operarios:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_completada->operarios, true) as $operario)
+                                                            <li> {{ $trabajadores->where('id', $operario)->first()->name }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Trabajos solicitados:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_completada->trabajos_solicitados, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Trabajos a realizar:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_completada->trabajos_realizar, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Daños localizados</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_completada->danos_localizados, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <h5 class="border-bottom"> Productos </h5>
+                                            <table class="table responsive"
+                                                id="tableProductosTC{{ $tarea_completadaIndex }}">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Código</th>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col" class="none">
+                                                            Cantidad
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                @if (count(json_decode($tarea_completada->presupuesto->listaArticulos, true)) != 0)
+                                                    <tbody>
+                                                        @foreach (json_decode($tarea_completada->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                            <tr>
+                                                                <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
+                                                                </td>
+                                                                <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
+                                                                </td>
+                                                                <td>{{ $cantidad }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    <tbody>
+                                                @endif
+                                            </table>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                style="width: 100%">
+                                                Cobrar </button>
+                                            <div class="dropdown-menu" style="height: 100%">
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Contado')">Contado</a>
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Tarjeta de crédito')">Tarjeta
+                                                    de crédito</a>
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Transferencia bancaria')">Transferencia
+                                                    bancaria</a>
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Recibo bancario a 30 días')">Recibo
+                                                    bancario
+                                                    a 30 días</a>
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Bizum')">Bizum</a>
+                                                <a class="dropdown-item" href="#"
+                                                    wire:click="redirectToCaja('{{ $tarea_completada->id }}', 'Financiado')">Financiado</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        @if ($tareas_facturadas->count() > 0)
+                            @foreach ($tareas_facturadas as $tarea_facturadaIndex => $tarea_facturada)
+                                <div class="card mb-0">
+                                    <div class="card-header" id="headingTF-{{ $tarea_facturadaIndex }}"
+                                        style="background-color: lightgreen !important;">
+                                        <h5 class="mb-0 mt-0 font-14">
+                                            <a data-toggle="collapse" data-parent="#accordionTC"
+                                                data-target="#collapseTF-{{ $tarea_facturadaIndex }}"
+                                                href="#headingTF-{{ $tarea_facturadaIndex }}" aria-expanded="true"
+                                                aria-controls="collapseTF-{{ $tarea_facturadaIndex }}" class="text-dark">
+                                                {{ $tarea_facturada->descripcion }}
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTF-{{ $tarea_facturadaIndex }}" class="collapse"
+                                        aria-labelledby="headingTF-{{ $tarea_facturadaIndex }}"
+                                        data-parent="#accordionTC" wire:key='TF-{{ $tarea_facturadaIndex }}'>
+                                        <div class="card-body">
+                                            <h5 class="border-bottom"> Datos </h5>
+                                            <ul>
+                                                <li><b>Cliente:</b>
+                                                    {{ $tarea_facturada->presupuesto->cliente->nombre }}
+                                                    -
+                                                    {{ $tarea_facturada->presupuesto->matricula }}
+                                                </li>
+                                                <li><b>Presupuesto:</b>
+                                                    {{ $tarea_facturada->presupuesto->numero_presupuesto }} </li>
+                                                <li><b>Operarios:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_facturada->operarios, true) as $operario)
+                                                            <li> {{ $trabajadores->where('id', $operario)->first()->name }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Trabajos solicitados:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_facturada->trabajos_solicitados, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Trabajos a realizar:</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_facturada->trabajos_realizar, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                <li><b>Daños localizados</b>
+                                                    <ul>
+                                                        @foreach (json_decode($tarea_facturada->danos_localizados, true) as $trabajo)
+                                                            <li> {{ $trabajo }} </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <h5 class="border-bottom"> Productos </h5>
+                                            <table class="table responsive"
+                                                id="tableProductosTC{{ $tarea_facturadaIndex }}">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Código</th>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col" class="none">
+                                                            Cantidad
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                @if (count(json_decode($tarea_facturada->presupuesto->listaArticulos, true)) != 0)
+                                                    <tbody>
+                                                        @foreach (json_decode($tarea_facturada->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                            <tr>
+                                                                <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
+                                                                </td>
+                                                                <td>{{ $productos->where('id', $productoE)->first()->descripcion }}
+                                                                </td>
+                                                                <td>{{ $cantidad }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    <tbody>
+                                                @endif
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endmobile
 </div>

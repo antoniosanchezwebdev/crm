@@ -1,230 +1,163 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-</script>
-<style>
-    /* Media Query para ordenadores con pantallas grandes */
-    @media (min-width: 600px) {
-        .img-fluid {
-            max-height: 25% !important;
-            max-width: 25% !important;
-        }
+<div class="topbar">
 
-        li {
-            margin-right: 10px;
-        }
+    <!-- LOGO -->
+    <div class="topbar-left">
+        <a href="{{ route('home') }}" class="logo">
+            <span class="logo-light">
+                <img class="img-fluid p-4" src="{{ asset('images/logo.png') }}" alt="Logo La Fabrica">
+                {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
+            </span>
+            <span class="logo-sm">
+                <i class="mdi mdi-camera-control"></i>
+            </span>
+        </a>
+    </div>
 
-    }
+    <nav class="navbar-custom">
+        <ul class="navbar-right list-inline float-right mb-0">
 
-    /* Media Query para tablets y móviles */
-    @media (max-width: 500px) {
-        .img-fluid {
-            max-height: 50% !important;
-            max-width: 50% !important;
-        }
+            <!-- language-->
+            {{-- <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <img src="http://127.0.0.1:8000/assets/images/flags/us_flag.jpg" class="mr-2" height="12" alt="" /> English <span class="mdi mdi-chevron-down"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated language-switch">
+                            <a class="dropdown-item" href="#"><img src="http://127.0.0.1:8000/assets/images/flags/french_flag.jpg" alt="" height="16" /><span> French </span></a>
+                            <a class="dropdown-item" href="#"><img src="http://127.0.0.1:8000/assets/images/flags/spain_flag.jpg" alt="" height="16" /><span> Spanish </span></a>
+                            <a class="dropdown-item" href="#"><img src="http://127.0.0.1:8000/assets/images/flags/russia_flag.jpg" alt="" height="16" /><span> Russian </span></a>
+                            <a class="dropdown-item" href="#"><img src="http://127.0.0.1:8000/assets/images/flags/germany_flag.jpg" alt="" height="16" /><span> German </span></a>
+                            <a class="dropdown-item" href="#"><img src="http://127.0.0.1:8000/assets/images/flags/italy_flag.jpg" alt="" height="16" /><span> Italian </span></a>
+                        </div>
+                    </li> --}}
 
-        li {
-            margin-bottom: 10px;
-        }
-    }
+            <!-- full screen -->
+            <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+                    <i class="mdi mdi-arrow-expand-all noti-icon"></i>
+                </a>
+            </li>
 
-    body {
-        background-color: #d9d9d9;
-    }
+            <!-- notification -->
+            <li class="dropdown notification-list list-inline-item">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
+                    role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class="mdi mdi-bell-outline noti-icon"></i>
+                    <span class="badge badge-pill badge-danger noti-icon-badge">{{ count($alertas) }}</span>
+                </a>
+                @if (count($alertas) > 0)
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
+                        <!-- item-->
+                        <h6 class="dropdown-item-text">
+                            Notifications
+                        </h6>
 
-    .bg-dark{
-        background-color: #12396e !important;
-    }
-     .btn-outline-light:hover{
-        color: #12396e !important;
-    }
-</style>
+                        <div class="slimscroll notification-item-list">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                <p class="notify-details"><b>Your order is placed</b><span class="text-muted">Dummy text
+                                        of the printing and typesetting industry.</span></p>
+                            </a>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-    @mobile
-        <div class="container-fluid">
-            <div class="navbar-brand">
-                <img class="img-fluid" src="{{ asset('images/logo.png') }}" alt="Logo">
-                <button class="navbar-toggler float-end !important" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-danger"><i class="mdi mdi-message-text-outline"></i></div>
+                                <p class="notify-details"><b>New Message received</b><span class="text-muted">You have
+                                        87 unread messages</span></p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-info"><i class="mdi mdi-filter-outline"></i></div>
+                                <p class="notify-details"><b>Your item is shipped</b><span class="text-muted">It is a
+                                        long established fact that a reader will</span></p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-success"><i class="mdi mdi-message-text-outline"></i></div>
+                                <p class="notify-details"><b>New Message received</b><span class="text-muted">You have
+                                        87 unread messages</span></p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-warning"><i class="mdi mdi-cart-outline"></i></div>
+                                <p class="notify-details"><b>Your order is placed</b><span class="text-muted">Dummy text
+                                        of the printing and typesetting industry.</span></p>
+                            </a>
+
+                        </div>
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item text-center notify-all text-primary">
+                            Ver Todas <i class="fi-arrow-right"></i>
+                        </a>
+
+
+                    </div>
+                @else
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
+                        <!-- item-->
+                        <h6 class="dropdown-item-text">
+                            No tienes notificaciones
+                        </h6>
+                    </div>
+                @endif
+            </li>
+
+            <li class="dropdown notification-list list-inline-item">
+                <div class="dropdown notification-list nav-pro-img">
+                    <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
+                        role="button" aria-haspopup="false" aria-expanded="false">
+                        <img src="http://127.0.0.1:8000/assets/images/users/user-4.jpg" alt="user"
+                            class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <h6 class="dropdown-item-text"><b> {{ Auth::user()->name }} {{ Auth::user()->surname }}</b>
+                        </h6>
+                        <!-- item-->
+                        {{-- <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i>Perfil</a>
+                        <a class="dropdown-item d-block" href="#"><span
+                                class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>
+                            Settings</a>
+                        <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock
+                            screen</a> --}}
+                        <div class="dropdown-divider"></div>
+
+                        {{-- Formulario invisible para que Laravel detecte el cierre de sesión como POST. --}}
+                        @auth
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        @endauth
+
+                        {{-- El mismo enlace, con un evento onclick para que haga submit del formulario y cierre sesión.  --}}
+                        <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
+                                class="mdi mdi-power text-danger"></i>Cerrar sesión</a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+        <ul class="list-inline menu-left mb-0">
+            <li class="float-left">
+                <button class="button-menu-mobile open-left waves-effect">
+                    <i class="mdi mdi-menu"></i>
                 </button>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav justify-content-around w-100 py-2">
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/presupuestos'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/presupuestos">
-                                <i class="fas fa-book"></i>
-                                <strong>Presupuestos</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/presupuestos">
-                                <i class="fas fa-book"></i>
-                                <strong>Presupuestos</strong>
-                            </a>
-                        @endif
-                    </li>
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/productos'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/productos">
-                                <i class="fas fa-boxes-stacked"></i>
-                                <strong>Inventario</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/productos">
-                                <i class="fas fa-boxes-stacked"></i>
-                                <strong>Inventario</strong>
-                            </a>
-                        @endif
-                    </li>
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/orden-trabajo'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/orden-trabajo">
-                                <i class="fas fa-wrench"></i>
-                                <strong>Tareas</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/orden-trabajo">
-                                <i class="fas fa-wrench"></i>
-                                <strong>Tareas</strong>
-                            </a>
-                        @endif
-                    </li>
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/facturas'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/facturas">
-                                <i class="fas fa-wallet"></i>
-                                <strong>Facturación</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/facturas">
-                                <i class="fas fa-wallet"></i>
-                                <strong>Facturación</strong>
-                            </a>
-                        @endif
-                    </li>
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/informes'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/informes">
-                                <i class="fas fa-file-invoice"></i>
-                                <strong>Informes</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/informes">
-                                <i class="fas fa-file-invoice"></i>
-                                <strong>Informes</strong>
-                            </a>
-                        @endif
-                    </li>
-                    <li class="nav-item mx-2">
-                        @if (Request::is('admin/caja'))
-                            <a class="btn btn-md btn-light text-dark d-block w-100 p-2" href="/admin/caja">
-                                <i class="fas fa-cart-shopping"></i>
-                                <strong>Caja</strong>
-                            </a>
-                        @else
-                            <a class="btn btn-md btn-outline-light d-block w-100 p-2" href="/admin/caja">
-                                <i class="fas fa-cart-shopping"></i>
-                                <strong>Caja</strong>
-                            </a>
-                        @endif
+            </li>
+            {{-- <li class="d-none d-md-inline-block">
+                        <form role="search" class="app-search">
+                            <div class="form-group mb-0">
+                                <input type="text" class="form-control" placeholder="Search..">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </li> --}}
+        </ul>
 
-                    </li>
-                </ul>
-            </div>
-        </div>
-    @elsemobile
-        <div class="container-fluid col-12">
-            <div class="navbar-brand col order-1">
-                <a href="/../home/"><img class="img-fluid" src="{{ asset('images/logo.png') }}" alt="Logo"></a>
-            </div>
-            <ul class="navbar-nav me-auto mb-0 mb-lg-0 col order-2">
-                <li class="nav-item">
-                    @if (Request::is('admin/presupuestos'))
-                        <a class="btn btn-light text-dark" href="/admin/presupuestos">
-                            <i class="fas fa-book"></i>
-                            <strong>Presupuestos</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/presupuestos">
-                            <i class="fas fa-book"></i>
-                            <strong>Presupuestos</strong>
-                        </a>
-                    @endif
+    </nav>
 
-                </li>
-                <li class="nav-item">
-                    @if (Request::is('admin/productos'))
-                        <a class="btn btn-light text-dark" href="/admin/productos">
-                            <i class="fas fa-boxes-stacked"></i>
-                            <strong>Inventario</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/productos">
-                            <i class="fas fa-boxes-stacked"></i>
-                            <strong>Inventario</strong>
-                        </a>
-                    @endif
-                </li>
-                <li class="nav-item">
-                    @if (Request::is('admin/orden-trabajo'))
-                        <a class="btn btn-light text-dark" href="/admin/orden-trabajo">
-                            <i class="fas fa-wrench"></i>
-                            <strong>Tareas</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/orden-trabajo">
-                            <i class="fas fa-wrench"></i>
-                            <strong>Tareas</strong>
-                        </a>
-                    @endif
-
-                </li>
-                <li class="nav-item">
-                    @if (Request::is('admin/facturas'))
-                        <a class="btn btn-light text-dark" href="/admin/facturas">
-                            <i class="fas fa-wallet"></i>
-                            <strong>Facturación</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/facturas">
-                            <i class="fas fa-wallet"></i>
-                            <strong>Facturación</strong>
-                        </a>
-                    @endif
-                </li>
-                <li class="nav-item">
-                    @if (Request::is('admin/informes'))
-                        <a class="btn btn-light text-dark" href="/admin/informes">
-                            <i class="fas fa-file-invoice"></i>
-                            <strong>Informes</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/informes">
-                            <i class="fas fa-file-invoice"></i>
-                            <strong>Informes</strong>
-                        </a>
-                    @endif
-
-                </li>
-                <li class="nav-item">
-                    @if (Request::is('admin/caja'))
-                        <a class="btn btn-light text-dark" href="/admin/caja">
-                            <i class="fas fa-cart-shopping"></i>
-                            <strong>Caja</strong>
-                        </a>
-                    @else
-                        <a class="btn btn-outline-light" href="/admin/caja">
-                            <i class="fas fa-cart-shopping"></i>
-                            <strong>Caja</strong>
-                        </a>
-                    @endif
-                </li>
-            </ul>
-        </div>
-        </div>
-    @endmobile
-</nav>
+</div>
+<!-- Top Bar End -->

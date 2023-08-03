@@ -1,4 +1,4 @@
-<div class="container mx-auto" style="min-height: 100vh">
+<div id="contenedorClienteEdit">
     <form wire:submit.prevent="update">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
         <div class="card text-dark bg-light mb-3">

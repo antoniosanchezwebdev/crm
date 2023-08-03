@@ -13,6 +13,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $alertas = [0];
+
         $response = '';
         // $user = Auth::user();
 

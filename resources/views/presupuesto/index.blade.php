@@ -25,5 +25,5 @@ integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="ano
 @section('encabezado', 'Presupuesto')
 @section('subtitulo', 'Consulta')
 <br>
-<livewire:presupuestos.presupuestos-component>
+@livewire('presupuestos.presupuestos-component', ['alertas' => $alertas, 'tab' => $tab])
 @endsection

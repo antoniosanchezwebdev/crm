@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div id="contenedorTareas1">
     <div class="card" wire:ignore>
         <h5 class="card-header">Resultados</h5>
         <div class="card-body" x-data="{}" x-init="$nextTick(() => {

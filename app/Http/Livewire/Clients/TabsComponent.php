@@ -12,6 +12,9 @@ class TabsComponent extends Component
     public $cliente;
     public function render()
     {
+        if($this->tab == "tab2" && $this->cliente == null){
+            $this->tab = "tab1";
+        }
         return view('livewire.clients.tabs-component');
     }
 

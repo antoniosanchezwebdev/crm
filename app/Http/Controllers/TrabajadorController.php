@@ -14,12 +14,11 @@ class TrabajadorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = '';
-        // $user = Auth::user();
-
-        return view('trabajadores.index', compact('response'));
+        $alertas = [];
+        $tab = $request->query('tab');
+        return view('trabajadores.index', compact('alertas', 'tab'));
     }
 
     /**
@@ -30,7 +29,6 @@ class TrabajadorController extends Controller
     public function create()
     {
         return view('trabajadores.create');
-
     }
 
     /**
@@ -64,7 +62,6 @@ class TrabajadorController extends Controller
     public function edit($id)
     {
         return view('trabajadores.edit', compact('id'));
-
     }
 
     /**

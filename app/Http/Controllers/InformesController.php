@@ -15,6 +15,7 @@ class InformesController extends Controller
      */
     public function index(Request $request)
     {
-        return view('informes.index');
+        $alertas = [];
+        return view('informes.index', compact('alertas'));
     }
 }

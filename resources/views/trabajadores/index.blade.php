@@ -26,5 +26,5 @@
 
 @section('content')
 <br>
-@livewire('trabajadores.trabajadores-component')
+@livewire('trabajadores.trabajadores-component', ['alertas' => $alertas, 'tab' => $tab])
 @endsection

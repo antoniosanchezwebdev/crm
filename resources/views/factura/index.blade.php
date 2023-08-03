@@ -35,5 +35,5 @@
 @section('encabezado', 'Facturas')
 @section('subtitulo', 'Consulta')
 <br>
-<livewire:facturas.facturas-component>
+@livewire('facturas.facturas-component', ['tab' => $tab])
 @endsection

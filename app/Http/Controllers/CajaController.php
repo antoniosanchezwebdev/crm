@@ -15,6 +15,10 @@ class CajaController extends Controller
      */
     public function index(Request $request)
     {
-        return view('caja.index');
+        //
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
+
+        return view('caja.index', compact('alertas', 'tab'));
     }
 }

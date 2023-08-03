@@ -1,62 +1,3 @@
-body{
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-h1{
-  font-size: 2rem !important;
-}
-
-h2{
-  font-size: 1.25rem !important;
-  color: #565656 !important ;
-}
-
-.btn-export {
-  display: block;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  background-color: transparent;
-  color: #7FB3D5;
-  width: 100%;
-  text-align: left;
-}
-
-
-.btn-export:hover {
-  background-color: #AEB6BF;
-  color: white;
-}
-.dt-button-collection {
-  margin-top: -3px !important;
-}
-
-.dt-button-collection div{
-  background-color: #F3F3F3;
-  width: 120px;
-  padding: 0.8rem 0.8rem;
-}
-.dt-down-arrow {
-  margin-left: 0.5rem;
-}
-div#tableCliente_paginate, div#tableCliente_info {
-  margin-top: 1rem;
-}
-
-@mixin make-container($padding-x: $container-padding-x) {
-  width: 100%;
-  padding-right: $padding-x;
-  padding-left: $padding-x;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-// Usage
-.custom-container {
-  @include make-container();
-}
-
-//
-
 @keyframes swing {
     0% {
       transform: rotate(0deg);
@@ -100,6 +41,21 @@ div#tableCliente_paginate, div#tableCliente_info {
   body {
     font-size: 0.9rem;
   }
+  .contenedor-sidebar {
+    height: 100vh;
+    top: 0;
+    position: sticky;
+    background: lightblue;
+  }
+
+  .contenedor-main {
+    flex-grow: 1;
+  }
+
+
+
+
+
   .page-wrapper .sidebar-wrapper,
   .sidebar-wrapper .sidebar-brand > a,
   .sidebar-wrapper .sidebar-dropdown > a:after,
@@ -465,15 +421,9 @@ div#tableCliente_paginate, div#tableCliente_info {
 
   /*-----------------------------chiller-theme-------------------------------------------------*/
 
-  .chiller-theme .sidebar-wrapper {
-      background: #31353D;
-  }
+  
 
-  .chiller-theme .sidebar-wrapper .sidebar-header,
-  .chiller-theme .sidebar-wrapper .sidebar-search,
-  .chiller-theme .sidebar-wrapper .sidebar-menu {
-      border-top: 1px solid #3a3f48;
-  }
+
 
   .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
   .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
@@ -481,23 +431,8 @@ div#tableCliente_paginate, div#tableCliente_info {
       box-shadow: none;
   }
 
-  .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
-  .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
-  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
-  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
-  .chiller-theme .sidebar-wrapper .sidebar-brand>a,
-  .chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
-  .chiller-theme .sidebar-footer>a {
-      color: #818896;
-  }
 
-  .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
-  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,
-  .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
-  .chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
-  .chiller-theme .sidebar-footer>a:hover i {
-      color: #b8bfce;
-  }
+ 
 
   .page-wrapper.chiller-theme.toggled #close-sidebar {
       color: #bdbdbd;
@@ -515,22 +450,13 @@ div#tableCliente_paginate, div#tableCliente_info {
       text-shadow:0px 0px 10px rgba(71, 234, 181, 0.5);
   }
 
-  .chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
-  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
-  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
-  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
-      background: #3a3f48;
-  }
+ 
 
   .chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
       color: #6c7b88;
   }
 
-  .chiller-theme .sidebar-footer {
-      background: #3a3f48;
-      box-shadow: 0px -1px 5px #282c33;
-      border-top: 1px solid #464a52;
-  }
+  
 
   .chiller-theme .sidebar-footer>a:first-child {
       border-left: none;
@@ -539,32 +465,3 @@ div#tableCliente_paginate, div#tableCliente_info {
   .chiller-theme .sidebar-footer>a:last-child {
       border-right: none;
   }
-
-
-//FILTROS
-
-/* Style the button that is used to open and close the collapsible content */
-.collapsible {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .collapsible:hover {
-  background-color: #ccc;
-}
-
-/* Style the collapsible content. Note: hidden by default */
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}

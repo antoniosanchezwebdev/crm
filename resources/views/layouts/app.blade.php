@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title> @yield('title') </title>
+    <title> CRM NEUMALGEX - @yield('title') </title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.css"
         integrity="sha512-CaTMQoJ49k4vw9XO0VpTBpmMz8XpCWP5JhGmBvuBqCOaOHWENWO1CrVl09u4yp8yBVSID6smD4+gpzDJVQOPwQ=="
@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
@@ -34,6 +31,17 @@
     <x-livewire-alert::scripts />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="{{ asset('plugins/morris/morris.css') }}">
+
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+
+
+
+    {{-- <link rel="stylesheet" href="../css/metismenu.min.css"> --}}
 
     @yield('head')
 
@@ -41,26 +49,36 @@
 </head>
 
 <body>
+
     @php
         $user = Auth::user();
     @endphp
     <div id="app">
-        @include('layouts.header')
-        <div class="page-wrapper chiller-theme toggled" style="background-color: #d9d9d9;">
-            {{-- @yield('content-factura')
-                @hasSection('content-producto') --}}
-            <div class="container-fluid " style="background-color: #d9d9d9; margin-top:30px; min-height:100%;">
-                <div class="container-fluid shadow-lg rounded-4" style="background-color: #fcfcfc; min-height:100%">
-                    <div style="border-bottom: 1px solid black; margin-bottom:10px;">
-                        <br>
-                        <div class="row">
-                            <h1 style="border-bottom:0px !important">@yield('encabezado')</h1>
-                            <h2 style="text-align:left;">@yield('subtitulo')</h2>
-                        </div>
-                    </div>
-                    <div>
-                        @yield('content')
-                    </div>
+        <style>
+            /* .sidebar {
+                width: 15%;
+            } */
+
+            .contain {
+                width: 85%;
+                margin-left: 20%;
+                /* min-width: 600px; */
+            }
+
+            @media (max-width: 992px) {
+                .contain {
+                    margin-left: 200px;
+                    /* min-width: 600px; */
+                }
+
+            }
+        </style>
+        <div class="page-wrapper chiller-theme toggled sticky-sidebar" id="wrapper">
+            @include('layouts.header')
+            @include('layouts.sidebar')
+            <div class="container-fluid content-page" style="background-color: #f9f9f9 !important">
+                <div class="content">
+                    @yield('content')
                 </div>
             </div>
             {{-- @else
@@ -86,11 +104,26 @@
     <link href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap5.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.css" rel="stylesheet" />
 
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/metismenu.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.slimscroll.js') }}"></script>
+    <script src="{{ asset('assets/js/waves.min.js') }}"></script>
+
+
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.js"></script>
+    <!--Morris Chart-->
+    {{-- <script src="../plugins/morris/morris.min.js"></script> --}}
+    <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
+
+    {{-- <script src="../assets/pages/dashboard.init.js"></script> --}}
+
+    <!-- App js -->
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+
     @livewireScripts
     @yield('scripts')
 

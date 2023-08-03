@@ -11,13 +11,15 @@ class OrdenTrabajoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = '';
-        // $user = Auth::user();
+        //
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
 
-        return view('orden-trabajo.index', compact('response'));
+        return view('orden-trabajo.index', compact('alertas', 'tab'));
     }
+
 
     /**
      * Show the form for creating a new resource.

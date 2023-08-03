@@ -5,7 +5,7 @@
 @section('encabezado', 'Orden de trabajo')
 @section('subtitulo', 'Crear tarea')
 
-<div class="container mx-auto">
+<div id="contenedorTareasCreate">
     <form wire:submit.prevent="submit">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
         <br>

@@ -20,12 +20,13 @@ class FacturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = '';
-        // $user = Auth::user();
+        //
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
 
-        return view('factura.index', compact('response'));
+        return view('factura.index', compact('alertas', 'tab'));
     }
 
     /**

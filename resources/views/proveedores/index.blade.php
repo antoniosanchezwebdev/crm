@@ -22,5 +22,5 @@
 @section('encabezado', 'Proveedores')
 @section('subtitulo', 'Consulta')
 
-@livewire('proveedores.tabs-component', ['response' => $response])
+@livewire('proveedores.tabs-component', ['tab' => $tab])
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clients;
 use App\Http\Requests\StoreClientsRequest;
 use App\Http\Requests\UpdateClientsRequest;
+use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
@@ -13,14 +14,13 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $response = 'Hola Clientes Nacho!!!';
-        // $user = Auth::user();
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
 
-        return view('client.index', compact('response'));
-
+        return view('client.index', compact('alertas', 'tab'));
     }
 
     /**
@@ -32,7 +32,6 @@ class ClientsController extends Controller
     {
         //
         return view('client.create');
-
     }
 
     /**

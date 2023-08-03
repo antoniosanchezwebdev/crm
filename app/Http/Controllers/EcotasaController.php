@@ -6,6 +6,7 @@ use App\Models\Ecotasa;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEcotasaRequest;
 use App\Http\Requests\UpdateEcotasaRequest;
+use Illuminate\Http\Request;
 
 class EcotasaController extends Controller
 {
@@ -14,9 +15,11 @@ class EcotasaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('ecotasa.index');
+        $alertas = [];
+        $tab = $request->query('tab');
+        return view('ecotasa.index', compact('alertas', 'tab'));
     }
 
     /**

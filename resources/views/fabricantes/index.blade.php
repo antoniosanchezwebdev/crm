@@ -26,5 +26,5 @@
 
 @section('content')
 <br>
-@livewire('fabricantes.fabricantes')
+@livewire('fabricantes.fabricantes', ['alertas' => $alertas, 'tab' => $tab])
 @endsection

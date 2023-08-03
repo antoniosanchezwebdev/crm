@@ -1,4 +1,17 @@
 <div>
+    <div class="page-title-box">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h4 class="page-title">INFORMES</h4>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-right">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Informes</li>
+                </ol>
+            </div>
+        </div> <!-- end row -->
+    </div>
     @mobile
         @if ($datos != null)
             @if ($tab == 'tab1')

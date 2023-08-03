@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div id="contenedorTareasEdit">
 
     <script></script>
     @php

@@ -3,7 +3,7 @@
 @section('head')
     @vite(['resources/sass/app.scss'])
 @endsection
-<div class="container mx-auto">
+<div id="contenedorFacturasEdit">
     <h1>Facturas</h1>
     <h2>Editar Factura</h2>
     <br>

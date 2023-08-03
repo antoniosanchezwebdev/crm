@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div id="contenedorFacturas">
     @if (count($facturas) > 0)
         <div class="card" wire:ignore>
             <h5 class="card-header">Facturas recientes</h5>
@@ -45,12 +45,12 @@
                         <td>{{ $fact->metodo_pago }}</td>
 
                         <td>
-                            @if ($fact->metodo_pago == 'No pagado')
                                 <div class="col mb-2">
                                     <button type="button" class="btn btn-primary boton-producto"
                                         onclick="Livewire.emit('seleccionarProducto', {{ $fact->id }});">Editar</button>
                                     <br>
                                 </div>
+                                @if ($fact->metodo_pago == 'No pagado')
                                 <div class="col">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -74,9 +74,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            @else
-                                <button type="button" class="btn btn-primary boton-producto"
-                                    onclick="Livewire.emit('seleccionarProducto', {{ $fact->id }});">Editar</button>
                             @endif
                         </td>
 

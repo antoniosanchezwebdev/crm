@@ -22,5 +22,5 @@
 @section('encabezado', 'Clientes')
 @section('subtitulo', 'Consulta')
 
-@livewire('clients.tabs-component', ['response' => $response])
+@livewire('clients.tabs-component', ['alertas' => $alertas, 'tab' => $tab])
 @endsection

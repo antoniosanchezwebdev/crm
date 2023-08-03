@@ -22,6 +22,6 @@
 @section('encabezado', 'Tareas')
 @section('subtitulo', 'Consultar tareas')
 <br>
-<livewire:orden-trabajo.tareas-component>
+@livewire('orden-trabajo.tareas-component', ['tab' => $tab])
 @endsection
 

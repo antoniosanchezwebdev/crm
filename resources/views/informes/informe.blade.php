@@ -330,6 +330,58 @@
             <img src="{{$datos['chart']}}" style="width: 100%">
         @break
 
+        @case(8)
+            <h1>{{ $nombreInforme }}</h1>
+            <p style="margin-bottom:5px;"><b>Periodo:</b> {{ date_format(date_create($fecha_inicio), 'd/m/Y') }} -
+                {{ date_format(date_create($fecha_fin), 'd/m/Y') }} </p>
+
+            <p><b>Servicio:</b> {{ $servicio }} </p>
+            <br>
+            @foreach ($datos as $dato)
+                <table width="100%">
+                    <thead>
+                        <tr style="background-color: lightgray;">
+                            <th width="30%">Grupo ID</th>
+                            <th width="50%"></th>
+                            <th width="10%"></th>
+                            <th width="10%"></th>
+                        </tr>
+                        <tr style="text-align: center">
+                            <th>{{ $dato['grupo_id'] }}</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr style="background-color: lightgray;">
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Unidades</th>
+                            <th>Importe</th>
+
+                    </thead>
+                    <tbody>
+                        @foreach ($dato['productos'] as $datProducto)
+                            <tr style="text-align: center">
+                                <td>{{ $datProducto['cod_producto'] }}</td>
+                                <td>{{ $datProducto['descripcion'] }}</td>
+                                <td>{{ $datProducto['cantidad'] }}</td>
+                                <td>{{ $datProducto['precio_venta'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr style="text-align: center">
+                            <th></th>
+                            <th style="text-align:end !important;"> TOTAL:</th>
+                            <th>{{ $dato['ventas'] }}</th>
+                            <th>{{ $dato['importe'] }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+            @endforeach
+        @break
+
         @default
             <p>"Hola"</p>
     @endswitch

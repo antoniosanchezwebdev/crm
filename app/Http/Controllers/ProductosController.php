@@ -11,10 +11,13 @@ class ProductosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = '';
-        return view('productos.index', compact('response'));
+        //
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
+
+        return view('productos.index', compact('alertas', 'tab'));
     }
 
     /**

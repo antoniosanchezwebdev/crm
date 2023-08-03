@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Proveedores;
 use App\Http\Requests\StoreProveedoresRequest;
 use App\Http\Requests\UpdateProveedoresRequest;
+use Illuminate\Http\Request;
+
 
 class ProveedoresController extends Controller
 {
@@ -13,14 +15,13 @@ class ProveedoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $response = 'Hola Proveedoreses Nacho!!!';
-        // $user = Auth::user();
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
 
-        return view('proveedores.index', compact('response'));
-
+        return view('proveedores.index', compact('alertas', 'tab'));
     }
 
     /**

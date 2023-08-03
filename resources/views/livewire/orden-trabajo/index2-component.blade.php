@@ -1,5 +1,4 @@
-<div class="container mx-auto">
-
+<div id="contenedorTareas2">
     <div class="card mb-3">
         <h5 class="card-header">Buscador</h5>
         <div class="card-body">

@@ -1,4 +1,4 @@
-<div class="container mx-auto" style="overflow-y:scroll !important;">
+<div id="contenedorFacturasCreate">
     <div class="card">
         <h5 class="card-header">Datos básicos</h5>
         <div class="card-body">

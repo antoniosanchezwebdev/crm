@@ -1,4 +1,17 @@
 <div>
+    <div class="page-title-box">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h4 class="page-title">PRESUPUESTOS</h4>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-right">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Presupuestos</li>
+                </ol>
+            </div>
+        </div> <!-- end row -->
+    </div>
     @mobile
         @if ($presupuesto != null)
             @if ($tab == 'tab1')
@@ -248,11 +261,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')"><h5>Añadir
-                            presupuesto</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')">
+                            <h5>Añadir
+                                presupuesto</h5>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')"><h5>Opciones</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')">
+                            <h5>Opciones</h5>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -266,15 +283,21 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link active" wire:click.prevent="cambioTab('tab2')"><h3>Ver/Editar
-                            presupuesto</h3></button>
+                        <button class="nav-link active" wire:click.prevent="cambioTab('tab2')">
+                            <h3>Ver/Editar
+                                presupuesto</h3>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')"><h5>Añadir
-                            presupuesto</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')">
+                            <h5>Añadir
+                                presupuesto</h5>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')"><h5>Opciones</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')">
+                            <h5>Opciones</h5>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -297,11 +320,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link active" wire:click.prevent="cambioTab('tab3')"><h3>Añadir
-                            presupuesto</h3></button>
+                        <button class="nav-link active" wire:click.prevent="cambioTab('tab3')">
+                            <h3>Añadir
+                                presupuesto</h3>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')"><h5>Opciones</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')">
+                            <h5>Opciones</h5>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -321,11 +348,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')"><h5>Añadir
-                            presupuesto</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')">
+                            <h5>Añadir
+                                presupuesto</h5>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link active" wire:click.prevent="cambioTab('tab4')"><h3>Opciones</h3></button>
+                        <button class="nav-link active" wire:click.prevent="cambioTab('tab4')">
+                            <h3>Opciones</h3>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -352,11 +383,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')"><h5>Añadir
-                            presupuesto</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')">
+                            <h5>Añadir
+                                presupuesto</h5>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')"><h5>Opciones</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')">
+                            <h5>Opciones</h5>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -376,11 +411,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link active" wire:click.prevent="cambioTab('tab3')"><h3>Añadir
-                            presupuesto</h3></button>
+                        <button class="nav-link active" wire:click.prevent="cambioTab('tab3')">
+                            <h3>Añadir
+                                presupuesto</h3>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')"><h5>Opciones</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab4')">
+                            <h5>Opciones</h5>
+                        </button>
                     </li>
                 </ul>
                 <br>
@@ -402,11 +441,15 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')"><h5>Añadir
-                            presupuesto</h5></button>
+                        <button class="nav-link" wire:click.prevent="cambioTab('tab3')">
+                            <h5>Añadir
+                                presupuesto</h5>
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link active" wire:click.prevent="cambioTab('tab4')"><h3>Opciones</h3></button>
+                        <button class="nav-link active" wire:click.prevent="cambioTab('tab4')">
+                            <h3>Opciones</h3>
+                        </button>
                     </li>
                 </ul>
                 <br>

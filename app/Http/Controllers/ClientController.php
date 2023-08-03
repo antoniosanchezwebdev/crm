@@ -13,12 +13,14 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = 'Hola Clientes Nacho!!!';
-        // $user = Auth::user();
+        //
+        $alertas = [];
+        $tab = $request->query('tab');      // $user = Auth::user();
 
-        return view('client.index', compact('response'));
+        return view('client.index', compact('alertas', 'tab'));
+
     }
 
     /**
