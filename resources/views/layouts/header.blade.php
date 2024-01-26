@@ -42,7 +42,7 @@
                 <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="mdi mdi-bell-outline noti-icon"></i>
-                    @if ($alertas is_null)
+                    @if (is_null($alertas))
                     <span class="badge badge-pill badge-danger noti-icon-badge">0</span>
                     @else
                     <span class="badge badge-pill badge-danger noti-icon-badge">{{ count($alertas) }}</span>
