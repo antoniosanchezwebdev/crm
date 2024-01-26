@@ -163,6 +163,7 @@ class Dashboard extends Component
             'hora_final' => $hora_final, // Actualizar solo la hora final
             'status' => 0 // Cambiar el estado a inactivo
         ]);
+    
     }
 
     $this->checkJornada();

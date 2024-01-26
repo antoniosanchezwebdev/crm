@@ -1,6 +1,6 @@
 
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-5">
     <div class="col-12 mb-3">
             @if ($jornada_activa == 1)
                 <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
@@ -42,7 +42,6 @@
             position: relative !important;
         }
     </style>
-    </div>
     <div class="col-md-4">
         <div class="card">
             <h5 class="card-header">Tarea activa</h5>
