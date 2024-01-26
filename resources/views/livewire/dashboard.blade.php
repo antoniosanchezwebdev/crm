@@ -21,7 +21,7 @@
                 <div>
                     <h5 class="font-18">Horas trabajadas hoy</h5>
                 </div>
-                <h5 class="font-24 mt-4">{{ $this->getHorasTrabajadas('Hoy') }}</h3>
+                <h5 class="font-24 mt-4">{{ $this->horasTrabajadasHoy }}</h3>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 <div>
                     <h5 class="font-18">Horas trabajadas esta semana</h5>
                 </div>
-                <h5 class="font-24 mt-4">{{ $this->getHorasTrabajadas('Semana') }}</h3>
+                <h5 class="font-24 mt-4">{{ $this->horasTrabajadasSemana }}</h3>
             </div>
         </div>
     </div>
