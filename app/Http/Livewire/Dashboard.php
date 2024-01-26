@@ -47,6 +47,7 @@ class Dashboard extends Component
 
     public function render()
     {
+        $this->checkJornada();
         return view('livewire.dashboard');
     }
 
