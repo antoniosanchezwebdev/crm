@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->timestamp('hora_inicio')->useCurrent(); // Utiliza el timestamp actual como valor predeterminado
             $table->timestamp('hora_final')->nullable(); // Permite valores nulos
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }
