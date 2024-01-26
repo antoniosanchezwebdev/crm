@@ -47,7 +47,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        $this->checkJornada();
         return view('livewire.dashboard');
     }
 
@@ -147,6 +146,7 @@ class Dashboard extends Component
         $user_id = Auth::id();
         Jornada::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
+        $this->recalcularHoras();
     }
 
 
@@ -168,13 +168,16 @@ class Dashboard extends Component
     }
 
     $this->checkJornada();
+    $this->recalcularHoras();
     }
+
     public function iniciarPausa()
     {
         $hora_inicio = Carbon::now()->toDateTimeString();
         $user_id = Auth::id();
         Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
+        $this->recalcularHoras();
     }
 
     public function finalizarPausa()
@@ -184,6 +187,7 @@ class Dashboard extends Component
         $jornada_actual = Pausa::where('user_id', $user_id)->where('status', 1)->first();
         $jornada_actual->update(['hora_final' => $hora_final, 'status' => 0]);
         $this->checkJornada();
+        $this->recalcularHoras();
     }
 
     public function checkJornada()
@@ -201,7 +205,11 @@ class Dashboard extends Component
             $this->pausa_activa = 0;
         }
     }
-
+    private function recalcularHoras() {
+        // Asumiendo que tienes una propiedad en tu componente para almacenar las horas
+        $this->horasTrabajadasHoy = $this->getHorasTrabajadas('Hoy');
+        $this->horasTrabajadasSemana = $this->getHorasTrabajadas('Semana');
+    }
     public function getHorasTrabajadas($query)
     {
         switch ($query) {
