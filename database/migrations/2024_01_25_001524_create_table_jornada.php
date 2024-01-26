@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('jornada', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->timestamp('hora_inicio');
-            $table->timestamp('hora_final');
+            $table->timestamp('hora_inicio')->useCurrent(); // Utiliza el timestamp actual como valor predeterminado
+            $table->timestamp('hora_final')->nullable(); // Permite valores nulos
             $table->timestamps();
         });
     }
