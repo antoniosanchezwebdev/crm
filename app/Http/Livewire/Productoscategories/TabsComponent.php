@@ -19,9 +19,9 @@ class TabsComponent extends Component
         $this->tab = $tab;
     }
 
-    public function selectProducto($ecotasa)
+    public function selectProducto($categoria)
     {
-        $this->categoria = $ecotasa;
+        $this->categoria = $categoria;
         $this->tab = "tab2";
     }
 }

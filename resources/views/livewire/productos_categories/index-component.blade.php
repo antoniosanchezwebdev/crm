@@ -25,8 +25,8 @@
                             <tr>
                                 <td>{{ $producto->nombre }}</td>
                                 <td>{{ $tipos_producto->find($producto->tipo_producto)->tipo_producto }}</td>
-                                <td> <a href="productos-categories-edit/{{ $producto->id }}"
-                                        class="btn btn-primary">Editar</a>
+                                <td> <button type="button" class="btn btn-primary boton-producto"
+                                    onclick="Livewire.emit('seleccionarProducto', {{ $producto->id }});">Editar</button>
                                 </td>
                             </tr>
                         @endforeach
