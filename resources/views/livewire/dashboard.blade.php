@@ -4,6 +4,20 @@
             position: relative !important;
         }
     </style>
+     <div class="row">
+        <div class="col-12 mb-3">
+            @if ($jornada_activa == 1)
+                <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
+                @if ($pausa_activa == 1)
+                    <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
+                @else
+                    <button class="btn btn-lg btn-primary mt-3 w-100" wire:click="iniciarPausa">INICIAR PAUSA</button>
+                @endif
+            @else
+                <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
+            @endif
+        </div>
+    </div>
     <div class="col-md-4">
         <div class="card">
             <h5 class="card-header">Tarea activa</h5>
