@@ -41,6 +41,7 @@ class Dashboard extends Component
         $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
         $this->alertas = [];
         $this->trabajadores = User::all();
+        $this->recalcularHoras();
         $this->checkJornada();
         $this->productos = Productos::all();
     }
