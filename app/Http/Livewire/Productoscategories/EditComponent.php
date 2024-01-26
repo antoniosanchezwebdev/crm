@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Productoscategories;
 
+use App\Models\Productos;
+use App\Models\TipoProducto;
 use App\Models\ProductosCategories;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
