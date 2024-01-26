@@ -23,6 +23,8 @@ class Dashboard extends Component
     public $trabajadores;
     public $jornada_activa;
     public $pausa_activa;
+    public $horasTrabajadasHoy;
+    public $horasTrabajadasSemana;
 
 
     public $tab = "tab1";
