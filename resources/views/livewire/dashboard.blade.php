@@ -1,47 +1,45 @@
-
-
-<div class="row justify-content-center">
-    <div class="col-12 mb-3 mt-3">
-            @if ($jornada_activa == 1)
-                <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
-                @if ($pausa_activa == 1)
-                    <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
-                @else
-                    <button class="btn btn-lg btn-primary mt-3 w-100" wire:click="iniciarPausa">INICIAR PAUSA</button>
-                @endif
-            @else
-                <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
-            @endif
-    </div>
-</div>
-<div class="row d-flex justify-content-around">
-    <div class="col-12 col-xl-3">
-        <div class="card">
-            <div class="card-heading p-4">
-                <div>
-                    <h5 class="font-18">Horas trabajadas hoy</h5>
-                </div>
-                <h5 class="font-20 mt-4">{{ $this->horasTrabajadasHoy }}</h3>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-xl-3">
-        <div class="card">
-            <div class="card-heading p-4">
-                <div>
-                    <h5 class="font-18">Horas trabajadas esta semana</h5>
-                </div>
-                <h5 class="font-20 mt-4">{{ $this->horasTrabajadasSemana }}</h3>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="row justify-content-center">
     <style>
         .dropdown-menu.show {
             position: relative !important;
         }
     </style>
+    <div class="row col-12 justify-content-center">
+        <div class="col-12 mb-3 mt-3">
+                @if ($jornada_activa == 1)
+                    <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
+                    @if ($pausa_activa == 1)
+                        <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
+                    @else
+                        <button class="btn btn-lg btn-primary mt-3 w-100" wire:click="iniciarPausa">INICIAR PAUSA</button>
+                    @endif
+                @else
+                    <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
+                @endif
+        </div>
+    </div>
+    <div class="row col-12 d-flex justify-content-around">
+        <div class="col-12 col-xl-3">
+            <div class="card">
+                <div class="card-heading p-4">
+                    <div>
+                        <h5 class="font-18">Horas trabajadas hoy</h5>
+                    </div>
+                    <h5 class="font-20 mt-4">{{ $this->horasTrabajadasHoy }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-3">
+            <div class="card">
+                <div class="card-heading p-4">
+                    <div>
+                    <h5 class="font-18">Horas trabajadas esta semana</h5>
+                    </div>
+                    <h5 class="font-20 mt-4">{{ $this->horasTrabajadasSemana }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-4">
         <div class="card">
             <h5 class="card-header">Tarea activa</h5>
