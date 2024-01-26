@@ -11,13 +11,14 @@ class EditComponent extends Component
     use LivewireAlert;
 
     public $identificador;
-
+    public $tipos_producto;
+    public $tipo_producto;
     public $nombre;
 
     public function mount($identificador)
     {
         $product = ProductosCategories::find($identificador);
-
+        $this->tipos_producto = TipoProducto::all();
         $this->nombre = $product->nombre;
     }
 
