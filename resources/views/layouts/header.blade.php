@@ -4,8 +4,8 @@
     <div class="topbar-left">
         <a href="{{ route('home') }}" class="logo">
             <span class="logo-light">
-                <img class="img-fluid p-4" src="{{ asset('images/logo.png') }}" alt="Logo La Fabrica">
-                {{-- <i class="mdi mdi-camera-control"></i> La Fabrica --}}
+                <img class="img-fluid p-4" src="{{ asset('images/logo.png') }}" alt="Logo Neumalgex">
+                {{-- <i class="mdi mdi-camera-control"></i> Neumalgex --}}
             </span>
             <span class="logo-sm">
                 <i class="mdi mdi-camera-control"></i>
@@ -42,11 +42,7 @@
                 <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="mdi mdi-bell-outline noti-icon"></i>
-                    @if (is_null($alertas))
-                    <span class="badge badge-pill badge-danger noti-icon-badge">0</span>
-                    @else
                     <span class="badge badge-pill badge-danger noti-icon-badge">{{ count($alertas) }}</span>
-                    @endif
                 </a>
                 @if (count($alertas) > 0)
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
