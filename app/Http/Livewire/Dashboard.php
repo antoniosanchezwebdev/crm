@@ -148,6 +148,7 @@ class Dashboard extends Component
         Jornada::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
         $this->recalcularHoras();
+        $this->emitSelf('refresh');
     }
 
 
@@ -170,6 +171,7 @@ class Dashboard extends Component
 
     $this->checkJornada();
     $this->recalcularHoras();
+    $this->emitSelf('refresh');
     }
 
     public function iniciarPausa()
@@ -179,6 +181,7 @@ class Dashboard extends Component
         Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
         $this->recalcularHoras();
+        $this->emitSelf('refresh');
     }
 
     public function finalizarPausa()
@@ -189,6 +192,7 @@ class Dashboard extends Component
         $jornada_actual->update(['hora_final' => $hora_final, 'status' => 0]);
         $this->checkJornada();
         $this->recalcularHoras();
+        $this->emitSelf('refresh');
     }
 
     public function checkJornada()
@@ -205,6 +209,7 @@ class Dashboard extends Component
         } else {
             $this->pausa_activa = 0;
         }
+
     }
     private function recalcularHoras() {
         // Asumiendo que tienes una propiedad en tu componente para almacenar las horas
