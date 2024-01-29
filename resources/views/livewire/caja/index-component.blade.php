@@ -1,5 +1,11 @@
 <div id="contenedorCaja">
     @if (isset($movimientos))
+        <div>
+            <input type="date" wire:model="fechaInicio">
+            <input type="date" wire:model="fechaFin">
+            <button wire:click="calcularTotal">Calcular</button>
+            <h4>Total Movimientos: €{{ $totalMovimientos }}</h4>
+        </div>
         <div x-data="{}" x-init="$nextTick(() => {
             $('#tableFacturas').DataTable({
                 responsive: true,

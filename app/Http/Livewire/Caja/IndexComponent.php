@@ -17,6 +17,15 @@ class IndexComponent extends Component
     {
         $this->presupuestos = Presupuesto::all();
         $this->movimientos = CobroCaja::all();
+        $this->fechaInicio = now()->startOfMonth()->format('Y-m-d');
+        $this->fechaFin = now()->endOfMonth()->format('Y-m-d');
+        $this->calcularTotal();
+    }
+
+    public function calcularTotal()
+    {
+        $this->totalMovimientos = CobroCaja::whereBetween('fecha', [$this->fechaInicio, $this->fechaFin])
+        ->sum('cantidad');
     }
 
     public function render()
