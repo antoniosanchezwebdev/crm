@@ -3,7 +3,7 @@
         <div style="display: flex; align-items: center; justify-content: space-around; gap: 10px;">
             <input type="date" wire:model="fechaInicio">
             <input type="date" wire:model="fechaFin">
-            <button type="button" class="btn btn-primary boton-producto" wire:click="calcularTotal">Calcular</button>
+            <button type="button" class="btn btn-primary" wire:click="calcularTotal">Calcular</button>
             <h4>Total Movimientos: €{{ $totalMovimientos }}</h4>
         </div>
         <div x-data="{}" x-init="$nextTick(() => {

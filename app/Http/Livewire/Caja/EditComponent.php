@@ -100,14 +100,14 @@ class EditComponent extends Component
     }
 
       // Eliminación
-      public function destroy(){
+    public function destroy(){
 
         $this->alert('warning', '¿Seguro que desea borrar el la factura? No hay vuelta atrás', [
             'position' => 'center',
             'timer' => 3000,
             'toast' => false,
             'showConfirmButton' => true,
-            'onConfirmed' => 'confirmDelete',
+            'onConfirmed' => 'delete',
             'confirmButtonText' => 'Sí',
             'showDenyButton' => true,
             'denyButtonText' => 'No',
@@ -120,7 +120,9 @@ class EditComponent extends Component
     public function getListeners()
     {
         return [
+
             'confirmed',
+            'delete',
             'listarPresupuesto'
         ];
     }
@@ -140,4 +142,29 @@ class EditComponent extends Component
         return redirect()->route('facturas.index');
 
     }
+
+    public function delete()
+    {
+        $movimiento = CobroCaja::find($this->identificador);
+    
+        if ($movimiento) {
+            $movimiento->delete();
+            $this->alert('success', 'Movimiento eliminado correctamente', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+                'onConfirmed' => 'confirmed',
+                'showConfirmButton' => false,
+                'timerProgressBar' => true,
+            ]);
+        } else {
+            $this->alert('error', 'Movimiento no encontrado', [
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+                'showConfirmButton' => false,
+                'timerProgressBar' => true,
+            ]);
+        }
+    }   
 }

@@ -57,6 +57,7 @@
         </div>
         <div class="mb-3 row d-flex align-items-center">
             <button type="submit" class="btn btn-outline-info">Guardar</button>
+            <button type="button" wire:click="destroy" class="btn btn-secondary">Eliminar</button>
         </div>
     </form>
 </div>
