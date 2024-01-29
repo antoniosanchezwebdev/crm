@@ -102,7 +102,7 @@ class EditComponent extends Component
       // Eliminación
     public function destroy(){
 
-        $this->alert('warning', '¿Seguro que desea borrar el la factura? No hay vuelta atrás', [
+        $this->alert('warning', '¿Seguro que desea borrar el movimiento ? No hay vuelta atrás', [
             'position' => 'center',
             'timer' => 3000,
             'toast' => false,
@@ -153,10 +153,10 @@ class EditComponent extends Component
                 'position' => 'center',
                 'timer' => 3000,
                 'toast' => false,
-                'onConfirmed' => 'confirmed',
                 'showConfirmButton' => false,
                 'timerProgressBar' => true,
             ]);
+            return redirect()->route('facturas.index');
         } else {
             $this->alert('error', 'Movimiento no encontrado', [
                 'position' => 'center',
