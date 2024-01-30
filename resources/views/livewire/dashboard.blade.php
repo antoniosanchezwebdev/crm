@@ -11,9 +11,9 @@
                     @if ($pausa_activa == 1)
                         <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
                     @else
-                        <button class="btn btn-lg btn-success mt-3 w-50" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
-                        <button class="btn btn-lg btn-secondary mt-3 w-50" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
-                        <button class="btn btn-lg btn-warning mt-3 w-50" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
+                        <button class="btn btn-lg btn-success mt-3 w-33" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
+                        <button class="btn btn-lg btn-secondary mt-3 w-33" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
+                        <button class="btn btn-lg btn-warning mt-3 w-33" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
                     @endif
                 @else
                     <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
