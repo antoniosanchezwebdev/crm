@@ -73,6 +73,7 @@ class EditComponent extends Component
         $this->marca = $presupuestos->marca;
         $this->modelo = $presupuestos->modelo;
         $this->observaciones = $presupuestos->observaciones;
+        $this->vehiculosCliente = Clients::find($presupuestos->cliente_id)->vehiculos ?? [];
 
     }
 

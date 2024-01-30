@@ -57,6 +57,20 @@
             var data = $('#select2-cliente-edit').select2("val");
             @this.set('cliente_id', data);
         });
+            
+        $('#select2-matricula-edit').select2({
+            placeholder: "Seleccione un Vehiculo"
+        });
+
+        $('#select2-matricula-edit').on('load', function(e) {
+            var data = $('#select2-matricula-edit').select2("val");
+            @this.set('matricula', data);
+        });
+
+        $('#select2-matricula-edit').on('change', function(e) {
+            var data = $('#select2-matricula-edit').select2("val");
+            @this.set('matricula', data);
+        });
     </script>
     <form wire:submit.prevent="update">
         <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
@@ -154,7 +168,7 @@
             <div class="card-body">
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" wire:ignore>
                             <select wire:model="matricula"  id="select2-matricula-edit" class="form-control">
                                 <option value="">Selecciona un vehículo</option>
                                 @foreach($vehiculosCliente as $vehiculo)
