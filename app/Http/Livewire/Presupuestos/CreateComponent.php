@@ -121,7 +121,7 @@ class CreateComponent extends Component
                 'marca' => 'required',
                 'servicio' => 'required',
                 'modelo' => 'required',
-                'vehiculo_renting' => 'required',
+                'vehiculo_renting' => 'nullable',
                 'estado' => 'nullable',
                 'observaciones' => 'nullable',
 
@@ -281,6 +281,10 @@ class CreateComponent extends Component
     public function aumentar($id)
     {
         $producto = Productos::where('id', $id)->first();
+        if($producto->mueve_existencias == 0){
+            $this->lista[$id] += 1;
+            $this->precio += ((Productos::where('id', $id)->first()->precio_venta));
+        }else{
         if (isset($this->lista[$id])) {
             if (($this->lista[$id] + 1) > Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias) {
                 $this->alert('warning', "Existencias máximas alcanzadas.");
@@ -290,6 +294,7 @@ class CreateComponent extends Component
             }
         } else {
             $this->alert('warning', "Este producto no está en la lista");
+        }
         }
     }
 
