@@ -45,7 +45,7 @@ return [
         ],
         'public_local' => [
             'driver' => 'local',
-            'root' => public_path('public'),
+            'root' => public_path('assets'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
@@ -76,7 +76,7 @@ return [
     */
 
     'links' => [
-        public_path('public') => storage_path('public'),
+        /*public_path('public') => storage_path('public'),*/
     ],
 
 ];
