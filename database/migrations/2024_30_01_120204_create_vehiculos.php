@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer("vehiculo_renting")->nullable();
             $table->string("modelo")->nullable();
             $table->string("marca")->nullable();
+            $table->unsignedBigInteger('client_id');  // Clave foránea
+            $table->foreign('client_id')->references('id')->on('clients');
             $table->timestamps();
         });
     }
