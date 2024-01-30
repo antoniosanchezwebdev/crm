@@ -6,18 +6,26 @@
     </style>
     <div class="row col-12 justify-content-center">
         <div class="col-12 mb-3 mt-3">
-                @if ($jornada_activa == 1)
-                    <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
-                    @if ($pausa_activa == 1)
-                        <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
-                    @else
-                        <button class="btn btn-lg btn-success mt-3 w-33" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
-                        <button class="btn btn-lg btn-secondary mt-3 w-33" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
-                        <button class="btn btn-lg btn-warning mt-3 w-33" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
-                    @endif
+            @if ($jornada_activa == 1)
+                <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
+                @if ($pausa_activa == 1)
+                    <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
                 @else
-                    <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
+                    <div class="row mt-3">
+                        <div class="col-4 px-1">
+                            <button class="btn btn-lg btn-success w-100" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="btn btn-lg btn-secondary w-100" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="btn btn-lg btn-warning w-100" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
+                        </div>
+                    </div>
                 @endif
+            @else
+                <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
+            @endif
         </div>
     </div>
     <div class="row col-12 d-flex justify-content-around">
