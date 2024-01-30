@@ -175,7 +175,13 @@
                         </div>
                     </div>
                     @endforeach
-                    <!-- Modal para subir archivos -->
+                @else
+                    <h5>No hay ninguna tarea en curso. </h5>
+                @endif
+            </div>
+        </div>
+    </div>
+    <!-- Modal para subir archivos -->
                     <div class="modal fade" id="modalSubirArchivo" tabindex="-1" role="dialog" aria-labelledby="modalSubirArchivoLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -195,12 +201,6 @@
                             </div>
                         </div>
                     </div>
-                @else
-                    <h5>No hay ninguna tarea en curso. </h5>
-                @endif
-            </div>
-        </div>
-    </div>
     <div class="col-md-4">
         <div class="card">
             <h5 class="card-header">Tareas asignadas</h5>
