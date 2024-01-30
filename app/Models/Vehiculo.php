@@ -5,24 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Vehiculo extends Model
 {
     use HasFactory;
-
+    protected $table = "vehiculos";
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'dni',
-        'nombre',
-        'email',
-        'telefono', 
-        'direccion', 
-        'observaciones'
+        'matricula',
+        'kilometros',
+        'vehiculo_renting',
+        'modelo',
+        'marca'
     ];
     
+
+    public function clients()
+    {
+        return $this->belongsTo(Client::class);
+    }
     /**
      * Mutaciones de fecha.
      *

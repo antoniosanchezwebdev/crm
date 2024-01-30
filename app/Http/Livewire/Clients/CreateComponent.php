@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Clients;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\Clients;
+use App\Models\Vehiculo;
 
 class CreateComponent extends Component
 {
@@ -16,8 +17,10 @@ class CreateComponent extends Component
     public $telefono;
     public $direccion;
     public $observaciones;
+    public $vehiculos = [];
 
     public function mount(){
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
     }
 
     // Renderizado del Componente
@@ -25,6 +28,12 @@ class CreateComponent extends Component
     {
         return view('livewire.clients.create-component');
     }
+
+    public function addVehiculo()
+    {
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
+    }
+
 
     public function submit()
     {
@@ -49,6 +58,8 @@ class CreateComponent extends Component
         // Guardar datos validados
         $clientesSave = Clients::create($validatedData);
 
+        foreach ($this->vehiculos as $vehiculoData) {
+            $clientesSave->vehiculos()->create($vehiculoData);}
         // Alertas de guardado exitoso
         if ($clientesSave) {
             $this->alert('success', '¡Cliente registrado correctamente!', [

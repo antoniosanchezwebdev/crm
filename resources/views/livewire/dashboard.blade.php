@@ -9,7 +9,7 @@
             @if ($jornada_activa == 1)
                 <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
                 @if ($pausa_activa == 1)
-                    <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
+                    <br><button class="btn btn-lg btn-danger mt-3 w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
                 @else
                     <div class="row mt-3">
                         <div class="col-4 px-1">

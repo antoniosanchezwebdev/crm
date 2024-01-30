@@ -20,6 +20,11 @@ class Clients extends Model
         'observaciones'
     ];
 
+    public function vehiculos()
+    {
+        return $this->hasMany(Vehiculo::class);
+    }
+
     /**
      * Mutaciones de fecha.
      *

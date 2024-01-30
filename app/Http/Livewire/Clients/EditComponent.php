@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Clients;
 
 use Livewire\Component;
 use App\Models\Clients;
+use App\Models\Vehiculo;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EditComponent extends Component
@@ -17,16 +18,19 @@ class EditComponent extends Component
     public $telefono;
     public $direccion;
     public $observaciones;
+    public $vehiculos = [];
 
     public function mount(){
-        $cliente = Clients::find($this->identificador);
+        $cliente = Client::with('vehiculos')->find($this->identificador);
 
         $this->dni = $cliente->dni;
         $this->nombre = $cliente->nombre;
         $this->direccion = $cliente->direccion;
         $this->telefono = $cliente->telefono;
         $this->email = $cliente->email;
-        }
+        $this->observaciones = $cliente->observaciones;
+        $this->vehiculos = $cliente->vehiculos->toArray();
+    }
 
     public function render()
     {
@@ -34,6 +38,16 @@ class EditComponent extends Component
         return view('livewire.clients.edit-component');
     }
 
+    public function addVehiculo()
+    {
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
+    }
+
+    public function removeVehiculo($index)
+    {
+        unset($this->vehiculos[$index]);
+        $this->vehiculos = array_values($this->vehiculos);
+    }
     public function update()
     {
         // Validación de datos
@@ -69,6 +83,14 @@ class EditComponent extends Component
 
         ]);
 
+        foreach ($this->vehiculos as $vehiculoData) {
+            if (isset($vehiculoData['id'])) {
+                Vehiculo::find($vehiculoData['id'])->update($vehiculoData);
+            } else {
+                $cliente->vehiculos()->create($vehiculoData);
+            }
+        }
+
         // Alertas de guardado exitoso
         if ($clientesSave) {
             $this->alert('success', '¡Cliente actualizado correctamente!', [
@@ -90,8 +112,6 @@ class EditComponent extends Component
     }
 
     public function destroy(){
-        // $product = Productos::find($this->identificador);
-        // $product->delete();
 
         $this->alert('warning', '¿Seguro que desea borrar el cliente? No hay vuelta atrás', [
             'position' => 'center',
@@ -126,7 +146,18 @@ class EditComponent extends Component
     public function confirmDelete()
     {
         $cliente = Clients::find($this->identificador);
-        $cliente->delete();
+
+        // Primero, verifica si el cliente existe
+        if ($cliente) {
+            // Eliminar todos los vehículos asociados con el cliente
+            foreach ($cliente->vehiculos as $vehiculo) {
+                $vehiculo->delete();
+            }
+    
+            // Después de eliminar los vehículos, elimina el cliente
+            $cliente->delete();
+        }
+    
         return redirect()->route('clients.index');
 
     }
