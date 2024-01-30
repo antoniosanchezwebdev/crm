@@ -70,7 +70,7 @@ class CreateComponent extends Component
     public function updatedClienteId()
     {
 
-        $this->vehiculosCliente = Clients::find($this->cliente_i)->vehiculos ?? [];
+        $this->vehiculosCliente = Clients::find($this->cliente_id)->vehiculos ?? [];
     }
 
     // Al hacer submit en el formulario

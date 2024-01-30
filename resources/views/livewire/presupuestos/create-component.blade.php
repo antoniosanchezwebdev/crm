@@ -116,6 +116,7 @@
                             <label for="cliente_id" class="col-sm-3 col-form-label">Cliente</label>
                             <div class="col-sm-9" wire:ignore>
                                 <select id="select2-cliente-create" class="form-control seleccion">
+                                    <option value="">Selecciona un cliente</option>
                                     @foreach ($clientes as $clienteSel)
                                         <option value="{{ $clienteSel->id }}">{{ $clienteSel->id }} -
                                             {{ $clienteSel->nombre }}
