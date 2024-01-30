@@ -111,6 +111,7 @@
                     <div class="mb-3 row d-flex align-items-left">
                         <label for="vehiculo_renting" class="col-sm-3 col-form-label">¿Este vehículo es de
                             renting?</label>
+                            {$vehiculo->vehiculo_renting}
                         <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculos.{{ $index }}.vehiculo_renting"
                         name="vehiculos.{{ $index }}.vehiculo_renting" id="vehiculos.{{ $index }}.vehiculo_renting" />
                         @error('vehiculo_renting')
