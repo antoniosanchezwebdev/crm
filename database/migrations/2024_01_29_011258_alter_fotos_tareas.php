@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ordenes_trabajo', function (Blueprint $table) {
+        Schema::table('orden_trabajos', function (Blueprint $table) {
             $table->string('imagen_tarea')->nullable();
         });
         
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ordenes_trabajo', function (Blueprint $table) {
+        Schema::table('orden_trabajos', function (Blueprint $table) {
             $table->droptabel('imagen_tarea');
         });
     }
