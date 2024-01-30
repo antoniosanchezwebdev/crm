@@ -14,7 +14,7 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-
+    use WithFileUploads;
     public $tareas_asignadas;
     public $tareas_completadas;
     public $tareas_facturadas;
@@ -25,6 +25,8 @@ class Dashboard extends Component
     public $pausa_activa;
     public $horasTrabajadasHoy;
     public $horasTrabajadasSemana;
+    public $documentosArray = [];
+    public $tareaSeleccionadaId;
 
 
     public $tab = "tab1";
@@ -308,6 +310,28 @@ class Dashboard extends Component
                 $diferencia = sprintf("%02d horas, %02d minutos, %02d segundos", $horas, $minutos, $segundos);
                 return $diferencia;
         }
+    }
+
+    public function subirArchivo()
+    {
+    foreach ($this->documentosArray as $documento) {
+        $this->documento = $documento;
+        $this->validate([
+            'documento' => 'file|max:10240', // 10MB
+        ]);
+
+        $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
+        $rutaDocumento = $this->documento->storeAs('documentos', $nombreDelArchivo, 'public_local');
+
+        // Encuentra la orden de trabajo y actualiza la ruta del documento
+        $ordenTrabajo = OrdenTrabajo::find($this->tareaSeleccionadaId);
+        if ($ordenTrabajo) {
+            $ordenTrabajo->documentos = $rutaDocumento;
+            $ordenTrabajo->save();
+        }
+    }
+
+    $this->documentosArray = [];
     }
 }
 

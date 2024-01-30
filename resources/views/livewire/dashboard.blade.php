@@ -135,10 +135,14 @@
                                     </table>
                                     <h5 class="border-bottom">&nbsp;</h5>
                                     <div class="row justify-content-center">
-                                        <div class="col-6"> <button type="button" class="btn btn-primary"
+                                        <div class="col-4"> <button type="button" class="btn btn-primary"
                                                 wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
                                                 tarea</button></div>
-                                        <div class="col-6"><button
+                                        <div class="col-4">  
+                                            <button wire:click="$set('tareaSeleccionadaId', {{ $tarea->id }})" 
+                                            data-toggle="modal" data-target="#modalSubirArchivo">Subir Archivo</button>
+                                        </div>
+                                        <div class="col-4"><button
                                                 wire:click="completarTarea({{ $tarea->id }})"
                                                 id="delete-button-{{ $tarea->id }}" type="button"
                                                 class="btn btn-secondary">Completar
@@ -171,6 +175,26 @@
                         </div>
                     </div>
                     @endforeach
+                    <!-- Modal para subir archivos -->
+                    <div class="modal fade" id="modalSubirArchivo" tabindex="-1" role="dialog" aria-labelledby="modalSubirArchivoLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalSubirArchivoLabel">Subir Archivo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="file" wire:model="documentosArray" multiple>
+                                    @error('documentosArray.*') <span class="error">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" wire:click="subirArchivo" class="btn btn-primary">Subir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     <h5>No hay ninguna tarea en curso. </h5>
                 @endif
