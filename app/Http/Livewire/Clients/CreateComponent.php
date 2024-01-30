@@ -59,6 +59,7 @@ class CreateComponent extends Component
         $clientesSave = Clients::create($validatedData);
 
         foreach ($this->vehiculos as $vehiculoData) {
+            $vehiculoData['vehiculo_renting'] = $vehiculoData['vehiculo_renting'] === '1' ? 1 : 0;
             $clientesSave->vehiculos()->create($vehiculoData);}
         // Alertas de guardado exitoso
         if ($clientesSave) {
