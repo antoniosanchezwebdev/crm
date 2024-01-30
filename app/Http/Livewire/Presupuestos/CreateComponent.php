@@ -20,6 +20,7 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
+    public $vehiculoSeleccionado;
     public $vehiculosCliente = [];
     public $servicio = "";
     public $numero_presupuesto;
@@ -73,6 +74,20 @@ class CreateComponent extends Component
         $this->vehiculosCliente = Clients::find($value)->vehiculos ?? [];
     }
 
+    public function updatedMatricula($value)
+    {
+        $this->vehiculoSeleccionado = null; // Resetear el vehículo seleccionado
+        if ($value) {
+            $this->vehiculoSeleccionado = Vehiculo::where('matricula', $value)->first();
+            if ($this->vehiculoSeleccionado) {
+                // Aquí actualizas las propiedades del formulario con los datos del vehículo
+                $this->marca = $this->vehiculoSeleccionado->marca;
+                $this->modelo = $this->vehiculoSeleccionado->modelo;
+                $this->kilometros = $this->vehiculoSeleccionado->kilometros;
+                $this->vehiculo_renting = $this->vehiculoSeleccionado->vehiculo_renting;
+        }
+    }
+    }  
     // Al hacer submit en el formulario
     public function submit()
     {
