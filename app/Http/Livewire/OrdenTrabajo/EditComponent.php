@@ -272,8 +272,9 @@ class EditComponent extends Component
             ]);
 
             $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
-            $rutaDocumento = $this->documento->storeAs('assets', $nombreDelArchivo, 'public');
-
+            $rutaDocumento = 'assets' . $nombreDelArchivo;
+            $this->documento->move(public_path($rutaDocumento), $nombreDelArchivo);
+            
             // Agrega la ruta del archivo al array de rutas de documentos
             $this->rutasDocumentos[] = $rutaDocumento;
 
