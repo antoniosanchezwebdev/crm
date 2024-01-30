@@ -4,7 +4,7 @@
         <div class="card-body">
             <form wire:submit.prevent="update">
                 <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-                <div class="mb-3 row d-flex align-items-center">
+               
 
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="dni" class="col-sm-2 col-form-label">DNI </label>
@@ -25,7 +25,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
+                
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>

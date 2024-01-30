@@ -103,12 +103,14 @@
                         $('#select2-cliente-create').on('change', function(e) {
                             var data = $('#select2-cliente-create').select2('val');
                             @this.set('cliente_id', data);
+                            @this.call('updatedClienteId');
                         });
                         livewire.on('refreshTomSelect', () => {
                             $('#select2-cliente-create').select2();
                             $('#select2-cliente-create').on('change', function(e) {
                                 var data = $('#select2-cliente-create').select2('val');
                                 @this.set('cliente_id', data);
+                                @this.call('updatedClienteId');
                             });
                         });">
                             <label for="cliente_id" class="col-sm-3 col-form-label">Cliente</label>
@@ -134,12 +136,15 @@
                     <h5 class="card-header">Datos del vehículo</h5>
                     <div class="card-body">
 
-
                         <div class="mb-3 row d-flex align-items-center">
-                            <label for="matricula" class="col-sm-3 col-form-label">Matrícula</label>
+                            <label for="vehiculo" class="col-sm-3 col-form-label">Vehículo</label>
                             <div class="col-sm-9">
-                                <input type="text" wire:model="matricula" class="form-control" name="matricula"
-                                    id="matricula">
+                                <select wire:model="matricula" class="form-control">
+                                    <option value="">Selecciona un vehículo</option>
+                                    @foreach($vehiculosCliente as $vehiculo)
+                                        <option value="{{ $vehiculo->matricula }}">{{ $vehiculo->matricula }}</option>
+                                    @endforeach
+                                </select>
                                 @error('matricula')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

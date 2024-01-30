@@ -20,6 +20,7 @@ class CreateComponent extends Component
 
     use LivewireAlert;
 
+    public $vehiculosCliente = [];
     public $servicio = "";
     public $numero_presupuesto;
     public $fecha_emision;
@@ -64,6 +65,12 @@ class CreateComponent extends Component
             $this->productos = Productos::where('almacen', ListaAlmacen::where('nombre', $this->servicio)->first()->id)->orWhere('mueve_existencias', 0)->get();
         }
         return view('livewire.presupuestos.create-component');
+    }
+
+    public function updatedClienteId()
+    {
+
+        $this->vehiculosCliente = Clients::find($this->cliente_i)->vehiculos ?? [];
     }
 
     // Al hacer submit en el formulario
