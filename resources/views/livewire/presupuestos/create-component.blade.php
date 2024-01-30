@@ -52,6 +52,7 @@
                             <label for="origen" class="col-sm-3 col-form-label">Presupuesto dado en:</label>
                             <div class="col-sm-9" wire:ignore>
                                 <select id="select2-origen-create" class="form-control seleccion">
+                                    <option value="">Selecione opcion</option>
                                     <option value="Mostrador">Mostrador</option>
                                     <option value="Teléfono">Teléfono</option>
                                     <option value="Formulario web">Formulario web</option>
