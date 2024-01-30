@@ -110,7 +110,6 @@
                             $('#select2-cliente-create').on('change', function(e) {
                                 var data = $('#select2-cliente-create').select2('val');
                                 @this.set('cliente_id', data);
-                                @this.call('updatedClienteId');
                             });
                         });">
                             <label for="cliente_id" class="col-sm-3 col-form-label">Cliente</label>
