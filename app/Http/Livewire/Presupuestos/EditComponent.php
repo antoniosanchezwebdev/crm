@@ -20,7 +20,8 @@ class EditComponent extends Component
     public $identificador;
 
     public $numero_presupuesto;
-
+    public $vehiculoSeleccionado;
+    public $vehiculosCliente = [];
     public $fecha_emision;
     public $cliente_id = 0; // 0 por defecto por si no se selecciona ninguna
     public $matricula;
@@ -79,6 +80,27 @@ class EditComponent extends Component
         return view('livewire.presupuestos.edit-component');
     }
 
+    public function updatedClienteId($value)
+    {
+        $this->vehiculosCliente = Clients::find($value)->vehiculos ?? [];
+    }
+ 
+    public function updatedMatricula($value)
+    {
+        $this->vehiculoSeleccionado = null; // Resetear el vehículo seleccionado
+        if ($value) {
+            $this->vehiculoSeleccionado = Vehiculo::where('matricula', $value)->first();
+            if ($this->vehiculoSeleccionado) {
+                // Aquí actualizas las propiedades del formulario con los datos del vehículo
+                $this->marca = $this->vehiculoSeleccionado->marca;
+                $this->modelo = $this->vehiculoSeleccionado->modelo;
+                $this->kilometros = $this->vehiculoSeleccionado->kilometros;
+                $this->vehiculo_renting = $this->vehiculoSeleccionado->vehiculo_renting;
+            }
+        }
+    }  
+    
+
     // Al hacer update en el formulario
     public function update()
     {
@@ -93,7 +115,7 @@ class EditComponent extends Component
             'listaArticulos' => 'required',
             'precio' => 'required',
             'origen' => 'required',
-            'vehiculo_renting' => 'required',
+            'vehiculo_renting' => 'nullable',
             'marca' => 'required',
             'modelo' => 'required',
             'kilometros' => 'required',

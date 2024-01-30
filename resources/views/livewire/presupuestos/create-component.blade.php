@@ -136,7 +136,7 @@
                     <div class="card-body">
 
                         <div class="mb-3 row d-flex align-items-center">
-                            <label for="vehiculo" class="col-sm-3 col-form-label">Vehículo</label>
+                            <label for="vehiculo" class="col-sm-3 col-form-label">Matrícula</label>
                             <div class="col-sm-9">
                                 <select wire:model="matricula" class="form-control">
                                     <option value="">Selecciona un vehículo</option>
