@@ -170,7 +170,7 @@
                     <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
                     <div class="col-sm-10" wire:ignore>
                             <select wire:model="matricula"  id="select2-matricula-edit" class="form-control">
-                                <option value="">Selecciona un vehículo</option>
+                                
                                 @foreach($vehiculosCliente as $vehiculo)
                                     <option value="{{ $vehiculo->matricula }}">{{ $vehiculo->matricula }}</option>
                                 @endforeach
@@ -216,7 +216,7 @@
                     <label for="kilometros" class="col-sm-2 col-form-label">Kilómetros</label>
                     <div class="col-sm-10">
                         <input type="number" wire:model="kilometros" class="form-control" name="kilometros"
-                            id="kilometros" disable>
+                            id="kilometros" disabled>
                         @error('fecha_emision')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -332,8 +332,7 @@
                             </div>
                         @endif
                         <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
-                            style="margin-top:10px;">Añadir a la
-                            lista</button>
+                            style="margin-top:10px;">Añadir a la lista</button>
                     </div>
                 @endif
             </div>
