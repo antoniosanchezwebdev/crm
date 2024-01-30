@@ -132,6 +132,8 @@
                 </div>
             </div>
         @endforeach
+        <button type="button" class="btn btn-lg btn-secondary" wire:click="addVehiculo">Añadir otro vehículo</button>
+
         <div class="mb-3 row d-flex align-items-center">
             <button type="submit" class="btn btn-primary">Actualizar datos del cliente</button>
         </div>
