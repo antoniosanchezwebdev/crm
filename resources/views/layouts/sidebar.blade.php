@@ -57,8 +57,8 @@
                 <li>
                     <a href="javascript:void(0);" class="waves-effect @if (Request::is('admin/orden-trabajo')) mm-active @endif"><i class="ti-car"></i><span> Tareas <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu @if (Request::is('admin/orden-trabajo')) mm-active show @endif">
-                        <li @if (Request::is('admin/orden-trabajo') && $tab == "tab1") class="mm-active" @endif><a href="{{route('orden-trabajo.index', ['tab' => 'tab1'])}}">Ver tareas asignadas</a></li>
-                        <li @if (Request::is('admin/orden-trabajo') && $tab == "tab2") class="mm-active" @endif><a href="{{route('orden-trabajo.index', ['tab' => 'tab2'])}}">Ver tareas sin asignar</a></li>
+                        <li @if (Request::is('admin/orden-trabajo') && $tab == "tab1") class="mm-active" @endif><a href="{{route('orden-trabajo.index', ['tab' => 'tab1'])}}">Ver tareas sin asignar</a></li>
+                        <li @if (Request::is('admin/orden-trabajo') && $tab == "tab2") class="mm-active" @endif><a href="{{route('orden-trabajo.index', ['tab' => 'tab2'])}}">Ver tareas asignadas</a></li>
                         {{-- <li><a href="email-compose.html">Email Compose</a></li> --}}
                     </ul>
                 </li>
