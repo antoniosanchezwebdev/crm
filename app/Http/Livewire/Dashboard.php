@@ -33,11 +33,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        if(Auth::user()->tareasEnCurso->first() != null){
-            $this->tareas_en_curso = Auth::user()->tareasEnCurso;
-        }else{
-            $this->tareas_en_curso = [];
-        }
+        $this->tareas_en_curso = Auth::user()->tareasEnCurso;
         $this->tareas_asignadas = Auth::user()->tareas->where('estado' ,'Asignada');
         $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
         $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
