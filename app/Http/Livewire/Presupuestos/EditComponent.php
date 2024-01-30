@@ -6,6 +6,7 @@ use App\Models\Almacen;
 use App\Models\Presupuesto;
 use Carbon\Carbon;
 use App\Models\Clients;
+use App\Models\Vehiculo;
 use App\Models\ListaAlmacen;
 use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
