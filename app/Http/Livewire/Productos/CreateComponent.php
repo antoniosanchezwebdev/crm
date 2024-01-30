@@ -86,7 +86,7 @@ class CreateComponent extends Component
     public function submit()
     {
         $validatedData = $this->validate([
-            'cod_producto' => 'required | unique',
+            'cod_producto' => 'required | unique:productos',
             'descripcion'  => 'required',
             'tipo_producto' => 'required',
             'fabricante' => 'required',

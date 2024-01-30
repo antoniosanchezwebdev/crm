@@ -154,7 +154,7 @@
                             <label for="marca" class="col-sm-3 col-form-label">Marca</label>
                             <div class="col-sm-9">
                                 <input type="text" wire:model="marca" class="form-control" name="marca"
-                                    id="marca">
+                                    id="marca" disable>
                                 @error('marca')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -165,7 +165,7 @@
                             <label for="modelo" class="col-sm-3 col-form-label">Modelo</label>
                             <div class="col-sm-9">
                                 <input type="text" wire:model="modelo" class="form-control" name="modelo"
-                                    id="modelo">
+                                    id="modelo" disable>
                                 @error('modelo')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -176,7 +176,7 @@
                             <label for="vehiculo_renting" class="col-sm-3 col-form-label">¿Este vehículo es de
                                 renting?</label>
                             <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculo_renting"
-                                name="vehiculo_renting" id="vehiculo_renting" />
+                                name="vehiculo_renting" id="vehiculo_renting" disable>
                             @error('vehiculo_renting')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -186,7 +186,7 @@
                             <label for="kilometros" class="col-sm-3 col-form-label">Kilómetros</label>
                             <div class="col-sm-9">
                                 <input type="number" wire:model="kilometros" class="form-control" name="kilometros"
-                                    id="kilometros">
+                                    id="kilometros" disable>
                                 @error('fecha_emision')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

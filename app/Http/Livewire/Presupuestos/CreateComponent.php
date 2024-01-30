@@ -86,9 +86,10 @@ class CreateComponent extends Component
                 $this->modelo = $this->vehiculoSeleccionado->modelo;
                 $this->kilometros = $this->vehiculoSeleccionado->kilometros;
                 $this->vehiculo_renting = $this->vehiculoSeleccionado->vehiculo_renting;
+            }
         }
-    }
     }  
+    
     // Al hacer submit en el formulario
     public function submit()
     {
