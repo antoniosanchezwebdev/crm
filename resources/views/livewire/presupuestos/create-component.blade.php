@@ -289,7 +289,7 @@
                                                 @php
                                                     $productoLista = $productos->where('id', $productoID)->first();
                                                 @endphp
-                                                <tr id={{ $productoLista->id }}>
+                                                <tr id={{ $productoLista->id}}>
                                                     <td>{{ $productoLista->cod_producto }}</td>
                                                     <td>{{ $productoLista->descripcion }}</td>
                                                     <td>{{ $productoLista->precio_venta }}€</td>

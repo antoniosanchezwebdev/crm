@@ -105,6 +105,7 @@ class CreateComponent extends Component
             }
         }
         $this->listaArticulos = json_encode($this->lista);
+        dd($listaArticulos);
 
         // Validación de datos
         $validatedData = $this->validate(
