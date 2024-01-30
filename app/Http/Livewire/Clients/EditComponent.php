@@ -21,7 +21,7 @@ class EditComponent extends Component
     public $vehiculos = [];
 
     public function mount(){
-        $cliente = Client::with('vehiculos')->find($this->identificador);
+        $cliente = Clients::with('vehiculos')->find($this->identificador);
 
         $this->dni = $cliente->dni;
         $this->nombre = $cliente->nombre;
