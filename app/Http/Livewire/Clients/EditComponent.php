@@ -85,10 +85,8 @@ class EditComponent extends Component
 
         foreach ($this->vehiculos as $vehiculoData) {
             if (isset($vehiculoData['id'])) {
-                $vehiculoData['vehiculo_renting'] = $vehiculoData['vehiculo_renting'] === '' ? false : true;
                 Vehiculo::find($vehiculoData['id'])->update($vehiculoData);
             } else {
-                $vehiculoData['vehiculo_renting'] = $vehiculoData['vehiculo_renting'] === '' ? false : true;                
                 $cliente->vehiculos()->create($vehiculoData);
             }
         }
