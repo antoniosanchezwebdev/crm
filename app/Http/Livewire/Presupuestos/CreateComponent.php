@@ -67,10 +67,10 @@ class CreateComponent extends Component
         return view('livewire.presupuestos.create-component');
     }
 
-    public function updatedClienteId()
+    public function updatedClienteId($value)
     {
 
-        $this->vehiculosCliente = Clients::find($this->cliente_id)->vehiculos ?? [];
+        $this->vehiculosCliente = Clients::find($value)->vehiculos ?? [];
     }
 
     // Al hacer submit en el formulario

@@ -103,7 +103,6 @@
                         $('#select2-cliente-create').on('change', function(e) {
                             var data = $('#select2-cliente-create').select2('val');
                             @this.set('cliente_id', data);
-                            @this.call('updatedClienteId');
                         });
                         livewire.on('refreshTomSelect', () => {
                             $('#select2-cliente-create').select2();
