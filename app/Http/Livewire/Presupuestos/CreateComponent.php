@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Presupuestos;
 
 use App\Models\Presupuesto;
 use App\Models\Clients;
+use App\Models\Vehiculo;
 use App\Models\Reserva;
 use App\Models\Trabajador;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
