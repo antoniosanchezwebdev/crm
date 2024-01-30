@@ -78,8 +78,8 @@
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="matricula" class="col-sm-3 col-form-label">Matrícula</label>
                         <div class="col-sm-9">
-                            <input type="text" wire:model="vehiculos.{{ $index }}.matricula" class="form-control" name="matricula"
-                                id="matricula">
+                            <input type="text" wire:model="vehiculos.{{ $index }}.matricula" class="form-control" name="vehiculos.{{ $index }}.matricula"
+                                id="vehiculos.{{ $index }}.matricula">
                             @error('matricula')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -89,8 +89,8 @@
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="marca" class="col-sm-3 col-form-label">Marca</label>
                         <div class="col-sm-9">
-                            <input type="text" wire:model="vehiculos.{{ $index }}.marca" class="form-control" name="marca"
-                                id="marca">
+                            <input type="text" wire:model="vehiculos.{{ $index }}.marca" class="form-control" name="vehiculos.{{ $index }}.marca"
+                                id="vehiculos.{{ $index }}.marca">
                             @error('marca')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -100,8 +100,8 @@
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="modelo" class="col-sm-3 col-form-label">Modelo</label>
                         <div class="col-sm-9">
-                            <input type="text" wire:model="vehiculos.{{ $index }}.modelo" class="form-control" name="modelo"
-                                id="modelo">
+                            <input type="text" wire:model="vehiculos.{{ $index }}.modelo" class="form-control" name="vehiculos.{{ $index }}.modelo"
+                                id="vehiculos.{{ $index }}.modelo">
                             @error('modelo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -112,7 +112,7 @@
                         <label for="vehiculo_renting" class="col-sm-3 col-form-label">¿Este vehículo es de
                             renting?</label>
                         <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculos.{{ $index }}.vehiculo_renting"
-                        name="vehiculo_renting" id="vehiculo_renting" />
+                        name="vehiculos.{{ $index }}.vehiculo_renting" id="vehiculos.{{ $index }}.vehiculo_renting" />
                         @error('vehiculo_renting')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -121,8 +121,8 @@
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="kilometros" class="col-sm-3 col-form-label">Kilómetros</label>
                         <div class="col-sm-9">
-                            <input type="number" wire:model="vehiculos.{{ $index }}.kilometros" class="form-control" name="kilometros"
-                                id="kilometros">
+                            <input type="number" wire:model="vehiculos.{{ $index }}.kilometros" class="form-control" name="vehiculos.{{ $index }}.kilometros"
+                                id="vehiculos.{{ $index }}.kilometros">
                             @error('fecha_emision')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
