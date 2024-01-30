@@ -36,7 +36,7 @@ class Dashboard extends Component
         if(Auth::user()->tareasEnCurso->first() != null){
             $this->tareas_en_curso = Auth::user()->tareasEnCurso;
         }else{
-            $this->tareas_en_curso = 0;
+            $this->tareas_en_curso = [];
         }
         $this->tareas_asignadas = Auth::user()->tareas->where('estado' ,'Asignada');
         $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
