@@ -18,7 +18,7 @@ class Dashboard extends Component
     public $tareas_asignadas;
     public $tareas_completadas;
     public $tareas_facturadas;
-    public $tarea_en_curso;
+    public $tareas_en_curso;
     public $alertas;
     public $trabajadores;
     public $jornada_activa;
@@ -34,9 +34,9 @@ class Dashboard extends Component
     public function mount()
     {
         if(Auth::user()->tareasEnCurso->first() != null){
-            $this->tarea_en_curso = Auth::user()->tareasEnCurso->first();
+            $this->tareas_en_curso = Auth::user()->tareasEnCurso;
         }else{
-            $this->tarea_en_curso = 0;
+            $this->tareas_en_curso = 0;
         }
         $this->tareas_asignadas = Auth::user()->tareas->where('estado' ,'Asignada');
         $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
@@ -150,7 +150,6 @@ class Dashboard extends Component
         Jornada::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
         $this->recalcularHoras();
-        $this->emitSelf('refresh');
     }
 
 
@@ -173,7 +172,6 @@ class Dashboard extends Component
 
     $this->checkJornada();
     $this->recalcularHoras();
-    $this->emitSelf('refresh');
     }
 
     public function iniciarPausa()
@@ -183,7 +181,6 @@ class Dashboard extends Component
         Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
         $this->checkJornada();
         $this->recalcularHoras();
-        $this->emitSelf('refresh');
     }
 
     public function finalizarPausa()
@@ -194,7 +191,6 @@ class Dashboard extends Component
         $jornada_actual->update(['hora_final' => $hora_final, 'status' => 0]);
         $this->checkJornada();
         $this->recalcularHoras();
-        $this->emitSelf('refresh');
     }
 
     public function checkJornada()

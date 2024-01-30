@@ -11,7 +11,9 @@
                     @if ($pausa_activa == 1)
                         <br><button class="btn btn-lg btn-danger w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
                     @else
-                        <button class="btn btn-lg btn-primary mt-3 w-100" wire:click="iniciarPausa">INICIAR PAUSA</button>
+                        <button class="btn btn-lg btn-success mt-3 w-30" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
+                        <button class="btn btn-lg btn-secondary mt-3 ml-3 w-30" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
+                        <button class="btn btn-lg btn-warning mt-3 ml-3 w-30" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
                     @endif
                 @else
                     <button class="btn btn-lg btn-primary w-100" wire:click="iniciarJornada">INICIAR JORNADA</button>
@@ -44,15 +46,16 @@
         <div class="card">
             <h5 class="card-header">Tarea activa</h5>
             <div class="card-body">
-                @if ($tarea_en_curso != null)
+                @if ($tareas_en_curso->count() > 0)
+                    @foreach ($tareas_en_curso as $tarea)
                     <div id="accordion-activa">
                         <div class="card mb-0">
                             <div class="card-header" id="headingOne-activa"
-                                @if ($tarea_en_curso->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
+                                @if ($tarea->presupuesto->vehiculo_renting == 1) style="background-color: #edc618 !important;" @endif>
                                 <h5 class="mb-0 mt-0 font-14">
                                     <a data-toggle="collapse" data-parent="#accordion-activa" href="#collapseOne-activa"
                                         aria-expanded="true" aria-controls="collapseOne-activa" class="text-dark">
-                                        {{ $tarea_en_curso->descripcion }}
+                                        {{ $tarea->descripcion }}
                                     </a>
                                 </h5>
                             </div>
@@ -61,14 +64,14 @@
                                 <div class="card-body">
                                     <h5 class="border-bottom"> Datos </h5>
                                     <ul>
-                                        <li><b>Cliente:</b> {{ $tarea_en_curso->presupuesto->cliente->nombre }} -
-                                            {{ $tarea_en_curso->presupuesto->matricula }}
+                                        <li><b>Cliente:</b> {{ $tarea->presupuesto->cliente->nombre }} -
+                                            {{ $tarea->presupuesto->matricula }}
                                         </li>
                                         <li><b>Presupuesto:</b>
-                                            {{ $tarea_en_curso->presupuesto->numero_presupuesto }} </li>
+                                            {{ $tarea->presupuesto->numero_presupuesto }} </li>
                                         <li><b>Operarios:</b>
                                             <ul>
-                                                @foreach (json_decode($tarea_en_curso->operarios, true) as $operario)
+                                                @foreach (json_decode($tarea->operarios, true) as $operario)
                                                     <li> {{ $trabajadores->where('id', $operario)->first()->name }}
                                                     </li>
                                                 @endforeach
@@ -76,21 +79,21 @@
                                         </li>
                                         <li><b>Trabajos solicitados:</b>
                                             <ul>
-                                                @foreach (json_decode($tarea_en_curso->trabajos_solicitados, true) as $trabajo)
+                                                @foreach (json_decode($tarea->trabajos_solicitados, true) as $trabajo)
                                                     <li> {{ $trabajo }} </li>
                                                 @endforeach
                                             </ul>
                                         </li>
                                         <li><b>Trabajos a realizar:</b>
                                             <ul>
-                                                @foreach (json_decode($tarea_en_curso->trabajos_realizar, true) as $trabajo)
+                                                @foreach (json_decode($tarea->trabajos_realizar, true) as $trabajo)
                                                     <li> {{ $trabajo }} </li>
                                                 @endforeach
                                             </ul>
                                         </li>
                                         <li><b>Daños localizados</b>
                                             <ul>
-                                                @foreach (json_decode($tarea_en_curso->danos_localizados, true) as $trabajo)
+                                                @foreach (json_decode($tarea->danos_localizados, true) as $trabajo)
                                                     <li> {{ $trabajo }} </li>
                                                 @endforeach
                                             </ul>
@@ -107,9 +110,9 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        @if (count(json_decode($tarea_en_curso->presupuesto->listaArticulos, true)) != 0)
+                                        @if (count(json_decode($tarea->presupuesto->listaArticulos, true)) != 0)
                                             <tbody>
-                                                @foreach (json_decode($tarea_en_curso->presupuesto->listaArticulos, true) as $productoE => $cantidad)
+                                                @foreach (json_decode($tarea->presupuesto->listaArticulos, true) as $productoE => $cantidad)
                                                     <tr>
                                                         <td>{{ $productos->where('id', $productoE)->first()->cod_producto }}
                                                         </td>
@@ -125,16 +128,16 @@
                                     <h5 class="border-bottom">&nbsp;</h5>
                                     <div class="row justify-content-center">
                                         <div class="col-6"> <button type="button" class="btn btn-primary"
-                                                wire:click="pausarTarea('{{ $tarea_en_curso->id }}', '{{ Auth::id() }}')">Pausar
+                                                wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
                                                 tarea</button></div>
                                         <div class="col-6"><button
-                                                wire:click="completarTarea({{ $tarea_en_curso->id }})"
-                                                id="delete-button-{{ $tarea_en_curso->id }}" type="button"
+                                                wire:click="completarTarea({{ $tarea->id }})"
+                                                id="delete-button-{{ $tarea->id }}" type="button"
                                                 class="btn btn-secondary">Completar
                                                 tarea</button>
 
                                             <script>
-                                                document.getElementById('delete-button-{{ $tarea_en_curso->id }}').addEventListener('click', function(event) {
+                                                document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
                                                     event.preventDefault();
 
                                                     Swal.fire({
@@ -148,7 +151,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Esto llamará al método confirmDelete de Livewire y pasará el ID del item
-                                                            @this.call('completarTarea', {{ $tarea_en_curso->id }})
+                                                            @this.call('completarTarea', {{ $tarea->id }})
                                                         }
                                                     })
                                                 });
@@ -159,6 +162,7 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 @else
                     <h5>No hay ninguna tarea en curso. </h5>
                 @endif
@@ -172,8 +176,9 @@
                 @if ($tareas_asignadas->count() > 0)
                     <div id="accordionTA">
                         @foreach ($tareas_asignadas as $tarea_asignadaIndex => $tarea_asignada)
-                            @if ($tarea_en_curso != null)
-                                @if ($tarea_en_curso->id == $tarea_asignada->id)
+                            @if ($tareas_en_curso->count() > 0)
+                                @foreach ($tareas_en_curso as $tarea)
+                                @if ($tarea->id == $tarea_asignada->id)
                                 @else
                                     <div class="card mb-0">
                                         <div class="card-header" id="headingTA-{{ $tarea_asignadaIndex }}"
@@ -302,6 +307,7 @@
                                         </div>
                                     </div>
                                 @endif
+                                @endforeach
                             @else
                                 <div class="card mb-0">
                                     <div class="card-header" id="headingTA-{{ $tarea_asignadaIndex }}"
