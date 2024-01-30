@@ -133,7 +133,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="cliente_id" class="col-sm-2 col-form-label">Cliente</label>
                     <div class="col-sm-10" wire:ignore>
-                        <select id="select2-cliente-edit" class="form-control seleccion">
+                        <select  wire:model="cliente_id" id="select2-cliente-edit" class="form-control seleccion"  >
                             @foreach ($clientes as $clienteSel)
                                 <option value="{{ $clienteSel->id }}">{{ $clienteSel->id }} - {{ $clienteSel->nombre }}
                                 </option>
@@ -155,7 +155,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
                     <div class="col-sm-10">
-                            <select wire:model="matricula" class="form-control">
+                            <select wire:model="matricula"  id="select2-matricula-edit" class="form-control">
                                 <option value="">Selecciona un vehículo</option>
                                 @foreach($vehiculosCliente as $vehiculo)
                                     <option value="{{ $vehiculo->matricula }}">{{ $vehiculo->matricula }}</option>
@@ -170,7 +170,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="marca" class="col-sm-2 col-form-label">Marca</label>
                     <div class="col-sm-10">
-                        <input type="text" wire:model="marca" class="form-control" name="marca" id="marca" disable>
+                        <input type="text" wire:model="marca" class="form-control" name="marca" id="marca" disabled>
                         @error('marca')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -181,7 +181,7 @@
                     <label for="modelo" class="col-sm-2 col-form-label">Modelo</label>
                     <div class="col-sm-10">
                         <input type="text" wire:model="modelo" class="form-control" name="modelo"
-                            id="modelo" disable>
+                            id="modelo" disabled>
                         @error('modelo')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -192,7 +192,7 @@
                     <label for="vehiculo_renting" class="col-sm-2 col-form-label">¿Este vehículo es de
                         renting?</label>
                     <input class="col-sm-2 form-check" type="checkbox" wire:model="vehiculo_renting"
-                        name="vehiculo_renting" id="vehiculo_renting" disable>
+                        name="vehiculo_renting" id="vehiculo_renting" disabled>
                     @error('vehiculo_renting')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -388,6 +388,20 @@
                 $('#select2-cliente-edit').on('change', function(e) {
                     var data = $('#select2-cliente-edit').select2("val");
                     @this.set('cliente_id', data);
+                });
+                
+                $('#select2-matricula-edit').select2({
+                    placeholder: "Seleccione un Vehiculo"
+                });
+
+                $('#select2-matricula-edit').on('load', function(e) {
+                    var data = $('#select2-matricula-edit').select2("val");
+                    @this.set('matricula', data);
+                });
+
+                $('#select2-matricula-edit').on('change', function(e) {
+                    var data = $('#select2-matricula-edit').select2("val");
+                    @this.set('matricula', data);
                 });
             });
         });
