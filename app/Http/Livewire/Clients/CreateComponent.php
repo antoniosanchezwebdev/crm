@@ -20,7 +20,7 @@ class CreateComponent extends Component
     public $vehiculos = [];
 
     public function mount(){
-        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '1', 'modelo' => '', 'marca' => ''];
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
     }
 
     // Renderizado del Componente
@@ -31,7 +31,7 @@ class CreateComponent extends Component
 
     public function addVehiculo()
     {
-        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '1', 'modelo' => '', 'marca' => ''];
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
     }
 
 

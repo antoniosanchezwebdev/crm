@@ -40,7 +40,7 @@ class EditComponent extends Component
 
     public function addVehiculo()
     {
-        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '1', 'modelo' => '', 'marca' => ''];
+        $this->vehiculos[] = ['matricula' => '', 'kilometros' => '', 'vehiculo_renting' => '', 'modelo' => '', 'marca' => ''];
     }
 
     public function removeVehiculo($index)
