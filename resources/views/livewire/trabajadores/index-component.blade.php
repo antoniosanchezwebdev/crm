@@ -1,4 +1,7 @@
 <div id="containerTrabajadores">
+@php
+$user = Auth::user();
+@endphp
     @if ($trabajadores->count() > 0)
         <div class="card" wire:ignore>
             <h5 class="card-header">Resultados</h5>
@@ -9,19 +12,20 @@
                     searching: false,
                     paging: false,
                 });
-            })">
+            })"> 
                 <table class="table responsive" id="tableEmpresas">
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
+                            @if ($user && $user->role == 'admin')
+                            <th scope="col">Productividad</th>
+                            @endif
                             <th scope="col">ID de usuario</th>
                             <th scope="col">Puesto</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    @php
-                            $user = Auth::user();
-                    @endphp
+                    
                     <tbody>
                         @foreach ($trabajadores as $trabajador)
                             <tr>
