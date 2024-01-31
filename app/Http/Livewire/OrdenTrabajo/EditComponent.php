@@ -168,7 +168,7 @@ class EditComponent extends Component
 
         // Encuentra el identificador
         $presupuestos = OrdenTrabajo::find($this->identificador);
-
+    dd($this->tiempo_lista);
         // Guardar datos validados
         $presupuestosSave = $presupuestos->update([
             'fecha' => $this->fecha,

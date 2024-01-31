@@ -19,10 +19,30 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
+                    @php
+                    use Illuminate\Support\Facades\Auth;
+
+                            $user = Auth::user();
+                    @endphp
                     <tbody>
                         @foreach ($trabajadores as $trabajador)
                             <tr>
                                 <td>{{ $trabajador->name }} {{ $trabajador->surname }} </td>
+                                @if ($user && $user->role == 'admin')
+                                <td> 
+                                    @php
+                                    $productividad = calcularProductividad($trabajador->id);
+                                    @endphp
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" 
+                                            style="width: {{ $trabajador->productividad }}%;" 
+                                            aria-valuenow="{{ $trabajador->productividad }}" 
+                                            aria-valuemin="0" aria-valuemax="100">
+                                            {{ number_format($trabajador->productividad, 2) }}%
+                                        </div>
+                                     </div>
+                                </td>
+                                @endif
                                 <td>{{ $trabajador->username }} </td>
                                 <td>{{ $trabajador->role }} </td>
                                 <td> <button type="button" class="btn btn-primary boton-producto"
