@@ -37,8 +37,8 @@ $user = Auth::user();
                                     @endphp
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" 
-                                            style="width: {{ $trabajador->productividad }}%;" 
-                                            aria-valuenow="{{ $trabajador->productividad }}" 
+                                            style="width: {{ $productividadPorTrabajador[$trabajador->id] }}%;" 
+                                            aria-valuenow="{{ $productividadPorTrabajador[$trabajador->id] }}" 
                                             aria-valuemin="0" aria-valuemax="100">
                                             {{ number_format($productividadPorTrabajador[$trabajador->id], 2) }}%
                                         </div>
