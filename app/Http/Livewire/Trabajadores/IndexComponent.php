@@ -39,15 +39,16 @@ class IndexComponent extends Component
     $tareas = OrdenTrabajo::whereHas('logs', function ($query) use ($trabajadorId) {
                         $query->where('trabajador_id', $trabajadorId);
                     })
-                    ->where('estado', 'Completada')
-                    ->orWhere('estado', 'Facturada')
+                    >where(function ($query) {
+                        $query->where('estado', 'Completada')
+                              ->orWhere('estado', 'Facturada');
+                    })
                     ->whereBetween('updated_at', [$inicioMes, $finMes])
                     ->get();
 
     $totalEstimado = 0;
     $totalReal = 0;
 
-    dd($tareas);
     foreach ($tareas as $tarea) {
         $totalEstimado += $this->getTiempoEstimadoTareaEnHoras($tarea->lista_tiempo);
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
