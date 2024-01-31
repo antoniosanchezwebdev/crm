@@ -47,6 +47,7 @@ class IndexComponent extends Component
     $totalEstimado = 0;
     $totalReal = 0;
 
+    dd($tareas);
     foreach ($tareas as $tarea) {
         $totalEstimado += $this->getTiempoEstimadoTareaEnHoras($tarea->lista_tiempo);
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
