@@ -23,4 +23,5 @@ class IndexComponent extends Component
     {
         $this->emit("seleccionarProducto", $user);
     }
+    
 }

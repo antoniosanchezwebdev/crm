@@ -16,7 +16,8 @@
                             @enderror
                         </div>
                     </div>
-
+                    
+                <div class="mb-3 row d-flex align-items-center">
                     <label for="nombre" class="col-sm-2 col-form-label">Nombre </label>
                     <div class="col-sm-10">
                         <input type="text" wire:model="nombre" class="form-control" name="nombre" id="nombre"
@@ -25,7 +26,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                
+                </div>
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
