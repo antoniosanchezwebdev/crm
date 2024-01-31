@@ -52,7 +52,7 @@ class IndexComponent extends Component
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
     }
 
-    dd($totalReal);
+
     if ($totalReal > 0) {
         $productividad = ($totalEstimado / $totalReal) * 100;
     } else {
@@ -80,7 +80,7 @@ class IndexComponent extends Component
         $fin = $log->fecha_fin ? new Carbon($log->fecha_fin) : Carbon::now();
         $totalSegundos += $inicio->diffInSeconds($fin);
     }
-
+    dd($totalSegundos);
     return $totalSegundos / 3600; // Convertir segundos a horas
     }
 }
