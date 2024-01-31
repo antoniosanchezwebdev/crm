@@ -66,6 +66,7 @@ class IndexComponent extends Component
         if(is_null(json_decode($listaTiempo))){
             return 0;
         }
+        dd(array_sum(json_decode($listaTiempo, true)));
     return array_sum(json_decode($listaTiempo, true));
     }
 
