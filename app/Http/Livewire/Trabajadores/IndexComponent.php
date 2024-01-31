@@ -51,14 +51,14 @@ class IndexComponent extends Component
         $totalEstimado += $this->getTiempoEstimadoTareaEnHoras($tarea->lista_tiempo);
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
     }
-dd($totalEstimado);
+
 
     if ($totalReal > 0) {
         $productividad = ($totalEstimado / $totalReal) * 100;
     } else {
         $productividad = 0;
     }
-
+    dd($productividad);
     return round($productividad, 2); // Redondear a dos decimales
     }
 
