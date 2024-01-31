@@ -26,5 +26,5 @@
 
 @section('content')
 <br>
-@livewire('rendimiento.rendimiento-component', ['alertas' => $alertas, 'tab' => $tab])
+@livewire('rendimiento.index-component', ['alertas' => $alertas, 'tab' => $tab])
 @endsection
