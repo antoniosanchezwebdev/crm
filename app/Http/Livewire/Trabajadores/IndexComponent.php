@@ -58,7 +58,7 @@ class IndexComponent extends Component
     } else {
         $productividad = 0;
     }
-    dd($productividad);
+
     return round($productividad, 2); // Redondear a dos decimales
     }
 
