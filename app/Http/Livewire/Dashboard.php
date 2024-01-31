@@ -28,6 +28,7 @@ class Dashboard extends Component
     public $horasTrabajadasSemana;
     public $documentosArray = [];
     public $tareaSeleccionadaId = null;
+    public $rutasDocumentos = [];
 
 
     public $tab = "tab1";
