@@ -326,11 +326,12 @@ class Dashboard extends Component
 
         $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
         $rutaDocumento = $this->documento->storeAs('documentos', $nombreDelArchivo, 'public_local');
+        $this->rutasDocumentos[] = $rutaDocumento;
 
         // Encuentra la orden de trabajo y actualiza la ruta del documento
         $ordenTrabajo = OrdenTrabajo::find($this->tareaSeleccionadaId);
         if ($ordenTrabajo) {
-            $ordenTrabajo->documentos = $rutaDocumento;
+            $ordenTrabajo->documentos = json_encode($this->rutasDocumentos);
             $ordenTrabajo->save();
         }
     }
