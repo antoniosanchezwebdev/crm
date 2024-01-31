@@ -27,7 +27,7 @@ class Dashboard extends Component
     public $horasTrabajadasHoy;
     public $horasTrabajadasSemana;
     public $documentosArray = [];
-    public $tareaSeleccionadaId;
+    public $tareaSeleccionadaId = null;
 
 
     public $tab = "tab1";
@@ -51,7 +51,10 @@ class Dashboard extends Component
     {
         return view('livewire.dashboard');
     }
-
+    
+    public function seleccionarTarea($tareaId) {
+        $this->tareaSeleccionadaId = $tareaId;
+    }
     public function iniciarTarea($tareaId, $trabajadorId)
     {
         $log = new OrdenLog();
