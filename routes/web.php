@@ -119,6 +119,9 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('trabajadores-create', [TrabajadorController::class, 'create'])->name('trabajadores.create');
     Route::get('trabajadores-edit/{id}', [TrabajadorController::class, 'edit'])->name('trabajadores.edit');
 
+    Route::get('rendimiento', [RendimientoController::class, 'index'])->name('rendimiento.index');
+       
+
 
     // Cursos
     Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');

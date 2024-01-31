@@ -169,7 +169,7 @@
                                             </script>
                                         </div>
                                         @if ($tareaSeleccionadaId == $tarea->id)
-                                        <div class="col-12">
+                                        <div class="col-12 mt-2">
                                             <!-- Aquí coloca el contenido que deseas mostrar, por ejemplo, un formulario -->
                                             <input type="file" wire:model="documentosArray" multiple>
                                             @error('documentosArray.*') <span class="error">{{ $message }}</span> @enderror
