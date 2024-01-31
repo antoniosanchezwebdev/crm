@@ -39,10 +39,8 @@ class IndexComponent extends Component
     $tareas = OrdenTrabajo::whereHas('logs', function ($query) use ($trabajadorId) {
                         $query->where('trabajador_id', $trabajadorId);
                     })
-                    ->where(function ($query) {
-                        $query->where('estado', 'Completada')
-                              ->orWhere('estado', 'Facturada');
-                    })
+                    ->where('estado', 'Completada')
+                    ->orWhere('estado', 'Facturada')
                     ->whereBetween('updated_at', [$inicioMes, $finMes])
                     ->get();
 
