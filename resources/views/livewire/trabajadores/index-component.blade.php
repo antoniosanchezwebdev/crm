@@ -20,7 +20,6 @@
                         </tr>
                     </thead>
                     @php
-
                             $user = Auth::user();
                     @endphp
                     <tbody>
@@ -30,7 +29,7 @@
                                 @if ($user && $user->role == 'admin')
                                 <td> 
                                     @php
-                                    $productividad = calcularProductividad($trabajador->id);
+                                    $productividad = $productividadPorTrabajador[$trabajador->id] ?? 0;
                                     @endphp
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" 

@@ -12,11 +12,16 @@ class IndexComponent extends Component
 {
     // public $search;
     public $trabajadores;
+    public $productividadPorTrabajador = [];
 
     public function mount()
     {
         $this->trabajadores = User::all();
+        foreach ($this->trabajadores as $trabajador) {
+            $this->productividadPorTrabajador[$trabajador->id] = $this->calcularProductividad($trabajador->id);
+        }
     }
+
 
     public function render()
     {
