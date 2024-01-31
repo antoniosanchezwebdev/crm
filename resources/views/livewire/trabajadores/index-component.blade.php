@@ -40,7 +40,7 @@ $user = Auth::user();
                                             style="width: {{ $trabajador->productividad }}%;" 
                                             aria-valuenow="{{ $trabajador->productividad }}" 
                                             aria-valuemin="0" aria-valuemax="100">
-                                            {{ number_format($trabajador->productividad, 2) }}%
+                                            {{ number_format($productividadPorTrabajador[$trabajador->id], 2) }}%
                                         </div>
                                      </div>
                                 </td>
