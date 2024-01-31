@@ -63,6 +63,9 @@ class IndexComponent extends Component
 
     public function getTiempoEstimadoTareaEnHoras($listaTiempo)
     {
+        if(is_null(json_decode($listaTiempo))){
+            return 0;
+        }
     return array_sum(json_decode($listaTiempo));
     }
 
