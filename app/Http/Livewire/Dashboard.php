@@ -85,7 +85,7 @@ class Dashboard extends Component
 
         $tarea = OrdenTrabajo::find($tareaId);
         if ($tarea->operarios_tiempo != null && !empty($tarea->operarios_tiempo)) {
-            $operarios_tiempo = json_decode($tarea->operarios_tiempo, true); // Convierte el string JSON a un array
+            $operarios_tiempo = $tarea->operarios_tiempo ? json_decode($tarea->operarios_tiempo, true) : [];
 
             // Actualiza el tiempo trabajado por el operario
             $operarios_tiempo[$trabajadorId] = $totalMinutes;

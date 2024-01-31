@@ -139,7 +139,7 @@
                                                 wire:click="pausarTarea('{{ $tarea->id }}', '{{ Auth::id() }}')">Pausar
                                                 tarea</button></div>
                                         <div class="col-4">  
-                                            <button wire:click="$set('tareaSeleccionadaId', {{ $tarea->id }})" 
+                                            <button  type="button" class="btn btn-info" wire:click="$set('tareaSeleccionadaId', {{ $tarea->id }})" 
                                             data-toggle="modal" data-target="#modalSubirArchivo">Subir Archivo</button>
                                         </div>
                                         <div class="col-4"><button
