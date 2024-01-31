@@ -13,6 +13,8 @@ class IndexComponent extends Component
     // public $search;
     public $trabajadores;
     public $productividadPorTrabajador = [];
+    
+
 
     public function mount()
     {
@@ -20,6 +22,7 @@ class IndexComponent extends Component
         foreach ($this->trabajadores as $trabajador) {
             $this->productividadPorTrabajador[$trabajador->id] = $this->calcularProductividad($trabajador->id);
         }
+        
     }
 
 
@@ -56,7 +59,7 @@ class IndexComponent extends Component
 
 
     if ($totalReal > 0) {
-        $productividad = ($totalEstimado / $totalReal) * 100;
+        $productividad = (((2*$totalEstimado) - $totalReal)/ $totalEstimado) * 100;
     } else {
         $productividad = 0;
     }
