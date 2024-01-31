@@ -52,7 +52,6 @@ class IndexComponent extends Component
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
     }
 
-    dd($totalEstimado);
     dd($totalReal);
     if ($totalReal > 0) {
         $productividad = ($totalEstimado / $totalReal) * 100;
