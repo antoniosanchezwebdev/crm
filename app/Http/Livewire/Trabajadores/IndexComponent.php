@@ -52,6 +52,8 @@ class IndexComponent extends Component
         $totalReal += $this->getTiempoRealTareaEnHoras($tarea->id);
     }
 
+    dd($totalEstimado);
+    dd($totalReal);
     if ($totalReal > 0) {
         $productividad = ($totalEstimado / $totalReal) * 100;
     } else {
@@ -66,8 +68,6 @@ class IndexComponent extends Component
         if(is_null(json_decode($listaTiempo))){
             return 0;
         }
-        dd($listaTiempo);
-        dd(array_sum(json_decode($listaTiempo, true)));
     return array_sum(json_decode($listaTiempo, true));
     }
 
