@@ -112,7 +112,7 @@
                     <ul class="submenu @if (Request::is('admin/fabricantes')) mm-active show @endif">
                         <li @if (Request::is('admin/trabajadores') && $tab == "tab1") class="mm-active" @endif><a href="{{route('trabajadores.index', ['tab' => 'tab1'])}}">Ver todos</a></li>
                         <li @if (Request::is('admin/trabajadores') && $tab == "tab2") class="mm-active" @endif><a href="{{route('trabajadores.index', ['tab' => 'tab3'])}}">Añadir trabajador</a></li>
-                        <li @if (Request::is('admin/rendimiento') && $tab == "tab2") class="mm-active" @endif><a href="{{route('rendimiento.index', ['tab' => 'tab3'])}}">Rendimiento</a></li>
+                        <li @if (Request::is('admin/rendimiento') && $tab == "tab2") class="mm-active" @endif><a href="{{route('rendimiento.index', ['tab' => 'tab4'])}}">Rendimiento</a></li>
                         {{-- <li><a href="email-compose.html">Email Compose</a></li> --}}
                     </ul>
                 </li>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Trabajadores;
+namespace App\Http\Livewire\Rendimiento;
 
 use App\Models\User;
 use Livewire\Component;

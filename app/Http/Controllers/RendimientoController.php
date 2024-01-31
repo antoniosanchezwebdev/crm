@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trabajador;
-use App\Http\Requests\StoreTrabajadorRequest;
-use App\Http\Requests\UpdateTrabajadorRequest;
 use Illuminate\Http\Request;
 
 class RendimientoController extends Controller
