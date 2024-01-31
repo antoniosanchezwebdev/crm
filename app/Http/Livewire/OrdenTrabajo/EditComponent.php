@@ -180,7 +180,7 @@ class EditComponent extends Component
             'operarios' => $this->operarios,
             'estado' => $this->estado,
             'descripcion' => $this->descripcion,
-            'tiempo_lista' => $this->tiempo_lista,
+            'lista_tiempo' => $this->tiempo_lista,
             'documentos' => $this->documentos,
             'operarios_tiempo' => $this->operarios_tiempo,
             'danos_localizados' => $this->danos_localizados,
