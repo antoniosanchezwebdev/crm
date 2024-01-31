@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetReferenceAutopincrementsController;
 use App\Http\Controllers\BudgetStatuController;
+use App\Http\Controllers\RendimientoController;
 use App\Http\Controllers\ClientsEmailController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ProjectPriorityController;
