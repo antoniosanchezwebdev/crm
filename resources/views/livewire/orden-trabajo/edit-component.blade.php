@@ -111,7 +111,7 @@
                                             <td></td>
                                         @else
                                             <td></td>
-                                            <td> <input type="text" wire:model="tiempo_lista.{{ $productoE }}"
+                                            <td> <input type="number" wire:model="tiempo_lista.{{ $productoE }}"
                                                     class="form-control"> </td>
                                         @endif
                                         <td>{{ $productos->where('id', $productoE)->first()->precio_venta * $cantidad }}€
