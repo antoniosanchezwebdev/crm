@@ -66,7 +66,7 @@ class IndexComponent extends Component
         if(is_null(json_decode($listaTiempo))){
             return 0;
         }
-    return array_sum(json_decode($listaTiempo));
+    return array_sum(json_decode($listaTiempo, true));
     }
 
     public function getTiempoRealTareaEnHoras($tareaId)
