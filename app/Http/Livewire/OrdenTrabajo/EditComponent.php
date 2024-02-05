@@ -93,7 +93,7 @@ class EditComponent extends Component
         $this->matricula = $this->tarea->presupuesto->matricula;
         $this->precio = $this->tarea->presupuesto->precio;
         $this->origen = $this->tarea->presupuesto->origen;
-        $this->tiempo_lista = json_decode($this->tarea->lista_tiempo); 
+        $this->tiempo_lista = json_decode($this->tarea->lista_tiempo, true); 
         if($this->tarea->operarios){
             $this->fecha = $this->tarea->fecha;
             $this->id_cliente = $this->tarea->id_cliente;
