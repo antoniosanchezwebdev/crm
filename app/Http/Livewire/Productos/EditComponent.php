@@ -115,7 +115,7 @@ class EditComponent extends Component
 
 
         if ($product->mueve_existencias == true) {
-            $this->almacen = ListaAlmacen::where('id', $product->almacen)->first()->id;
+            $this->almacen = ListaAlmacen::find($product->almacen)->id;
             $this->nombre = ListaAlmacen::where('id', $product->almacen)->first()->nombre;
             $almacen = Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first();
             $this->existencias = $almacen->existencias;

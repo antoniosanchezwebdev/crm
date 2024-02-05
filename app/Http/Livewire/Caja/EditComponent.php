@@ -131,7 +131,7 @@ class EditComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('facturas.index');
+        return redirect()->route('caja.index', ['tab' => 'tab1']);
 
     }
     // Función para cuando se llama a la alerta
@@ -139,7 +139,7 @@ class EditComponent extends Component
     {
         $factura = Facturas::find($this->identificador);
         $factura->delete();
-        return redirect()->route('facturas.index');
+        return redirect()->route('caja.index', ['tab' => 'tab1']);
 
     }
 
@@ -156,7 +156,7 @@ class EditComponent extends Component
                 'showConfirmButton' => false,
                 'timerProgressBar' => true,
             ]);
-            return redirect()->route('facturas.index');
+            return redirect()->route('caja.index', ['tab' => 'tab1']);
         } else {
             $this->alert('error', 'Movimiento no encontrado', [
                 'position' => 'center',

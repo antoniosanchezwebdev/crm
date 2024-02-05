@@ -182,7 +182,7 @@
             <label for="ancho" class="col-sm-2 col-form-label">Ancho</label>
             <div class="col-sm-10">
                 <input type="number" wire:model="ancho" class="form-control" name="ancho" id="ancho"
-                    placeholder="Precio baremo">
+                    placeholder="Ancho">
                 @error('ancho')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -193,7 +193,7 @@
             <label for="serie" class="col-sm-2 col-form-label">Serie</label>
             <div class="col-sm-10">
                 <input type="number" wire:model="serie" class="form-control" name="serie" id="serie"
-                    placeholder="Precio baremo">
+                    placeholder="Numero de serie">
                 @error('serie')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -204,7 +204,7 @@
             <label for="llanta" class="col-sm-2 col-form-label">Llanta</label>
             <div class="col-sm-10">
                 <input type="number" wire:model="llanta" class="form-control" name="llanta" id="llanta"
-                    placeholder="Precio baremo">
+                    placeholder="Llanta">
                 @error('llanta')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -215,7 +215,7 @@
             <label for="indice_carga" class="col-sm-2 col-form-label">I.C</label>
             <div class="col-sm-10">
                 <input type="number" wire:model="indice_carga" class="form-control" name="indice_carga"
-                    id="indice_carga" placeholder="Precio baremo">
+                    id="indice_carga" placeholder="Indice de carga">
                 @error('indice_carga')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -226,7 +226,7 @@
             <label for="codigo_velocidad" class="col-sm-2 col-form-label">C.V</label>
             <div class="col-sm-10">
                 <input type="number" wire:model="codigo_velocidad" class="form-control" name="codigo_velocidad"
-                    id="codigo_velocidad" placeholder="Precio baremo">
+                    id="codigo_velocidad" placeholder="Codigo de velocidad">
                 @error('codigo_velocidad')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -343,11 +343,11 @@
         @if ($mueve_existencias == true)
 
             <div class="mb-3 row d-flex align-items-center">
-                <label for="nombre" class="col-sm-2 col-form-label">
+                <label for="almacen" class="col-sm-2 col-form-label">
                     <h5>Selecciona el almacén</h5>
                 </label>
                 <div class="col-sm-10">
-                    <select wire:model="nombre" id="nombre" name="nombre">
+                    <select wire:model="almacen" id="almacen" name="almacen">
                         <option selected value="">-- Selecciona una opción --</option>
                         @foreach ($almacenes as $almacen)
                             <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>

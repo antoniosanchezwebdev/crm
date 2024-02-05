@@ -30,7 +30,7 @@
                             <td>{{ $fact->fecha }}</th>
                             <td>{{ $fact->cantidad }} €</th>
                             <td>{{ $fact->metodo_pago }}</td>
-                            <td>{{ $fact->descripción }} </td>
+                            <td>{{ $fact->descripcion }} </td>
 
                             <td><button type="button" class="btn btn-primary boton-producto"
                                 onclick="Livewire.emit('seleccionarProducto', {{ $fact->id }});">Editar</button>

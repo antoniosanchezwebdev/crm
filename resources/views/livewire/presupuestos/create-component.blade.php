@@ -30,7 +30,7 @@
                                     <select class="form-control" id="select2-servicio-create">
                                         <option value="">-- Elige un almacén --</option>
                                         @foreach ($almacenes as $listalmacen)
-                                            <option value={{ $listalmacen->nombre }}>{{ $listalmacen->nombre }}</option>
+                                            <option value="{{$listalmacen->nombre}}">{{ $listalmacen->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -290,7 +290,7 @@
                                                 @php
                                                     $productoLista = $productos->where('id', $productoID)->first();
                                                 @endphp
-                                                <tr id={{ $productoLista->id}}>
+                                                <tr id="{{ $productoLista->id}}">
                                                     <td>{{ $productoLista->cod_producto }}</td>
                                                     <td>{{ $productoLista->descripcion }}</td>
                                                     <td>{{ $productoLista->precio_venta }}€</td>

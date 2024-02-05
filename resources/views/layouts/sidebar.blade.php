@@ -12,7 +12,7 @@
                         <i class="icon-accelerator"></i>{{-- <span class="badge badge-success badge-pill float-right">9+</span>--}} <span> Dashboard </span>
                     </a>
                 </li>
-{{--
+
                 <li>
                     <a href="/admin/calendario" class="waves-effect"><i class="icon-calendar"></i><span> Calendario </span></a>
                 </li>

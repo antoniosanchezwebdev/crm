@@ -61,7 +61,7 @@ class CreateComponent extends Component
     public $existencias;
     public $mueve_existencias = false;
 
-    public $nombre;
+    public $almacen;
 
     public $existencias_almacenes;
 
@@ -85,6 +85,7 @@ class CreateComponent extends Component
     // Al hacer submit en el formulario
     public function submit()
     {
+
         $validatedData = $this->validate([
             'cod_producto' => 'required | unique:productos',
             'descripcion'  => 'required',
@@ -99,6 +100,7 @@ class CreateComponent extends Component
             'precio_costoNeto' => 'required',
             'precio_venta' => 'required',
             'mueve_existencias' => 'required',
+            'almacen' => 'nullable',
         ], [
             'cod_producto.required' => 'required',
             'descripcion.required'  => 'required',
