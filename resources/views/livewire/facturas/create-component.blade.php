@@ -162,7 +162,7 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                <td> {{ $tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
+                                                <td> {{ $tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
                                                 <td class="display:none">
@@ -251,7 +251,7 @@
                                                     <td>n/a</td>
                                                 @else
                                                     <td>n/a</td>
-                                                    <td> {{ $tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
+                                                    <td> {{ $tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
                                                 @endif
                                                 @if ($productos->find($productoE)->tipo_producto == 2)
                                                     <td class="display:none">
