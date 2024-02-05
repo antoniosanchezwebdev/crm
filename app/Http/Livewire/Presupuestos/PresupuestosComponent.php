@@ -31,7 +31,8 @@ class PresupuestosComponent extends Component
     }
 
     public function selectProducto($presupuesto){
-        $this->presupuesto = $presupuesto;
         $this->tab = "tab2";
+        $this->presupuesto = $presupuesto;
+
     }
 }
