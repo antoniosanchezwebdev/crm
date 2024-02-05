@@ -162,7 +162,7 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                <td> {{ json_decode($tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo) }} </td>
+                                                <td> {{ $tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
                                                 <td class="display:none">
@@ -251,9 +251,7 @@
                                                     <td>n/a</td>
                                                 @else
                                                     <td>n/a</td>
-                                                    <td> <input type="text"
-                                                            wire:model="tiempo_lista.{{ $productoE }}"
-                                                            class="form-control"> </td>
+                                                    <td> {{ $tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo.$productoE }} </td>
                                                 @endif
                                                 @if ($productos->find($productoE)->tipo_producto == 2)
                                                     <td class="display:none">
