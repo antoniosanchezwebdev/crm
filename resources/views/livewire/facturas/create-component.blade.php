@@ -138,7 +138,7 @@
                             paging: false,
                         });
                     })">
-                        <div class="mb-3 row d-flex align-items-center">
+                        <div class="col-sm-12 mb-3 row d-flex align-items-center">
                             <table class="table responsive" id="tableProductos">
                                 <thead>
                                     <tr>
@@ -153,6 +153,7 @@
                                 <tbody>
                                     @foreach (json_decode($presupuestos->find($id_presupuesto)->listaArticulos) as $productoE => $cantidad)
                                         <tr>
+                                         
                                             <td>{{ $productos->find($productoE)->cod_producto }}</td>
                                             <td>{{ $productos->find($productoE)->descripcion }}</td>
                                             <td>{{ $productos->find($productoE)->precio_venta }}€</td>
@@ -161,9 +162,7 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                <td> <input type="text"
-                                                        wire:model="tiempo_lista.{{ $productoE }}"
-                                                        class="form-control"> </td>
+                                                <td> {{ json_decode($tareas->where(id_presupuesto,$id_presupuesto)->first->lista_tiempo) }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
                                                 <td class="display:none">
