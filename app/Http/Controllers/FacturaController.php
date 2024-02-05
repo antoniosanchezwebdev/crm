@@ -7,7 +7,7 @@ use App\Models\Empresa;
 use App\Models\Cursos;
 use App\Models\CursosCelebracion;
 use App\Models\Facturas;
-use App\Models\Presupuestos;
+use App\Models\Presupuesto;
 use Illuminate\Http\Request;
 use PDF;
 use Carbon\Carbon;
@@ -101,7 +101,7 @@ class FacturaController extends Controller
     {
 
         $factura = Facturas::where('id', $id)->first();
-        $presupuesto = Presupuestos::where('id', $factura->id_presupuesto)->first();
+        $presupuesto = Presupuesto::where('id', $factura->id_presupuesto)->first();
         $alumno = Alumno::where('id', $presupuesto->alumno_id)->first();
         $curso = Cursos::where('id', $presupuesto->curso_id)->first();
 
@@ -121,7 +121,7 @@ class FacturaController extends Controller
 
         // Datos a enviar al certificado
         $factura = Facturas::where('id', $id)->first();
-        $presupuesto = Presupuestos::where('id', $factura->id_presupuesto)->first();
+        $presupuesto = Presupuesto::where('id', $factura->id_presupuesto)->first();
         $alumno = Alumno::where('id', $presupuesto->alumno_id)->first();
         $curso = Cursos::where('id', $presupuesto->curso_id)->first();
         $cursoCelebracion = CursosCelebracion::where('id', $curso->celebracion_id)->first();
