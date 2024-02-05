@@ -9,11 +9,11 @@
                 <li class="menu-title">General</li>
                 <li>
                     <a href="{{route('home')}}" class="waves-effect @if (Request::is('home')) mm-active @endif">
-                        <i class="icon-accelerator"></i>{{-- <span class="badge badge-success badge-pill float-right">9+</span>--}} <span> Dashboard </span>
+                        <i class="icon-accelerator"></i><span> Dashboard </span>
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="/admin/calendario" class="waves-effect"><i class="icon-calendar"></i><span> Calendario </span></a>
                 </li>
                 <li>
@@ -23,7 +23,7 @@
                         <li><a href="/admin/resumen-mensual">Resumen Mensual</a></li>
                         {{-- <li><a href="email-compose.html">Email Compose</a></li> --}}
                     {{-- </ul>
-                </li> --}}
+                </li> --}} -->
 
                 <li class="menu-title">Administración</li>
 
