@@ -25,7 +25,7 @@
                                     <select class="form-control" id="m-select2-categoria-informe-create">
                                         <option value=""> TODOS </option>
                                         @foreach ($categoriasInforme as $categoriaInf)
-                                            <option value={{ $categoriaInf->id }}>{{ $categoriaInf->nombre }}</option>
+                                            <option value="{{ $categoriaInf->id }}">{{ $categoriaInf->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -53,11 +53,11 @@
                                         <option value=""> TODOS </option>
                                         @if ($categoria_informe != '')
                                             @foreach ($tiposInforme->where('categoria_id', $categoria_informe) as $tipoInf)
-                                                <option value={{ $tipoInf->id }}>{{ $tipoInf->nombre }}</option>
+                                                <option value="{{ $tipoInf->id }}">{{ $tipoInf->nombre }}</option>
                                             @endforeach
                                         @else
                                             @foreach ($tiposInforme as $tipoInf)
-                                                <option value={{ $tipoInf->id }}>{{ $tipoInf->nombre }}</option>
+                                                <option value="{{ $tipoInf->id }}">{{ $tipoInf->nombre }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -91,7 +91,7 @@
                                     <select class="form-control" id="m-select2-servicio-create">
                                         <option value=""> TODOS </option>
                                         @foreach ($listAlmacenes as $listalmacen)
-                                            <option value={{ $listalmacen->nombre }}>{{ $listalmacen->nombre }}</option>
+                                            <option value="{{ $listalmacen->nombre }}">{{ $listalmacen->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -144,7 +144,7 @@
                                     <select class="form-control" id="m-select2-cliente-create">
                                         <option value=""> TODOS </option>
                                         @foreach ($clientes as $cliente)
-                                            <option value={{ $cliente->id }}>{{ $cliente->nombre }}
+                                            <option value="{{ $cliente->id }}">{{ $cliente->nombre }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -173,13 +173,13 @@
                                         @if ($cliente != '')
                                             @foreach ($presupuestos as $presupuesto)
                                                 @if ($presupuesto->cliente_id == $cliente)
-                                                    <option value={{ $presupuesto->matricula }}>
+                                                    <option value="{{ $presupuesto->matricula }}">
                                                         {{ $presupuesto->matricula }}</option>
                                                 @endif
                                             @endforeach
                                         @else
                                             @foreach ($presupuestos as $presupuesto)
-                                                <option value={{ $presupuesto->matricula }}>{{ $presupuesto->matricula }}
+                                                <option value="{{ $presupuesto->matricula }}">{{ $presupuesto->matricula }}
                                                 </option>
                                             @endforeach
                                         @endif
@@ -253,7 +253,7 @@
                                     <select class="form-control" id="m-select2-cliente-create">
                                         <option value=""> TODOS </option>
                                         @foreach ($proveedores as $proveedor)
-                                            <option value={{ $proveedor->id }}>{{ $proveedor->nombre }}
+                                            <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -280,7 +280,7 @@
                                     <select class="form-control" id="m-select2-fabricante-create">
                                         <option value=""> TODOS </option>
                                         @foreach ($fabricantes as $fabricante)
-                                            <option value={{ $fabricante->id }}> {{ $fabricante->nombre }}</option>
+                                            <option value="{{ $fabricante->id }}"> {{ $fabricante->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -421,7 +421,7 @@
                                 <select class="form-control" id="select2-categoria-informe-create" required>
                                     <option value=""> TODOS </option>
                                     @foreach ($categoriasInforme as $categoriaInf)
-                                        <option value={{ $categoriaInf->id }}>{{ $categoriaInf->nombre }}</option>
+                                        <option value="{{ $categoriaInf->id }}">{{ $categoriaInf->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -449,11 +449,11 @@
                                     <option value=""> TODOS </option>
                                     @if ($categoria_informe != '')
                                         @foreach ($tiposInforme->where('categoria_id', $categoria_informe) as $tipoInf)
-                                            <option value={{ $tipoInf->id }}>{{ $tipoInf->nombre }}</option>
+                                            <option value="{{ $tipoInf->id }}">{{ $tipoInf->nombre }}</option>
                                         @endforeach
                                     @else
                                         @foreach ($tiposInforme as $tipoInf)
-                                            <option value={{ $tipoInf->id }}>{{ $tipoInf->nombre }}</option>
+                                            <option value="{{ $tipoInf->id }}">{{ $tipoInf->nombre }}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -487,7 +487,7 @@
                                 <select class="form-control" id="select2-servicio-create">
                                     <option value=""> TODOS </option>
                                     @foreach ($listAlmacenes as $listalmacen)
-                                        <option value={{ $listalmacen->nombre }}>{{ $listalmacen->nombre }}</option>
+                                        <option value="{{ $listalmacen->nombre }}">{{ $listalmacen->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -540,7 +540,7 @@
                                 <select class="form-control" id="select2-cliente-create">
                                     <option value=""> TODOS </option>
                                     @foreach ($clientes as $client)
-                                        <option value={{ $client->id }}>{{ $client->nombre }}
+                                        <option value="{{ $client->id }}">{{ $client->nombre }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -569,13 +569,13 @@
                                     @if ($cliente != '')
                                         @foreach ($presupuestos as $presupuesto)
                                             @if ($presupuesto->cliente_id == $cliente)
-                                                <option value={{ $presupuesto->matricula }}>
+                                                <option value="{{ $presupuesto->matricula }}">
                                                     {{ $presupuesto->matricula }}</option>
                                             @endif
                                         @endforeach
                                     @else
                                         @foreach ($presupuestos as $presupuesto)
-                                            <option value={{ $presupuesto->matricula }}>{{ $presupuesto->matricula }}
+                                            <option value="{{ $presupuesto->matricula }}">{{ $presupuesto->matricula }}
                                             </option>
                                         @endforeach
                                     @endif
@@ -647,7 +647,7 @@
                                 <select class="form-control" id="select2-cliente-create">
                                     <option value=""> TODOS </option>
                                     @foreach ($proveedores as $proveedor)
-                                        <option value={{ $proveedor->id }}>{{ $proveedor->nombre }}
+                                        <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -674,7 +674,7 @@
                                 <select class="form-control" id="select2-fabricante-create">
                                     <option value=""> TODOS </option>
                                     @foreach ($fabricantes as $fabricante)
-                                        <option value={{ $fabricante->id }}> {{ $fabricante->nombre }}</option>
+                                        <option value="{{ $fabricante->id }}"> {{ $fabricante->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>

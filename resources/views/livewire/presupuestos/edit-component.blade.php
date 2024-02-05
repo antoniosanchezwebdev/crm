@@ -88,7 +88,7 @@
                     <div class="col-sm-10" wire:ignore>
                         <select class="form-control" id="select2-servicio-edit">
                             @foreach ($almacenes as $listalmacen)
-                                <option value={{ $listalmacen->id }}>{{ $listalmacen->nombre }}</option>
+                                <option value="{{ $listalmacen->id }}">{{ $listalmacen->nombre }}</option>
                             @endforeach
                         </select>
                     </div>

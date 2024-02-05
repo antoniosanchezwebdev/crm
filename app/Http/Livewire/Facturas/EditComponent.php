@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Facturas;
 
-use App\Models\Presupuestos;
+use App\Models\Presupuesto;
 use App\Models\Cursos;
 use App\Models\Alumno;
 use App\Models\Facturas;
