@@ -170,7 +170,7 @@ class EditComponent extends Component
         $this->id_presupuesto = $id;
     if($this->id_presupuesto != null){
         $this->estadoPresupuesto = 1;
-        $this->presupuestoSeleccionado = Presupuestos::where('id', $this->id_presupuesto)->first();
+        $this->presupuestoSeleccionado = Presupuesto::where('id', $this->id_presupuesto)->first();
         $this->alumnoDePresupuestoSeleccionado = Alumno::where('id', $this->presupuestoSeleccionado->alumno_id)->first();
         $this->cursoDePresupuestoSeleccionado = Cursos::where('id', $this->presupuestoSeleccionado->curso_id)->first();
     } else{
