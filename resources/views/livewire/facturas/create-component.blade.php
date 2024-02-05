@@ -162,7 +162,7 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                {{dd((json_decode($tareas->where('id_presupuesto',$id_presupuesto)->first)->lista_tiempo, true))}}
+                                                {{dd(json_decode($tareas->where('id_presupuesto',$id_presupuesto)->first), true)}}
                                                 <td> {{ json_decode($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo , true)[intval($productoE)] }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
