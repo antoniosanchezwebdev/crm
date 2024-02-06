@@ -325,7 +325,7 @@
                                     @enderror
                                 </div>
                             @endif
-                            <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
+                            <button class="btn btn-outline-primary ml-5" wire:click.prevent="añadirProducto"
                                 style="margin-top:10px;">Añadir a la lista</button>
                         </div>
                     @endif
