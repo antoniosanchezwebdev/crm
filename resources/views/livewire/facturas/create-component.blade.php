@@ -138,7 +138,7 @@
                             paging: false,
                         });
                     })">
-                        <div class="col-sm-12 mb-3 row d-flex align-items-center">
+                        <div class="mb-3 row d-flex align-items-center">
                             <table class="table responsive" id="tableProductos">
                                 <thead>
                                     <tr>
