@@ -162,7 +162,6 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                {{dd(json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE])}}
                                                 <td> {{ json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE] }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
@@ -252,8 +251,7 @@
                                                     <td>n/a</td>
                                                 @else
                                                     <td>n/a</td>
-                                                    {{dd(json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE]) }}
-                                                    <td> {{ json_decode($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo, true) }} </td>
+                                                    <td> {{ json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE] }} </td>
                                                 @endif
                                                 @if ($productos->find($productoE)->tipo_producto == 2)
                                                     <td class="display:none">
