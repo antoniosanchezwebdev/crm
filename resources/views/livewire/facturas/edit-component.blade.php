@@ -41,54 +41,6 @@
 
             @if ($estadoPresupuesto != 0)
 
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="detalles_presupuesto" class="col-sm-2 col-form-label">Detalles del presupuesto</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{ optional($presupuestoSeleccionado)->detalles }}" class="form-control" name="detalles_presupuesto" id="detalles_presupuesto">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="alumno" class="col-sm-2 col-form-label">Alumno</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{optional($alumnoDePresupuestoSeleccionado)->nombre}}" class="form-control" name="alumno" id="alumno">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="curso" class="col-sm-2 col-form-label">Curso</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{optional($cursoDePresupuestoSeleccionado)->nombre}}" class="form-control" name="curso" id="curso">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="total_sin_iva" class="col-sm-2 col-form-label">Precio sin IVA</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{optional($presupuestoSeleccionado)->total_sin_iva}}" class="form-control" name="total_sin_iva" id="total_sin_iva">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="iva" class="col-sm-2 col-form-label">Tipo de IVA</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{optional($presupuestoSeleccionado)->iva}}" class="form-control" name="iva" id="iva">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                <div class="mb-3 row d-flex align-items-center">
-                    <label for="descuento" class="col-sm-2 col-form-label">Descuento</label>
-                    <div class="col-sm-10">
-                        <input readOnly type="text" placeholder="{{optional($presupuestoSeleccionado)->descuento}}" class="form-control" name="descuento" id="descuento">
-                        @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
 
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="precio" class="col-sm-2 col-form-label">Precio total</label>
@@ -97,8 +49,6 @@
                         @error('detalles_presupuesto') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-
-
 
             @endif
 

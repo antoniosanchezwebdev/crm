@@ -246,7 +246,7 @@
                                         @php
                                             $productoLista = $productos->where('id', $productoID)->first();
                                         @endphp
-                                        <tr id={{ $productoLista->id }}>
+                                        <tr id="{{ $productoLista->id }}">
                                             <td>{{ $productoLista->cod_producto }}</td>
                                             <td>{{ $productoLista->descripcion }}</td>
                                             <td>{{ $productoLista->precio_venta }}€</td>
@@ -256,20 +256,15 @@
                                                 <button class="btn btn-sm btn-primary"
                                                     wire:click.prevent="aumentar({{ $productoID }})">+</button>
                                             </td>
-                                            <td>{{ $productoLista->precio_venta * $pCantidad }}€
-                                            </td>
+                                            <td>{{ $productoLista->precio_venta * $pCantidad }}€</td>
                                         <tr>
                                     @endif
                                 @endforeach
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
                             <tbody>
                         </table>
                 @endif
                 <div>
-                    <div class="mb-3 row d-flex align-items-center">
+                    <div class="col-sm-12 mb-3 row d-flex align-items-center">
                         <label for="precio" class="col-sm-2 col-form-label">Precio</label>
                         <div class="col-sm-10">
                             <input type="number" wire:model="precio" class="form-control" name="precio"
