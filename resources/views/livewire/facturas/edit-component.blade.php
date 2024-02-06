@@ -85,7 +85,7 @@
             <div class="mb-3 row d-flex align-items-center">
                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                 <div class="col-sm-10" wire:ignore.self>
-                    <select id="estado" class="form-control" wire:model="estado"">
+                    <select id="estado" class="form-control" wire:model="estado">
                         {{-- <option value="Pendiente">-- Seleccione un estado para el presupuesto--</option> --}}
                         <option value="Pendiente">Pendiente</option>
                         <option value="Aceptada">Aceptada</option>
@@ -97,7 +97,7 @@
             <div class="mb-3 row d-flex align-items-center">
                 <label for="metodo_pago" class="col-sm-2 col-form-label">Método de pago</label>
                 <div class="col-sm-10" wire:ignore.self>
-                    <select id="metodo_pago" class="form-control" wire:model="metodo_pago"">
+                    <select id="metodo_pago" class="form-control" wire:model="metodo_pago">
                         {{-- <option value="Pendiente">-- Seleccione un estado para el presupuesto--</option> --}}
                         <option value="No pagado">No pagado</option>
                         <option value="En efectivo">En efectivo</option>
