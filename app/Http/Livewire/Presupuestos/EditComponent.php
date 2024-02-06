@@ -50,6 +50,7 @@ class EditComponent extends Component
     public $almacenes;
 
     public $cantidad;
+    public $existencias_productos;
 
     public $vehiculo_renting;
 
@@ -60,6 +61,8 @@ class EditComponent extends Component
         $this->trabajadores = Trabajador::all(); // datos que se envian al select2
         $this->productos = Productos::all(); // datos que se envian al select2
         $this->almacenes = ListaAlmacen::all();
+        $this->existencias_productos = Almacen::all();
+
 
         $this->numero_presupuesto = $presupuestos->numero_presupuesto;
         $this->fecha_emision = $presupuestos->fecha_emision;
