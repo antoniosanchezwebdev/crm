@@ -331,11 +331,11 @@
                                 <div class="documento">
                                     @if (Str::endsWith($documento, ['.png', '.jpg', '.jpeg', '.gif']))
                                         <!-- Mostrar vista previa de la imagen -->
-                                        <img src="{{ Storage::url($documento) }}" alt="Documento"
-                                            style=" width: 100%">
+                                        <img src="{{ asset($documento) }}" alt="Documento"
+                                            style=" width: auto">
                                     @elseif (Str::endsWith($documento, ['.pdf']))
                                         {{ substr($documento, 11) }} : <a class="btn btn-primary"
-                                            href="{{ Storage::url($documento) }}" target="_blank">Ver Documento</a>
+                                            href="{{ asset($documento) }}" target="_blank">Ver Documento</a>
                                     @endif
                                 </div>
                             @endforeach
@@ -360,11 +360,11 @@
                                 <div class="documento">
                                     @if (Str::endsWith($documento, ['.png', '.jpg', '.jpeg', '.gif']))
                                         <!-- Mostrar vista previa de la imagen -->
-                                        <img src="{{ Storage::url($documento) }}" alt="Documento"
+                                        <img src="{{ asset($documento) }}" alt="Documento"
                                             style=" width: 100%">
                                     @elseif (Str::endsWith($documento, ['.pdf']))
                                         {{ substr($documento, 11) }} : <a class="btn btn-primary"
-                                            href="{{ Storage::url($documento) }}" target="_blank">Ver Documento</a>
+                                            href="{{ asset($documento) }}" target="_blank">Ver Documento</a>
                                     @endif
                                 </div>
                             @endforeach
@@ -413,11 +413,11 @@
                                 <div class="documento">
                                     @if (Str::endsWith($documento, ['.png', '.jpg', '.jpeg', '.gif']))
                                         <!-- Mostrar vista previa de la imagen -->
-                                        <img src="{{ Storage::url($documento) }}" alt="Documento"
+                                        <img src="{{ asset($documento) }}" alt="Documento"
                                             style=" width: 100%">
                                     @elseif (Str::endsWith($documento, ['.pdf']))
                                         {{ substr($documento, 11) }} : <a class="btn btn-primary"
-                                            href="{{ Storage::url($documento) }}" target="_blank">Ver Documento</a>
+                                            href="{{ asset($documento) }}" target="_blank">Ver Documento</a>
                                     @endif
                                 </div>
                             @endforeach
@@ -442,11 +442,11 @@
                                 <div class="documento">
                                     @if (Str::endsWith($documento, ['.png', '.jpg', '.jpeg', '.gif']))
                                         <!-- Mostrar vista previa de la imagen -->
-                                        <img src="{{ Storage::url($documento) }}" alt="Documento"
+                                        <img src="{{ asset($documento)  }}" alt="Documento"
                                             style=" width: 100%">
                                     @elseif (Str::endsWith($documento, ['.pdf']))
                                         {{ substr($documento, 11) }} : <a class="btn btn-primary"
-                                            href="{{ Storage::url($documento) }}" target="_blank">Ver Documento</a>
+                                            href="{{ asset($documento)  }}" target="_blank">Ver Documento</a>
                                     @endif
                                 </div>
                             @endforeach
