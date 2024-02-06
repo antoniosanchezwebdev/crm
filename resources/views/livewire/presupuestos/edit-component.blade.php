@@ -262,10 +262,9 @@
                                 @endforeach
                             <tbody>
                         </table>
+                    </div>
                 @endif
-                
-            </div>
-            <div>
+                <div>
                     <div class="col-sm-12 mb-3 row d-flex align-items-center">
                         <label for="precio" class="col-sm-3 col-form-label">Precio</label>
                         <div class="col-sm-10">
@@ -277,6 +276,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
 
             <br>
             <div class="card">
