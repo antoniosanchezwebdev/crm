@@ -187,7 +187,7 @@
                     <div class="documento">
                         @if (Str::endsWith($documento, ['.png', '.jpg', '.jpeg', '.gif']))
                             <!-- Mostrar vista previa de la imagen -->
-                            <img src="{{ asset($documento) }}" alt="Documento" style=" width: 100%">
+                            <img src="{{ asset($documento) }}" alt="Documento" style=" width:auto">
                         @elseif (Str::endsWith($documento, ['.pdf']))
                             {{ substr($documento, 11) }} : <a class="btn btn-primary"
                                 href="{{ asset($documento) }}" target="_blank">Ver Documento</a>

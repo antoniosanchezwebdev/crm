@@ -1,5 +1,3 @@
-
-
 @section('head')
     @vite(['resources/sass/app.scss'])
 @endsection
