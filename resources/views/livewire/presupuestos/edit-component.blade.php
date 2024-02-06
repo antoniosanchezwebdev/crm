@@ -312,26 +312,25 @@
                             </select>
                         </div>
                     </div>
+                    @if ($producto_seleccionado != null)
+                        <div class="mb-3 row d-flex align-items-center">
+                            @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
+                                <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+                                <div class="col-sm-10">
+                                    <input type="number" wire:model="cantidad" class="form-control" name="cantidad"
+                                        id="cantidad" min="1"
+                                        max="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias }}">
+                                    @error('cantidad')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            @endif
+                            <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
+                                style="margin-top:10px;">Añadir a la lista</button>
+                        </div>
+                    @endif
                 </div>
-                @if ($producto_seleccionado != null)
-                    <div class="mb-3 row d-flex align-items-center">
-                        @if ($productos->where('id', $producto_seleccionado)->first()->mueve_existencias != 0)
-                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                            <div class="col-sm-10">
-                                <input type="number" wire:model="cantidad" class="form-control" name="cantidad"
-                                    id="cantidad" min="1"
-                                    max="{{ $existencias_productos->where('cod_producto', $productos->where('id', $producto_seleccionado)->first()->cod_producto)->first()->existencias }}">
-                                @error('cantidad')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        @endif
-                        <button class="btn btn-outline-primary" wire:click.prevent="añadirProducto"
-                            style="margin-top:10px;">Añadir a la lista</button>
-                    </div>
-                @endif
             </div>
-
             <div class="mb-3 row d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary self-center"
                     style="margin-bottom: 20px !important; width: 80% !important;">Actualizar presupuesto</button>
