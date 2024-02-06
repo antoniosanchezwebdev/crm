@@ -284,7 +284,6 @@
                 <h5 class="card-header">Buscador de artículos</h5>
                 <div class="card-body">
                     <div class="mb-3 row d-flex align-items-center">
-                        <h2>Buscador de artículos</h2>
                         @if ($producto_seleccionado != null)
                             <label for="prod_sel" class="col-sm-2 col-form-label">Producto seleccionado:</label>
                             <div class="col-sm-10">
@@ -304,7 +303,7 @@
                     <h2>Selección de artículos</h2>
                     <div class="mb-3 row d-flex align-items-center">
                         <div class="col-sm-10" wire:ignore>
-                            <select class="form-control" id="select2-producto-create">
+                            <select class="form-control" id="select2-producto-edit">
                                 <option value="">-- Elige un artículo --</option>
                                 @foreach ($productos as $producti)
                                     <option value="{{ $producti->id }}">{{ $producti->cod_producto }} -
