@@ -70,25 +70,25 @@
         </div>
         <section>
             <h2>Datos de la Factura</h2>
-            <p><strong>Número de factura:</strong> {{ factura->numero_factura }}</p>
-            <p><strong>Fecha de emisión:</strong> {{ factura->fecha_emision }}</p>
-            <p><strong>Fecha de vencimiento:</strong> {{ factura->fecha_vencimiento }}</p>
-            <p><strong>Descripción:</strong> {{ factura->descripcion }}</p>
+            <p><strong>Número de factura:</strong> {{ $factura->numero_factura }}</p>
+            <p><strong>Fecha de emisión:</strong> {{ $factura->fecha_emision }}</p>
+            <p><strong>Fecha de vencimiento:</strong> {{ $factura->fecha_vencimiento }}</p>
+            <p><strong>Descripción:</strong> {{ $factura->descripcion }}</p>
         </section>
         <section>
             <h2>Datos del Cliente</h2>
-            <p><strong>Nombre:</strong> {{ cliente->nombre }}</p>
-            <p><strong>DNI:</strong> {{ cliente->dni }}</p>
-            <p><strong>Email:</strong> {{ cliente->email }}</p>
-            <p><strong>Teléfono:</strong> {{ cliente->telefono }}</p>
-            <p><strong>Dirección:</strong> {{ cliente->direccion }}</p>
+            <p><strong>Nombre:</strong> {{ $cliente->nombre }}</p>
+            <p><strong>DNI:</strong> {{ $cliente->dni }}</p>
+            <p><strong>Email:</strong> {{ $cliente->email }}</p>
+            <p><strong>Teléfono:</strong> {{ $cliente->telefono }}</p>
+            <p><strong>Dirección:</strong> {{ $cliente->direccion }}</p>
         </section>
         <section>
             <h2>Datos del Vehículo</h2>
-            <p><strong>Matrícula:</strong> {{ presupuesto->matricula }}</p>
-            <p><strong>Kilómetros:</strong> {{ presupuesto->kilometros }}</p>
-            <p><strong>Modelo:</strong> {{ presupuesto->modelo }}</p>
-            <p><strong>Marca:</strong> {{ presupuesto->marca }}</p>
+            <p><strong>Matrícula:</strong> {{ $presupuesto->matricula }}</p>
+            <p><strong>Kilómetros:</strong> {{ $presupuesto->kilometros }}</p>
+            <p><strong>Modelo:</strong> {{ $presupuesto->modelo }}</p>
+            <p><strong>Marca:</strong> {{ $presupuesto->marca }}</p>
         </section>
         <section>
             <h2>Lista de artículos</h2>
@@ -121,7 +121,7 @@
             </table>
         </section>
         <div class="total-price">
-            <p><strong>Precio Total:</strong> {{ presupuesto->precio }}€</p>
+            <p><strong>Precio Total:</strong> {{ $presupuesto->precio }}€</p>
         </div>
     </div>
 </body>
