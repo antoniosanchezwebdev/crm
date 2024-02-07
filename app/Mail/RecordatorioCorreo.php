@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -6,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RevisionReminder extends Mailable
+class RevisionRecordatorio extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,11 +20,10 @@ class RevisionReminder extends Mailable
 
     public function build()
     {
-        return $this->from('example@example.com')
-                    ->view('emails.revisionreminder')
+        return $this->from('taller@example.com')
+                    ->view('emails.revisionrecordatorio')
                     ->with([
-                       'clientName' => $this->client->name,
-                       'revisionDate' => now()->addYear()->toDateString()
+                        'clientName' => $this->client->nombre,
                     ]);
     }
 }
