@@ -50,7 +50,12 @@
                                         onclick="Livewire.emit('seleccionarProducto', {{ $fact->id }});">Editar</button>
                                     <br>
                                 </div>
-                            @if ($fact->metodo_pago == 'No pagado')
+                                <div class="col mb-2">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle"  wire:click="redirectToCaja('{{$fact->id}}')">
+                                        Cobrar 
+                                    </button>
+                                </div>
+                            <!-- @if ($fact->metodo_pago == 'No pagado')
                                 <div class="col">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -74,7 +79,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            @endif
+                            @endif -->
                         </td>
 
 
