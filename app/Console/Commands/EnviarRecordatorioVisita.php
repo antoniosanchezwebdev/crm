@@ -1,9 +1,9 @@
-<?php
+ <?php
 
 namespace App\Console\Commands;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\RecordatorioCorreo;
+use App\Mail\RevisionReminder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Clients;
@@ -38,6 +38,6 @@ foreach ($ultimasFacturas as $factura) {
         $vehiculo = Vehiculo::find($vehiculoId);
 
         // Enviar el correo electrónico de recordatorio al cliente
-        Mail::to($cliente->email)->send(new RecordatorioCorreo($cliente, $vehiculo));
+        Mail::to($cliente->email)->send(new RevisionReminder($cliente, $vehiculo));
     }
-}
+} 
