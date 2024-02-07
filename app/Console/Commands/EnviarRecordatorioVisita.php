@@ -37,7 +37,7 @@ foreach ($ultimasFacturas as $factura) {
         $cliente = Clients::find($clienteId);
         $vehiculo = Vehiculo::find($vehiculoId);
 
-        // Enviar el correo electrónico de recordatorio al cliente
-        Mail::to($cliente->email)->send(new RevisionReminder($cliente, $vehiculo));
-    }
-} 
+//         // Enviar el correo electrónico de recordatorio al cliente
+//         Mail::to($cliente->email)->send(new RevisionReminder($cliente, $vehiculo));
+//     }
+// }
