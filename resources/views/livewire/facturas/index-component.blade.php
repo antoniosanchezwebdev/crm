@@ -53,25 +53,25 @@
                             @if ($fact->metodo_pago == 'No pagado')
                                 <div class="col">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             Cobrar </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="redirectToCaja('{{$fact->id}}', 'Contado')">Contado</a>
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="redirectToCaja('{{$fact->id}}', 'Tarjeta de crédito')">Tarjeta de crédito</a>
-                                            <a class="dropdown-item" href="#"
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" href="#"
+                                                wire:click="redirectToCaja('{{$fact->id}}', 'Contado')">Contado</a></li>
+                                            <li><a class="dropdown-item" href="#"
+                                                wire:click="redirectToCaja('{{$fact->id}}', 'Tarjeta de crédito')">Tarjeta de crédito</a></li>
+                                            <li><a class="dropdown-item" href="#"
                                                 wire:click="redirectToCaja('{{$fact->id}}', 'Transferencia bancaria')">Transferencia
-                                                bancaria</a>
-                                            <a class="dropdown-item" href="#"
+                                                bancaria</a></li>
+                                            <li><a class="dropdown-item" href="#"
                                                 wire:click="redirectToCaja('{{$fact->id}}', 'Recibo bancario a 30 días')">Recibo bancario
-                                                a 30 días</a>
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="redirectToCaja('{{$fact->id}}', 'Bizum')">Bizum</a>
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="redirectToCaja('{{$fact->id}}', 'Financiado')">Financiado</a>
-                                        </div>
+                                                a 30 días</a></li>
+                                            <li><a class="dropdown-item" href="#"
+                                                wire:click="redirectToCaja('{{$fact->id}}', 'Bizum')">Bizum</a></li>
+                                            <li><a class="dropdown-item" href="#"
+                                                wire:click="redirectToCaja('{{$fact->id}}', 'Financiado')">Financiado</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             @endif
