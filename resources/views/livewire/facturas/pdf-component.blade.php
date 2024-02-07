@@ -92,40 +92,41 @@
         </div>
 
         <div>
-            <h2>Lista de artículos</h2>
-            <div class="mb-3 row d-flex align-items-center">
-                <table class="table" id="tableProductos" wire:change="añadirProducto">
-                    <thead>
-                        <tr>
-                            <th scope="col">Código</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($lista as $productoID => $pCantidad)
-                            @if ($pCantidad > 0)
-                                @php
-                                    $productoLista = $productos->where('id', $productoID)->first();
-                                @endphp
-                                <tr id="{{ $productoLista->id }}">
-                                    <td>{{ $productoLista->cod_producto }}</td>
-                                    <td>{{ $productoLista->descripcion }}</td>
-                                    <td>{{ $productoLista->precio_venta }}€</td>
-                                    <td>{{ $pCantidad }}</td>
-                                    <td>{{ $productoLista->precio_venta * $pCantidad }}€</td>
-                                <tr>
-                            @endif
-                        @endforeach
-                    <tbody>
-                </table>
-            </div>     
+            <h2>Lista de Artículos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($lista as $productoID => $pCantidad)
+                        @if ($pCantidad > 0)
+                            @php
+                                $productoLista = $productos->where('id', $productoID)->first();
+                            @endphp
+                            <tr id="{{ $productoLista->id }}">
+                                <td>{{ $productoLista->cod_producto }}</td>
+                                <td>{{ $productoLista->descripcion }}</td>
+                                <td>{{ $productoLista->precio_venta }}€</td>
+                                <td>{{ $pCantidad }}</td>
+                                <td>{{ $productoLista->precio_venta * $pCantidad }}€</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;">Total:</td>
+                        <td>{{ $presupuesto->precio }}€</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-        <div>
-            <p><strong>Precio:</strong> {{ $presupuesto->precio }}</p>
-        </div> 
     </div>
 </body>
 
