@@ -18,13 +18,13 @@ $ultimasFacturas = DB::table('facturas')
 
 // Calcular la fecha límite para enviar el correo electrónico (un año después de la fecha de emisión de la última factura)
 $fechaLimite = now()->subYear();
-
+$fechaLimite = \Carbon\Carbon::parse($fechaLimite);
 // Verificar y enviar el correo electrónico si corresponde
 foreach ($ultimasFacturas as $factura) {
     $fechaUltimaFactura = $factura->fecha_ultima_factura;
     $clienteId = $factura->cliente_id;
     $vehiculoId = $factura->vehiculo_id;
-
+    $fechaUltimaFactura = \Carbon\Carbon::parse($fechaUltimaFactura);
     // Verificar si ha pasado un año desde la fecha de emisión de la última factura
     if ($fechaUltimaFactura->equalTo($fechaLimite)) {
         // Obtener el cliente y el vehículo asociados
