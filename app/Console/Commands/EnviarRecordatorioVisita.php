@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RecordatorioCorreo;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 // Obtener la fecha de emisión de la última factura por cada cliente y coche
 $ultimasFacturas = DB::table('facturas')
@@ -17,16 +18,16 @@ $ultimasFacturas = DB::table('facturas')
     ->get();
 
 // Calcular la fecha límite para enviar el correo electrónico (un año después de la fecha de emisión de la última factura)
-$fechaLimite = now()->subYear();
-$fechaLimite = \Carbon\Carbon::parse($fechaLimite);
+$fechaLimite = Carbon::now()->subYear();
+
 // Verificar y enviar el correo electrónico si corresponde
 foreach ($ultimasFacturas as $factura) {
-    $fechaUltimaFactura = $factura->fecha_ultima_factura;
+    $fechaUltimaFactura = Carbon::parse($factura->fecha_ultima_factura);
     $clienteId = $factura->cliente_id;
     $vehiculoId = $factura->vehiculo_id;
-    $fechaUltimaFactura = \Carbon\Carbon::parse($fechaUltimaFactura);
+    
     // Verificar si ha pasado un año desde la fecha de emisión de la última factura
-    if ($fechaUltimaFactura->equalTo($fechaLimite)) {
+    if ($fechaUltimaFactura->lte($fechaLimite)) {
         // Obtener el cliente y el vehículo asociados
         $cliente = Cliente::find($clienteId);
         $vehiculo = Vehiculo::find($vehiculoId);
