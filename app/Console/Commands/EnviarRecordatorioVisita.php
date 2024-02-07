@@ -26,7 +26,7 @@ foreach ($ultimasFacturas as $factura) {
     $vehiculoId = $factura->vehiculo_id;
 
     // Verificar si ha pasado un año desde la fecha de emisión de la última factura
-    if ($fechaUltimaFactura->lte($fechaLimite)) {
+    if ($fechaUltimaFactura->eq($fechaLimite)) {
         // Obtener el cliente y el vehículo asociados
         $cliente = Cliente::find($clienteId);
         $vehiculo = Vehiculo::find($vehiculoId);
