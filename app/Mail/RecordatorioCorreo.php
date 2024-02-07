@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RevisionRecordatorio extends Mailable
+class RecordatorioCorreo extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,7 @@ class RevisionRecordatorio extends Mailable
     public function build()
     {
         return $this->from('taller@example.com')
-                    ->view('emails.revisionrecordatorio')
+                    ->view('emails.recordatoriocorreo')
                     ->with([
                         'clientName' => $this->client->nombre,
                     ]);
