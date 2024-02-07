@@ -121,7 +121,7 @@
             </table>
         </section>
         <div class="total-price">
-            <p><strong>Precio Total:</strong> {{ presupuesto.precio }}€</p>
+            <p><strong>Precio Total:</strong> {{ presupuesto->precio }}€</p>
         </div>
     </div>
 </body>
