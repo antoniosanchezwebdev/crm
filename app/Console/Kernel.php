@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        // $schedule->command(EnviarRecordatorio::class)->daily();
+        $schedule->command(EnviarRecordatorio::class)->daily();
     }
 
     /**
@@ -29,9 +29,9 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__.'/Commands');
         
-        // $this->commands([
-        //     \App\Console\Commands\EnviarRecordatorio::class,
-        // ]);
+        $this->commands([
+            \App\Console\Commands\EnviarRecordatorio::class,
+        ]);
 
         require base_path('routes/console.php');
     }
