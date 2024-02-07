@@ -1,96 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factura</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <style>
-        /* Agrega estilos aquí */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tfoot td {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
-<body style="margin-right: 2rem">
-    <div class="row">
-        <div class="col-12">
-            <img src="{{ public_path('/assets/logo_formal.png') }}" alt="" title="" class="img-fluid"
-                style="max-width: 300px">
-        </div>
-    </div>
-    <div class="d-inline">
-        <div class="col-12">
-            <div style="float: left">
-             <p class="mb-0">Formal SL</p>
-            <p class="mb-0">Calle Camino de la Ermita S/N Parcela C5</p>
-            <p class="mb-0">La Línea de la Concepción - 11300</p>
-            <p class="mb-0">B11492642</p>
-            </div>
-            <div style="float: right">
-                <p class="mb-0"><h5><strong>FACTURA Número {{$factura->numero_factura}}</strong></h5></p>
-                <p class="mb-0">Fecha: {{$factura->fecha_emision}}</p>
-            </div>
-        </div>
-    </div>
-    <div class="d-block" style="clear:both; margin:3rem 0 ;">
-        <div class="col-12" style="float: left">
-            @if ($alumno->empresa_id > 0)
-                <h4>Datos del cliente</h4>
-                <p class="mb-0"><strong>Nombre:</strong> {{$empresa->nombre}}</p>
-                <p class="mb-0"><strong>Dirección:</strong> {{$empresa->direccion}}</p>
-                <p class="mb-0"><strong>CIF:</strong> {{$empresa->cif}}</p>
-                <p class="mb-0"><strong>Email:</strong> {{$empresa->email}}</p>
-            @else
-                <h4>Datos del cliente</h4>
-                <p class="mb-0"><strong>Nombre:</strong> {{$alumno->nombre}} {{$alumno->apellidos}}</p>
-                <p class="mb-0"><strong>Dirección:</strong> {{$alumno->direccion}}</p>
-                <p class="mb-0"><strong>DNI:</strong> {{$alumno->dni}}</p>
-                <p class="mb-0"><strong>Email:</strong> {{$alumno->email}}</p>
-            @endif
-
-        </div>
-    </div>
-
-    <div class="d-block" style="clear:both;">
-        <div class="col-12" style="float: left; margin-top: 3rem">
-            <h5>Detalles de la factura</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Curso</th>
-                        <th>Total sin IVA</th>
-                        <th>IVA</th>
-                        <th>Descuento</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Agrega filas aquí para cada producto -->
-                    {{-- @foreach ($conceptos2 as $concepto)
-
-                    @endforeach --}}
-                    <tr>
-                        <td>{{$curso->nombre}}</td>
-                        <td>{{$presupuesto->total_sin_iva}} €</td>
-                        <td>{{$presupuesto->iva}} %</td>
-                        @if ($presupuesto->descuento != null)
-                        <td>{{$presupuesto->descuento}} %</td>
-                        @else
-                        <td>0%</td>
-                        @endif
-                        <td>{{$presupuesto->precio}} €</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            {{-- <p><strong>Total:</strong> {{$factura->total}} €</p> --}}
+<body>
+    <div class="container">
+        <h1>Factura</h1>
+        <div>
+            <h2>Datos de la Factura</h2>
+            <p><strong>Número de factura:</strong> {{ $factura->numero_factura }}</p>
+            <p><strong>Fecha de emisión:</strong> {{ $factura->fecha_emision }}</p>
+            <p><strong>Fecha de vencimiento:</strong> {{ $factura->fecha_vencimiento }}</p>
+            <p><strong>Descripción:</strong> {{ $factura->descripcion }}</p>
         </div>
 
+        <div>
+            <h2>Datos del Cliente</h2>
+            <p><strong>Nombre:</strong> {{ $cliente->nombre }}</p>
+            <p><strong>DNI:</strong> {{ $cliente->dni }}</p>
+            <p><strong>Email:</strong> {{ $cliente->email }}</p>
+            <p><strong>Teléfono:</strong> {{ $cliente->telefono }}</p>
+            <p><strong>Dirección:</strong> {{ $cliente->direccion }}</p>
+        </div>
+
+        <div>
+            <h2>Datos del Vehículo</h2>
+            <p><strong>Matrícula:</strong> {{ $presupuesto->matricula }}</p>
+            <p><strong>Kilómetros:</strong> {{ $presupuesto->kilometros }}</p>
+            <p><strong>Modelo:</strong> {{ $presupuesto->modelo }}</p>
+            <p><strong>Marca:</strong> {{ $presupuesto->marca }}</p>
+        </div>
+
+        <div>
+            <h2>Lista de artículos</h2>
+            <div class="mb-3 row d-flex align-items-center">
+                <table class="table" id="tableProductos" wire:change="añadirProducto">
+                    <thead>
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($lista as $productoID => $pCantidad)
+                            @if ($pCantidad > 0)
+                                @php
+                                    $productoLista = $productos->where('id', $productoID)->first();
+                                @endphp
+                                <tr id="{{ $productoLista->id }}">
+                                    <td>{{ $productoLista->cod_producto }}</td>
+                                    <td>{{ $productoLista->descripcion }}</td>
+                                    <td>{{ $productoLista->precio_venta }}€</td>
+                                    <td>{{ $pCantidad }}</td>
+                                    <td>{{ $productoLista->precio_venta * $pCantidad }}€</td>
+                                <tr>
+                            @endif
+                        @endforeach
+                    <tbody>
+                </table>
+            </div>     
+        </div>
+        <div>
+            <p><strong>Precio:</strong> {{ $presupuestos->precio }}</p>
+        </div> 
     </div>
-    <footer>
-        <br>
-    </footer>
 </body>
 
 </html>

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alumno;
-use App\Models\Empresa;
-use App\Models\Cursos;
-use App\Models\CursosCelebracion;
-use App\Models\Facturas;
 use App\Models\Presupuesto;
+use App\Models\Clients;
+use App\Models\Facturas;
+use Barryvdh\DomPDF\Facade;
 use Illuminate\Http\Request;
 use PDF;
 use Carbon\Carbon;
@@ -99,21 +97,17 @@ class FacturaController extends Controller
 
     public function pdf($id)
     {
+        $factura = Facturas::findOrFail($id);
 
-        $factura = Facturas::where('id', $id)->first();
-        $presupuesto = Presupuesto::where('id', $factura->id_presupuesto)->first();
-        $alumno = Alumno::where('id', $presupuesto->alumno_id)->first();
-        $curso = Cursos::where('id', $presupuesto->curso_id)->first();
+        // Obtener el presupuesto asociado a la factura
+        $presupuesto = Presupuesto::findOrFail($factura->id_presupuesto);
 
+        $lista = (array) json_decode($presupuesto->listaArticulos);
+        // Obtener el cliente asociado al presupuesto
+        $cliente = Clients::findOrFail($presupuesto->cliente_id);
 
-        $empresa = 0;
-        if($alumno->empresa_id > 0){
-            $empresa = Empresa::where('id', $alumno->empresa_id)->first();
-        }
-
-        // Se llama a la vista Liveware y se le pasa los productos. En la vista se epecifican los estilos del PDF
-        $pdf = PDF::loadView('livewire.facturas.pdf-component', compact('factura', 'presupuesto', 'alumno', 'empresa', 'curso'));
-        return $pdf->stream();
+        // Cargar la vista de la factura y pasar los datos necesarios
+        return view('livewire.facturas.pdf-component', compact('factura', 'presupuesto', 'cliente','lista'));
 
     }
 

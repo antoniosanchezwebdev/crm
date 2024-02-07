@@ -7,7 +7,6 @@
     <br>
 
     <a href="/admin/factura/pdf/{{$identificador}}" class="btn btn-info text-white">Dercargar Factura PDF</a>
-    <a href="/admin/certificado/{{$identificador}}" class="btn btn-info text-white">Descargar Certificado</a>
     <br><br>
 
         <form wire:submit.prevent="update">
