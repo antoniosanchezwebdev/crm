@@ -27,6 +27,7 @@
         }
         .invoice-header img {
             max-width: 100px; /* Ajustar según el tamaño del logo */
+            filter: grayscale(100%);
         }
         .invoice-title {
             text-align: right;
@@ -64,7 +65,7 @@
 <body>
     <div class="invoice-container">
         <div class="invoice-header">
-            <img src="path/to/logo.png" alt="Neumalgex Logo"> <!-- Asegúrate de reemplazar 'path/to/logo.png' con la ruta real de tu logo -->
+            <img src="https://crm.neumalgexspain.com/images/logo.png" alt="Neumalgex Logo"> <!-- Asegúrate de reemplazar 'path/to/logo.png' con la ruta real de tu logo -->
             <div class="invoice-title">Factura</div>
         </div>
         <section>
