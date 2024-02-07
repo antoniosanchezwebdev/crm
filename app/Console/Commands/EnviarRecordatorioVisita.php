@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 $ultimasFacturas = DB::table('facturas')
     ->join('presupuestos', 'facturas.id_presupuesto', '=', 'presupuestos.id')
     ->join('clients', 'presupuestos.cliente_id', '=', 'clients.id')
-    ->join('vehiculos', 'clients.id', '=', 'vehiculos.client_id')
+    ->join('vehiculos', 'clients.id', '=', 'vehiculos.clients_id')
     ->select('clients.id as cliente_id', 'vehiculos.id as vehiculo_id', DB::raw('MAX(facturas.fecha_emision) as fecha_ultima_factura'))
     ->groupBy('cliente_id', 'vehiculo_id')
     ->orderBy('facturas.fecha_emision', 'desc')
