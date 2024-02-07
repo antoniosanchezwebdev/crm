@@ -1,98 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura</title>
+    <title>Factura - Neumalgex</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            background-color: #eeeeee;
         }
-
-        .container {
+        .invoice-container {
             max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
+            margin: 40px auto;
+            background-color: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1, h2 {
-            color: #333;
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
         }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
+        .invoice-header img {
+            max-width: 100px; /* Ajustar según el tamaño del logo */
         }
-
+        .invoice-title {
+            text-align: right;
+            font-size: 24px;
+        }
         h2 {
-            margin-top: 30px;
+            color: #333;
+            border-bottom: 2px solid #eeeeee;
+            padding-bottom: 10px;
         }
-
         p {
-            margin: 5px 0;
+            margin: 5px 0 15px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
-
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
-
         th {
-            background-color: #f2f2f2;
+            background-color: #f8f8f8;
         }
-
-        tfoot td {
-            background-color: #f2f2f2;
-            font-weight: bold;
+        .total-price {
+            text-align: right;
+            margin-top: 20px;
         }
-
+        .total-price strong {
+            font-size: 18px;
+        }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Factura</h1>
-        <div>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <img src="path/to/logo.png" alt="Neumalgex Logo"> <!-- Asegúrate de reemplazar 'path/to/logo.png' con la ruta real de tu logo -->
+            <div class="invoice-title">Factura</div>
+        </div>
+        <section>
             <h2>Datos de la Factura</h2>
-            <p><strong>Número de factura:</strong> {{ $factura->numero_factura }}</p>
-            <p><strong>Fecha de emisión:</strong> {{ $factura->fecha_emision }}</p>
-            <p><strong>Fecha de vencimiento:</strong> {{ $factura->fecha_vencimiento }}</p>
-            <p><strong>Descripción:</strong> {{ $factura->descripcion }}</p>
-        </div>
-
-        <div>
+            <p><strong>Número de factura:</strong> {{ factura.numero_factura }}</p>
+            <p><strong>Fecha de emisión:</strong> {{ factura.fecha_emision }}</p>
+            <p><strong>Fecha de vencimiento:</strong> {{ factura.fecha_vencimiento }}</p>
+            <p><strong>Descripción:</strong> {{ factura.descripcion }}</p>
+        </section>
+        <section>
             <h2>Datos del Cliente</h2>
-            <p><strong>Nombre:</strong> {{ $cliente->nombre }}</p>
-            <p><strong>DNI:</strong> {{ $cliente->dni }}</p>
-            <p><strong>Email:</strong> {{ $cliente->email }}</p>
-            <p><strong>Teléfono:</strong> {{ $cliente->telefono }}</p>
-            <p><strong>Dirección:</strong> {{ $cliente->direccion }}</p>
-        </div>
-
-        <div>
+            <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+            <p><strong>DNI:</strong> {{ cliente.dni }}</p>
+            <p><strong>Email:</strong> {{ cliente.email }}</p>
+            <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+            <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+        </section>
+        <section>
             <h2>Datos del Vehículo</h2>
-            <p><strong>Matrícula:</strong> {{ $presupuesto->matricula }}</p>
-            <p><strong>Kilómetros:</strong> {{ $presupuesto->kilometros }}</p>
-            <p><strong>Modelo:</strong> {{ $presupuesto->modelo }}</p>
-            <p><strong>Marca:</strong> {{ $presupuesto->marca }}</p>
-        </div>
-
-        <div>
-            <h2>Lista de Artículos</h2>
+            <p><strong>Matrícula:</strong> {{ presupuesto.matricula }}</p>
+            <p><strong>Kilómetros:</strong> {{ presupuesto.kilometros }}</p>
+            <p><strong>Modelo:</strong> {{ presupuesto.modelo }}</p>
+            <p><strong>Marca:</strong> {{ presupuesto.marca }}</p>
+        </section>
+        <section>
+            <h2>Lista de artículos</h2>
             <table>
                 <thead>
                     <tr>
@@ -119,15 +117,11 @@
                         @endif
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" style="text-align: right;">Total:</td>
-                        <td>{{ $presupuesto->precio }}€</td>
-                    </tr>
-                </tfoot>
             </table>
+        </section>
+        <div class="total-price">
+            <p><strong>Precio Total:</strong> {{ presupuesto.precio }}€</p>
         </div>
     </div>
 </body>
-
 </html>
