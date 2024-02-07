@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,4 +18,4 @@
     <p>El equipo de nuestro taller</p>
 </body>
 
-</html>
+</html> -->

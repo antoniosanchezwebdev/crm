@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Mail;
+// namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
+// use Illuminate\Bus\Queueable;
+// use Illuminate\Mail\Mailable;
+// use Illuminate\Queue\SerializesModels;
+// use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RevisionReminder extends Mailable
-{
-    use Queueable, SerializesModels;
+// class RevisionReminder extends Mailable
+// {
+//     use Queueable, SerializesModels;
 
-    public $client;
+//     public $client;
 
-    public function __construct($client)
-    {
-        $this->client = $client;
-    }
+//     public function __construct($client)
+//     {
+//         $this->client = $client;
+//     }
 
-    public function build()
-    {
-        return $this->from('taller@example.com')
-                    ->view('emails.revisionreminder')
-                    ->with([
-                        'clientName' => $this->client->nombre,
-                    ]);
-    }
-}
+//     public function build()
+//     {
+//         return $this->from('taller@example.com')
+//                     ->view('emails.revisionreminder')
+//                     ->with([
+//                         'clientName' => $this->client->nombre,
+//                     ]);
+//     }
+// }
