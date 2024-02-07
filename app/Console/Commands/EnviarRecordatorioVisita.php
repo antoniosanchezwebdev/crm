@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace App\Console\Commands;
 
@@ -40,4 +40,4 @@ foreach ($ultimasFacturas as $factura) {
         // Enviar el correo electrónico de recordatorio al cliente
         Mail::to($cliente->email)->send(new RevisionReminder($cliente, $vehiculo));
     }
-}
+} 
