@@ -34,7 +34,6 @@ class EditComponent extends Component
     public $modelo;
 
     public $observaciones = "";
-0
     public $clientes;
     public $trabajadores;
 
