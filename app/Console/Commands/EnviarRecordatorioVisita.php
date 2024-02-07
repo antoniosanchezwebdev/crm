@@ -12,7 +12,7 @@ $ultimasFacturas = DB::table('facturas')
     ->join('clients', 'presupuestos.cliente_id', '=', 'clients.id')
     ->join('vehiculos', 'clients.id', '=', 'vehiculos.clients_id')
     ->select('clients.id as cliente_id', 'vehiculos.id as vehiculo_id', DB::raw('MAX(facturas.fecha_emision) as fecha_ultima_factura'))
-    ->groupBy('cliente_id', 'vehiculo_id')
+    ->groupBy(`clients`.`id`, `vehiculos`.`id`)
     ->orderBy('facturas.fecha_emision', 'desc')
     ->get();
 
