@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Productos;
 use App\Models\Presupuesto;
 use App\Models\Clients;
 use App\Models\Facturas;
