@@ -50,12 +50,8 @@
                                         onclick="Livewire.emit('seleccionarProducto', {{ $fact->id }});">Editar</button>
                                     <br>
                                 </div>
-                                <div class="col mb-2">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle"  wire:click="redirectToCaja('{{$fact->id}}')">
-                                        Cobrar 
-                                    </button>
-                                </div>
-                            <!-- @if ($fact->metodo_pago == 'No pagado')
+
+                            @if ($fact->metodo_pago == 'No pagado')
                                 <div class="col">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -79,7 +75,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            @endif -->
+                            @endif 
                         </td>
 
 
@@ -96,12 +92,11 @@
 </div>
 @section('script')
 <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-  var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-    return new bootstrap.Dropdown(dropdownToggleEl);
-  });
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        var dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(function(dropdownToggle) {
+            new bootstrap.Dropdown(dropdownToggle);
+        });
+    });
 </script>
 @endsection
