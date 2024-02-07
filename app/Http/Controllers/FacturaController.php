@@ -101,13 +101,15 @@ class FacturaController extends Controller
 
         // Obtener el presupuesto asociado a la factura
         $presupuesto = Presupuesto::findOrFail($factura->id_presupuesto);
-
+        // Obtener todos los productos
+        $productos = Productos::all();
+         // Obtener el articulos asociados al presupuesto
         $lista = (array) json_decode($presupuesto->listaArticulos);
         // Obtener el cliente asociado al presupuesto
         $cliente = Clients::findOrFail($presupuesto->cliente_id);
 
         // Cargar la vista de la factura y pasar los datos necesarios
-        return view('livewire.facturas.pdf-component', compact('factura', 'presupuesto', 'cliente','lista'));
+        return view('livewire.facturas.pdf-component', compact('factura', 'presupuesto', 'cliente','lista','productos'));
 
     }
 
