@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RecordatorioCorreo;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Clients;
+use App\Models\Presupuesto;
+use App\Models\Facturas;
+use App\Models\Vehiculo;
+
 
 // Obtener la fecha de emisión de la última factura por cada cliente y coche
 $ultimasFacturas = DB::table('facturas')
