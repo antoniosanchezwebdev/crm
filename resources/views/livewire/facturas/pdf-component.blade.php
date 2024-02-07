@@ -124,7 +124,7 @@
             </div>     
         </div>
         <div>
-            <p><strong>Precio:</strong> {{ $presupuestos->precio }}</p>
+            <p><strong>Precio:</strong> {{ $presupuesto->precio }}</p>
         </div> 
     </div>
 </body>
