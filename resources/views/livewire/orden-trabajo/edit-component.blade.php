@@ -156,6 +156,7 @@
                 <label for="trabajadorSeleccionado" class="col-form-label">Añadir trabajador/operario</label>
                 <select wire:model="trabajadorSeleccionado" class="form-control" name="trabajadorSeleccionado"
                     id="trabajadorSeleccionado">
+                    <option value="">---Seleccione un trabajador--</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach

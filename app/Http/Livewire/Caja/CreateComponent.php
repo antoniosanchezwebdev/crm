@@ -32,12 +32,32 @@ class CreateComponent extends Component
         $this->tareas = OrdenTrabajo::all();
 
         if (!empty(session('factura'))) {
-            $this->factura = session('factura');
+            $this->factura = $this->facturas->where('id',session('factura'))->first();
             $this->metodo_pago = session('metodo_pago');
-            $this->cantidad = $this->facturas->where('id', $this->factura)->first()->precio_iva;
-            $this->descripcion = $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->marca
-                . " " . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->modelo
-                . " (" . $this->presupuestos->where('id', $this->facturas->where('id', $this->factura)->first()->id_presupuesto)->first()->matricula . ')';
+            $this->cantidad = $this->factura->precio_iva;
+            if($this->factura->tipo_documento == 'factura'){
+                $this->descripcion = $this->presupuestos->where('id', $this->factura->id_presupuesto)->first()->marca
+                    . " " . $this->presupuestos->where('id',$this->factura->id_presupuesto)->first()->modelo
+                    . " (" . $this->presupuestos->where('id',$this->factura->id_presupuesto)->first()->matricula . ')';
+            }else{
+                $descriptions = []; // Array para almacenar las descripciones individuales
+
+                // Iterar sobre cada ID de presupuesto
+                foreach (json_decode($this->factura->id_presupuesto) as $id) {
+                    // Obtener el presupuesto correspondiente al ID
+                    $presupuesto = $this->presupuestos->where('id', $id)->first();
+
+                    if ($presupuesto) {
+                        // Formatear la descripción para el presupuesto actual
+                        $descripcion = $presupuesto->numero_presupuesto.'-'. $presupuesto->marca . " " . $presupuesto->modelo . " (" . $presupuesto->matricula . ')';
+                        // Añadir la descripción al array de descripciones
+                        $descriptions[] = $descripcion;
+                    }
+                }
+
+                // Unir todas las descripciones con un separador (por ejemplo, una coma y un espacio)
+                $this->descripcion = implode(', ', $descriptions);
+            }
         }
 
         if (!empty(session('tarea'))) {
@@ -89,7 +109,7 @@ class CreateComponent extends Component
                 ]);
 
                 $tareaSave = $this->tarea->presupuesto->update([
-                    'estado' => "Pagada"
+                    'estado' => "Pagada",
                 ]);
 
                 if ($tareaSave) {
@@ -112,7 +132,9 @@ class CreateComponent extends Component
             } else {
                 if ($this->factura != null) {
                     $factSave = $this->factura->update([
-                        'estado' => "Pagada"
+                        'estado' => "Pagada",
+                        'metodo_pago'=>$this->metodo_pago,
+
                     ]);
 
                     if ($factSave) {

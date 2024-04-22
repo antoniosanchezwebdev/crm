@@ -3,9 +3,7 @@
 namespace App\Http\Livewire\Facturas;
 
 use App\Models\Almacen;
-use App\Models\Alumno;
-use App\Models\Cursos;
-use App\Models\Empresa;
+use App\Models\Clients;
 use App\Models\Presupuesto;
 use App\Models\Facturas;
 use App\Models\Neumatico;
@@ -31,30 +29,28 @@ class CreateComponent extends Component
     public $observaciones;
     public $precio;
     public $precio_iva;
-
-
     public $estado = "Pendiente";
     public $metodo_pago = "No Pagado";
-
     public $listaPresupuestos = [];
-
     public $productos;
     public $tareas;
     public $neumaticos;
     public $presupuestos;
     public $reservas;
-
-
+    public $clienteId = null;
+    public $clientes;
+    public $sinPresuSelec = true;
     public $ident;
 
 
     public function mount()
     {
-        $this->presupuestos = Presupuesto::all();
+        $this->presupuestos = Presupuesto::whereIn('estado',['Asignado','Aceptado'])->get();
         $this->reservas = Reserva::all();
         $this->productos = Productos::all();
         $this->neumaticos = Neumatico::all();
         $this->tareas = OrdenTrabajo::all();
+        $this->clientes = Clients::all();
     }
 
     public function render()
@@ -67,18 +63,56 @@ class CreateComponent extends Component
     public function submit($metodo_pago)
     {
         $this->metodo_pago = $metodo_pago;
+        $this->documentos = json_encode($this->documentos);
+
 
         if ($this->tipo_documento == 'albaran_credito') {
             foreach ($this->listaPresupuestos as $presupuestos) {
+
+               $lista= json_decode($this->presupuestos->where('id', $presupuestos)->first()->listaArticulos, true);
+                foreach ($lista as $pro => $cantidad) {
+                    $reserva = Reserva::where('presupuesto_id',$presupuestos)->where('producto_id',$pro)->first();
+                    if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
+                        $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+                        $articulo->update([
+                            'existencias' => ($articulo->existencias_almacenes -= $cantidad),
+                            'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
+                        ]);
+                        if(isset($reserva)){
+                            $reserva->estado = "facturado";
+                            $reserva->update();
+                        }
+                    }
+                }
+
+
                 $this->presupuestos->where('id', $presupuestos)->first()->update([
                     'estado' => 'Facturada'
                 ]);
+
             }
+            $this->observaciones = json_encode($this->observaciones);
             $this->id_presupuesto = json_encode($this->listaPresupuestos);
+
         } else {
             $this->presupuestos->where('id', $this->id_presupuesto)->first()->update([
                 'estado' => 'Facturada'
             ]);
+            $lista= json_decode($this->presupuestos->where('id', $this->id_presupuesto)->first()->listaArticulos, true);
+                foreach ($lista as $pro => $cantidad) {
+                    $reserva = Reserva::where('presupuesto_id',$this->id_presupuesto)->where('producto_id',$pro)->first();
+                    if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
+                        $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+                        $articulo->update([
+                            'existencias' => ($articulo->existencias_almacenes -= $cantidad),
+                            'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
+                        ]);
+                        if(isset($reserva)){
+                            $reserva->estado = "Facturado";
+                            $reserva->update();
+                        }
+                    }
+                }
         }
         if($this->metodo_pago != 'No pagado'){
             $this->estado = "Pagada";
@@ -116,19 +150,6 @@ class CreateComponent extends Component
         if ($facturasSave) {
             $this->ident = $facturasSave->id;
 
-            $reservas = Reserva::where('presupuesto_id', $facturasSave->id_presupuesto)->get();
-
-            foreach ($reservas as $reserva) {
-                $reserva->update([
-                    'estado' => "Aceptado"
-                ]);
-
-                $stock = Almacen::where('cod_producto', Productos::where('id', $reserva->producto_id)->first()->cod_producto)->where('nombre', Presupuesto::where('id', $facturasSave->id_presupuesto)->first()->servicio)->first();
-                $existencias = $stock->existencias_depositos -= $reserva->cantidad;
-                $stock->update([
-                    'existencias_depositos' => $existencias
-                ]);
-            }
 
             $this->alert('success', 'Factura registrada correctamente!', [
                 'position' => 'center',
@@ -161,7 +182,7 @@ class CreateComponent extends Component
     {
 
         if ($this->metodo_pago == 'No pagado') {
-            return redirect()->route('facturas.index');
+            return redirect()->route('facturas.index', ['tab' => 'tab1']);
         } else {
             $this->redirectToCaja($this->metodo_pago);
         }
@@ -169,9 +190,44 @@ class CreateComponent extends Component
 
     public function addPresupuesto()
     {
-        array_push($this->listaPresupuestos, $this->id_presupuesto);
-        $this->id_presupuesto = 0;
+        if (!in_array($this->id_presupuesto, $this->listaPresupuestos)) {
+            array_push($this->listaPresupuestos, $this->id_presupuesto);
+
+            // Set clienteId if it's not already set
+            if (is_null($this->clienteId)) {
+                $presupuesto = Presupuesto::find($this->id_presupuesto);
+                $this->clienteId = $presupuesto->cliente_id;
+                $this->presupuestos = Presupuesto::where('cliente_id', $this->clienteId)
+                ->whereIn('estado',['Asignado','Aceptado'])->get();
+            }
+            $this->sinPresuSelec=false;
+            $this->id_presupuesto = 0; // Reset the current selection
+        }
         $this->addPrecio();
+    }
+    public  function getCliente($id){
+        $presupuesto = Presupuesto::find($id);
+        if(isset($presupuesto)){
+            $cliente = Clients::find($presupuesto->cliente_id);
+            if(isset($cliente)){
+                return $cliente->nombre;
+            }else{
+                return 'Cliente no encontrado';
+            }
+        }else{
+            return 'Cliente no encontrado';
+        }
+    }
+    public function clienteSelect()
+    {
+        $this->presupuestos = Presupuesto::where('cliente_id', $this->clienteId)
+                ->whereIn('estado',['Asignado','Aceptado'])->get();
+        $this->listaPresupuestos = [];
+    }
+    public function cambioDoc()
+    {
+        $this->presupuestos = Presupuesto::whereIn('estado',['Asignado','Aceptado'])->get();
+        $this->listaPresupuestos = [];
     }
 
     public function addObservaciones()
@@ -180,7 +236,10 @@ class CreateComponent extends Component
             $this->observaciones = $this->tareas->where('id_presupuesto', $this->id_presupuesto)->first()->observaciones;
         } else {
             foreach ($this->listaPresupuestos as $presupuesto) {
-                $this->observaciones = [$this->presupuestos->where('id', $presupuesto)->first()->numero_presupuesto => $this->tareas->where('id_presupuesto', $presupuesto)->first()->observaciones];
+                 $tarea = $this->tareas->where('id_presupuesto', $presupuesto)->first();
+                 if(isset($tarea)){
+                $this->observaciones = [$this->presupuestos->where('id', $presupuesto)->first()->numero_presupuesto => $tarea->observaciones];
+                 }
             }
         }
     }
@@ -222,9 +281,7 @@ class CreateComponent extends Component
             $fecha2 = new Carbon($factura->fecha_emision);
             $year2 = $fecha2->year;
             if ($year == $year2) {
-                if ($fecha->gt($fecha2)) {
-                    $contador++;
-                }
+                $contador++;
             }
         }
 

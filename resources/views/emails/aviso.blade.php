@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recordatorio de revisión</title>
+    <title>Trabajo Completado - Neumalgex</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -38,10 +38,11 @@
 
 <body>
     <div class="container">
-        <h1>Recordatorio de Revisión - Neumalgex</h1>
+        <h1>Confirmación de Trabajo Completado - Neumalgex</h1>
         <p>Estimado/a {{ $clientName }},</p>
-        <p>Le escribimos para recordarle que ha pasado un año desde su última visita a nuestro taller con su {{$vehiculo->marca}} de matrícula {{$vehiculo->matricula}}. Creemos que es un buen momento para programar una revisión de su vehículo para asegurarnos de que todo esté en perfectas condiciones.</p>
-        <p>Por favor, no dude en ponerse en contacto con nosotros para programar su cita de revisión. Estamos aquí para ayudarle a mantener su vehículo seguro y en óptimo estado de funcionamiento.</p>
+        <p>Estamos encantados de informarle que el trabajo en su vehículo {{$vehiculo->marca}} con matrícula {{$vehiculo->matricula}} ha sido completado con éxito. Su vehículo está listo para ser recogido en nuestras instalaciones.</p>
+        <p>Por favor, pase por nuestro taller para recoger su vehículo en cualquier momento durante nuestras horas de trabajo. Si tiene alguna pregunta o necesita más información, no dude en contactarnos.</p>
+        <p>Agradecemos su confianza en nosotros para cuidar de su vehículo.</p>
         <p>Gracias,</p>
         <p>El equipo de Neumalgex</p>
         <div class="footer">

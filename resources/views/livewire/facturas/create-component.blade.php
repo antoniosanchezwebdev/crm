@@ -8,7 +8,7 @@
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="numero_factura" class="col-sm-2 col-form-label">Tipo de documento</label>
                     <div class="col-sm-10">
-                        <select wire:model="tipo_documento" class="form-control" name="tipo_documento"
+                        <select wire:model="tipo_documento" class="form-control" name="tipo_documento" wire:change='cambioDoc()'
                             id="tipo_documento">
                             <option selected value="">-- Selecciona el tipo de documento --</option>
                             <option value="albaran_credito">Albarán de crédito</option>
@@ -32,28 +32,43 @@
                 </div>
 
                 @if ($tipo_documento == 'albaran_credito')
+                        <div class="mb-3 row d-flex align-items-center">
+                            <label for="id_cliente" class="col-sm-2 col-form-label">Cliente asociado</label>
+                            <div class="col-sm-10" wire:ignore.self>
+                                <select id="id_cliente" class="form-control js-example-responsive" wire:model="clienteId" wire:change='clienteSelect()' >
+                                    <option value="0">-- Seleccione un Cliente --</option>
+                                    @foreach ($clientes as $cliente)
+                                        <option value="{{ $cliente->id }}">{{ $cliente->nombre }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     <div class="mb-3 row d-flex align-items-center">
                         <label for="id_presupuesto" class="col-sm-2 col-form-label">Presupuestos asociados</label>
-                        <ul>
-                            @foreach ($listaPresupuestos as $presupuesto)
-                                <li>{{ $presupuestos->find($presupuesto)->numero_presupuesto }}</li>
-                            @endforeach
-                        </ul>
-                        <div class="col-sm-10" wire:ignore.self>
-                            <select id="id_presupuesto" class="form-control js-example-responsive"
-                                wire:model="id_presupuesto">
-                                <option value="0">-- Seleccione un presupuesto --</option>
-                                @foreach ($presupuestos as $presup)
-                                    @if (in_array($presup->id, $listaPresupuestos))
-                                    @else
-                                        <option value="{{ $presup->id }}">{{ $presup->numero_presupuesto }} </option>
-                                    @endif
+                        <div class="col-sm-3">
+                            <ul>
+                                @foreach ($listaPresupuestos as $presupuesto)
+                                    <li>{{ $presupuestos->find($presupuesto)->numero_presupuesto }}-{{$this->getCliente($presupuesto)}}-({{$presupuestos->find($presupuesto)->matricula}})</li>
                                 @endforeach
-                            </select>
-                            <button type="button" wire:click.prevent="addPresupuesto">Añadir presupuesto</button>
-                            @error('id_presupuesto')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            </ul>
+                        </div>
+                        <div class="col-sm-7 row d-flex" wire:ignore.self>
+                            <div class="col-sm-8" wire:ignore.self>
+                                <select id="id_presupuesto" class="form-control js-example-responsive" wire:model="id_presupuesto">
+                                    <option value="0">-- Seleccione un presupuesto --</option>
+                                    @foreach ($presupuestos as $presup)
+                                        @if (!in_array($presup->id, $listaPresupuestos))
+                                            <option value="{{ $presup->id }}">{{ $presup->numero_presupuesto }}-{{$this->getCliente($presup->id)}}-({{$presup->matricula}})</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-4" wire:ignore.self>
+                                <button type="button" class="btn btn-info" wire:click.prevent="addPresupuesto">Añadir presupuesto</button>
+                                @error('id_presupuesto')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 @elseif($tipo_documento == 'factura')
@@ -64,7 +79,16 @@
                                 wire:model="id_presupuesto" wire:change="addPrecio">
                                 <option value="0">-- Seleccione un presupuesto --</option>
                                 @foreach ($presupuestos as $presup)
-                                    <option value="{{ $presup->id }}">{{ $presup->numero_presupuesto }} </option>
+                                    <option value="{{ $presup->id }}">{{ $presup->numero_presupuesto }} - {{$this->getCliente($presup->id)}}-({{$presup->matricula}})-@switch($presup->estado_pago)
+                                        @case(0)
+                                        <span class="badge badge-warning">No pagado en presupuesto</span>
+                                            @break
+                                        @case(1)
+                                        <span class="badge badge-success">Pagado en presupuesto</span>
+                                            @break
+                                        @default
+                                        <span class="badge badge-warning">No pagado en presupuesto</span>
+                                    @endswitch</option>
                                 @endforeach
                             </select>
                             @error('id_presupuesto')
@@ -100,7 +124,7 @@
                     <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
                     <div class="col-sm-10">
                         <input type="text" wire:model="descripcion" class="form-control" name="descripcion"
-                            id="descripcion" placeholder="Factura para el cliente Dani...">
+                            id="descripcion" placeholder="Factura para el cliente...">
                         @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -120,8 +144,7 @@
                         @enderror
                     </div>
                 </div>
-
-
+            </form>
         </div>
     </div>
     <br>
@@ -138,8 +161,8 @@
                             paging: false,
                         });
                     })">
-                        <div class="mb-3 row d-flex align-items-center">
-                            <table class="table responsive" id="tableProductos">
+                        <div class="mb-3 row d-flex align-items-center" style="width: 100%;">
+                            <table class="table responsive" id="tableProductos" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th scope="col">Código</th>
@@ -153,7 +176,7 @@
                                 <tbody>
                                     @foreach (json_decode($presupuestos->find($id_presupuesto)->listaArticulos) as $productoE => $cantidad)
                                         <tr>
-                                         
+
                                             <td>{{ $productos->find($productoE)->cod_producto }}</td>
                                             <td>{{ $productos->find($productoE)->descripcion }}</td>
                                             <td>{{ $productos->find($productoE)->precio_venta }}€</td>
@@ -162,7 +185,7 @@
                                                 <td>n/a</td>
                                             @else
                                                 <td>n/a</td>
-                                                <td> {{ json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE] }} </td>
+                                                <td> {{ json_decode(( $this->tareas->where('id_presupuesto',$id_presupuesto)->first()->lista_tiempo), true)[$productoE] }} </td>
                                             @endif
                                             @if ($productos->find($productoE)->tipo_producto == 2)
                                                 <td class="display:none">
@@ -187,25 +210,25 @@
                                 <tbody>
                             </table>
                         </div>
-                        <div class="mb-3 row d-flex align-items-center">
-                            <label for="precio" class="col-sm-2 col-form-label">Total</label>
-                            <div class="col-sm-10">
-                                <input type="text" wire:model="precio" class="form-control" name="precio"
-                                    step="0.01" id="precio" disabled>
-                                @error('precio')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                    </div>
+                    <div class="mb-3 row d-flex align-items-center">
+                        <label for="precio" class="col-sm-2 col-form-label">Total</label>
+                        <div class="col-sm-10">
+                            <input type="text" wire:model="precio" class="form-control" name="precio"
+                                step="0.01" id="precio" disabled>
+                            @error('precio')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="mb-3 row d-flex align-items-center">
-                            <label for="precio_iva" class="col-sm-2 col-form-label">Total con IVA</label>
-                            <div class="col-sm-10">
-                                <input type="text" wire:model="precio_iva" class="form-control" name="precio_iva"
-                                    step="0.01" id="precio_iva" disabled>
-                                @error('precio_iva')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                    </div>
+                    <div class="mb-3 row d-flex align-items-center">
+                        <label for="precio_iva" class="col-sm-2 col-form-label">Total con IVA</label>
+                        <div class="col-sm-10">
+                            <input type="text" wire:model="precio_iva" class="form-control" name="precio_iva"
+                                step="0.01" id="precio_iva" disabled>
+                            @error('precio_iva')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -227,7 +250,8 @@
                         });
                     })">
                         <div class="mb-3 row d-flex align-items-center">
-                            <table class="table responsive" id="tableProducto2">
+                            <div class="table-responsive">
+                            <table class="table" id="tableProducto2" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th scope="col">Código</th>
@@ -242,6 +266,7 @@
                                 <tbody>
                                     @foreach ($listaPresupuestos as $presupuesto)
                                         @foreach (json_decode($presupuestos->find($presupuesto)->listaArticulos) as $productoE => $cantidad)
+
                                             <tr>
                                                 <td>{{ $productos->find($productoE)->cod_producto }}</td>
                                                 <td>{{ $productos->find($productoE)->descripcion }}</td>
@@ -251,7 +276,7 @@
                                                     <td>n/a</td>
                                                 @else
                                                     <td>n/a</td>
-                                                    <td> {{ json_decode(($tareas->where('id_presupuesto',$id_presupuesto)->first->lista_tiempo)->lista_tiempo , true)[$productoE] }} </td>
+                                                    <td> {{ json_decode(( $this->tareas->where('id_presupuesto',$presupuesto)->first()->lista_tiempo), true)[$productoE] }} </td>
                                                 @endif
                                                 @if ($productos->find($productoE)->tipo_producto == 2)
                                                     <td class="display:none">
@@ -278,6 +303,7 @@
                                     @endforeach
                                 <tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="mb-3 row d-flex align-items-center">
                             <label for="precio" class="col-sm-2 col-form-label">Total</label>
@@ -307,9 +333,10 @@
         @endif
     @endif
     <br>
+
     @if ($tipo_documento == 'factura')
         @if ($id_presupuesto != 0)
-            @if ($observaciones != null)
+            @if ($observaciones != null && is_array($observaciones))
                 <div class="card">
                     <h5 class="card-header">Comentarios</h5>
                     <div class="card-body">
@@ -322,8 +349,7 @@
                     </div>
                 </div>
                 <br>
-
-                @if ($documentos != null)
+                @if ($documentos != null && is_array($documentos))
                     <div class="card">
                         <h5 class="card-header">Imágenes adjuntas</h5>
                         <div class="card-body">
@@ -352,7 +378,7 @@
                     <br>
                 @endif
             @else
-                @if ($documentos != null)
+                @if ($documentos != null && is_array($documentos))
                     <div class="card">
                         <h5 class="card-header">Imágenes adjuntas</h5>
                         <div class="card-body">
@@ -390,7 +416,7 @@
         @endif
     @else
         @if (isset($listaPresupuestos[0]))
-            @if ($observaciones != null)
+            @if ($observaciones != null && is_array($observaciones))
                 <div class="card">
                     <h5 class="card-header">Comentarios</h5>
                     <div class="card-body">
@@ -405,7 +431,7 @@
                     </div>
                 </div>
                 <br>
-                @if ($documentos != null)
+                @if ($documentos != null && is_array($documentos))
                     <div class="card">
                         <h5 class="card-header">Imágenes adjuntas</h5>
                         <div class="card-body">
@@ -434,7 +460,7 @@
                     <br>
                 @endif
             @else
-                @if ($documentos != null)
+                @if ($documentos != null && is_array($documentos))
                     <div class="card">
                         <h5 class="card-header">Imágenes adjuntas</h5>
                         <div class="card-body">

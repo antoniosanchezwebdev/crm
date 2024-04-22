@@ -9,9 +9,14 @@ use App\Models\Clients;
 use App\Models\Vehiculo;
 use App\Models\ListaAlmacen;
 use App\Models\Trabajador;
+use App\Models\Reserva;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use App\Models\Productos;
+use App\Mail\PresupuestoMail;
+
 
 
 class EditComponent extends Component
@@ -52,6 +57,7 @@ class EditComponent extends Component
     public $existencias_productos;
 
     public $vehiculo_renting;
+    public $estado_pago;
 
     public function mount()
     {
@@ -62,7 +68,7 @@ class EditComponent extends Component
         $this->almacenes = ListaAlmacen::all();
         $this->existencias_productos = Almacen::all();
 
-
+        $this->estado_pago = $presupuestos->estado_pago;
         $this->numero_presupuesto = $presupuestos->numero_presupuesto;
         $this->fecha_emision = $presupuestos->fecha_emision;
         $this->cliente_id = $presupuestos->cliente_id;
@@ -88,7 +94,7 @@ class EditComponent extends Component
     {
         $this->vehiculosCliente = Clients::find($value)->vehiculos ?? [];
     }
- 
+
     public function updatedMatricula($value)
     {
         $this->vehiculoSeleccionado = null; // Resetear el vehículo seleccionado
@@ -102,8 +108,8 @@ class EditComponent extends Component
                 $this->vehiculo_renting = $this->vehiculoSeleccionado->vehiculo_renting;
             }
         }
-    }  
-    
+    }
+
 
     // Al hacer update en el formulario
     public function update()
@@ -122,8 +128,9 @@ class EditComponent extends Component
             'vehiculo_renting' => 'nullable',
             'marca' => 'required',
             'modelo' => 'required',
-            'kilometros' => 'required',
-            'observaciones' => 'required',
+            'kilometros' => 'nullable',
+            'observaciones' => 'nullable',
+            'estado_pago' => 'nullable',
         ],
             // Mensajes de error
             [
@@ -155,10 +162,29 @@ class EditComponent extends Component
             'vehiculo_renting' => $this->vehiculo_renting,
             'kilometros' => $this->kilometros,
             'observaciones' => $this->observaciones,
+            'estado_pago' => $this->estado_pago,
 
         ]);
 
         if ($presupuestosSave) {
+
+            foreach ($this->lista as $pro => $cantidad) {
+                $reserva = Reserva::where('presupuesto_id',$this->identificador)->where('producto_id',$pro)->first();
+                if (Productos::where('id', $pro)->first()->mueve_existencias == 1){
+                    if(isset($reserva)){
+                        $reserva->cantidad = $cantidad;
+                        $reserva->update();
+                    }else{
+                        $reserva = Reserva::create();
+                        $reserva->cantidad = $cantidad;
+                        $reserva->estado = "Pendiente";
+                        $reserva->presupuesto_id = $this->identificador;
+                        $reserva->producto_id = $pro;
+                        $reserva->save();
+                    }
+                }
+            }
+
             $this->alert('success', '¡Presupuesto actualizado correctamente!', [
                 'position' => 'center',
                 'timer' => 3000,
@@ -211,7 +237,7 @@ class EditComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('presupuestos.index');
+        return redirect()->route('presupuestos.index', ['tab' => 'tab1']);
 
     }
     // Función para cuando se llama a la alerta
@@ -219,7 +245,7 @@ class EditComponent extends Component
     {
         $presupuesto = Presupuesto::find($this->identificador);
         $presupuesto->delete();
-        return redirect()->route('presupuestos.index');
+        return redirect()->route('presupuestos.index', ['tab' => 'tab1']);
 
     }
 
@@ -289,6 +315,7 @@ class EditComponent extends Component
 
     public function reducir($id)
     {
+
         if (isset($this->lista[$id])) {
             if ($this->lista[$id] - 1 <= 0) {
                 $this->precio -= ((Productos::where('id', $id)->first()->precio_venta) * $this->lista[$id]);
@@ -306,7 +333,10 @@ class EditComponent extends Component
     {
         $producto = Productos::where('id', $id)->first();
         if (isset($this->lista[$id])) {
-            if (($this->lista[$id] + 1) > Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias) {
+
+            if ($producto->mueve_existencias == 0) {
+                $this->alert('info', "Ya has añadido este servicio.");
+            }elseif (($this->lista[$id] + 1) > Almacen::where('cod_producto', $producto->cod_producto)->first()->existencias) {
                 $this->alert('warning', "Existencias máximas alcanzadas.");
             } else {
                 $this->lista[$id] += 1;
@@ -314,6 +344,54 @@ class EditComponent extends Component
             }
         } else {
             $this->alert('warning', "Este producto no está en la lista");
+        }
+    }
+
+    public function CrearPdf($presupuesto)
+    {
+        $productos = Productos::all();
+        $lista = [];
+        $lista = (array) json_decode($presupuesto->listaArticulos, true);
+        $cliente = Clients::findOrFail($presupuesto->cliente_id); // Asumiendo que cliente_id es uniforme en todos los presupuestos
+        // Cargar la vista adecuada y pasar los datos necesarios
+        $pdf = PDF::loadView('livewire.presupuestos.pdf-component', compact( 'presupuesto', 'cliente', 'lista', 'productos'));
+        return $pdf;
+    }
+    public function descargaPdf($id){
+        $presupuesto = Presupuesto::findOrFail($id);
+        $pdf = $this->CrearPdf($presupuesto);
+        // Devolver el PDF para descargar con un nombre de archivo personalizado
+        // return $pdf->download('Presupuesto -'.$presupuesto->numero_presupuesto.'.pdf');
+        $nombre = str_replace("/", "-", $presupuesto->numero_presupuesto);
+        return response()->streamDownload(fn () => print($pdf->output()),'Presupuesto_'.$nombre.'.pdf');
+    }
+
+    public function mandarMail($id)
+    {
+        $presupuesto = Presupuesto::findOrFail($id);
+        $cliente = Clients::findOrFail($presupuesto->cliente_id);
+        $pdf = $this->CrearPdf($presupuesto); // Asumiendo que existe un método para generar el PDF
+        $enviado = Mail::to($cliente->email)->send(new PresupuestoMail($presupuesto,$pdf,$cliente));
+        if(isset( $enviado)){
+        $this->alert('success', 'Factura enviada correctamente!',[
+            'position' => 'center',
+            'timer' => 3000,
+            'toast' => false,
+            'showConfirmButton' => true,
+            'onConfirmed' => 'confirmed',
+            'confirmButtonText' => 'Aceptar',
+            'showDenyButton' => false,
+        ]);
+        } else {
+            $this->alert('error', '¡No se ha podido enviadar la factura!',[
+                'position' => 'center',
+                'timer' => 3000,
+                'toast' => false,
+                'showConfirmButton' => true,
+                'onConfirmed' => 'confirmed',
+                'confirmButtonText' => 'Aceptar',
+                'showDenyButton' => false,
+            ]);
         }
     }
 }

@@ -8,13 +8,16 @@ use App\Models\Productos;
 use App\Models\User;
 use App\Models\Jornada;
 use App\Models\Pausa;
+use Carbon\Carbon as CarbonCarbon;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Dashboard extends Component
 {
+    use LivewireAlert;
     use WithFileUploads;
     public $tareas_asignadas;
     public $tareas_completadas;
@@ -24,6 +27,7 @@ class Dashboard extends Component
     public $trabajadores;
     public $jornada_activa;
     public $pausa_activa;
+    public $documento;
     public $horasTrabajadasHoy;
     public $horasTrabajadasSemana;
     public $documentosArray = [];
@@ -37,9 +41,12 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $mes = Carbon::now()->month;
         $this->tareas_en_curso = Auth::user()->tareasEnCurso;
         $this->tareas_asignadas = Auth::user()->tareas->where('estado' ,'Asignada');
-        $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada');
+        $this->tareas_completadas = Auth::user()->tareas->where('estado', 'Completada')->filter(function ($tarea) use ($mes) {
+            return Carbon::parse($tarea->updated_at)->month == $mes;
+        });
         $this->tareas_facturadas = Auth::user()->tareas->where('estado', 'Facturada');
         $this->alertas = [];
         $this->trabajadores = User::all();
@@ -52,7 +59,7 @@ class Dashboard extends Component
     {
         return view('livewire.dashboard');
     }
-    
+
     public function seleccionarTarea($tareaId) {
         $this->tareaSeleccionadaId = $tareaId;
     }
@@ -89,7 +96,10 @@ class Dashboard extends Component
 
         $tarea = OrdenTrabajo::find($tareaId);
         if ($tarea->operarios_tiempo != null && !empty($tarea->operarios_tiempo)) {
-            $operarios_tiempo = $tarea->operarios_tiempo ? json_decode($tarea->operarios_tiempo, true) : [];
+            $operarios_tiempo = json_decode($tarea->operarios_tiempo, true);
+            if (!is_array($operarios_tiempo)) {
+                $operarios_tiempo = []; // Asegúrate de que es un arreglo
+            }
 
             // Actualiza el tiempo trabajado por el operario
             $operarios_tiempo[$trabajadorId] = $totalMinutes;
@@ -133,6 +143,8 @@ class Dashboard extends Component
         $tarea = OrdenTrabajo::find($tareaId);
         $tarea->estado = "Completada";
         $tarea->save();
+
+        return redirect(request()->header('Referer'));
     }
     public function redirectToCaja($tarea, $metodo_pago)
     {
@@ -170,7 +182,7 @@ class Dashboard extends Component
             'hora_final' => $hora_final, // Actualizar solo la hora final
             'status' => 0 // Cambiar el estado a inactivo
         ]);
-    
+
     }
 
     $this->checkJornada();
@@ -317,27 +329,43 @@ class Dashboard extends Component
         }
     }
 
+
     public function subirArchivo()
     {
-    foreach ($this->documentosArray as $documento) {
-        $this->documento = $documento;
-        $this->validate([
-            'documento' => 'file|max:10240', // 10MB
-        ]);
-
-        $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
-        $rutaDocumento = $this->documento->storeAs('documentos', $nombreDelArchivo, 'public_local');
-        $this->rutasDocumentos[] = $rutaDocumento;
-
-        // Encuentra la orden de trabajo y actualiza la ruta del documento
+        // Encuentra la orden de trabajo
         $ordenTrabajo = OrdenTrabajo::find($this->tareaSeleccionadaId);
+        $documentosExistentes = $ordenTrabajo ? json_decode($ordenTrabajo->documentos, true) ?? [] : [];
+
+        $index = count($documentosExistentes);
+
+        foreach ($this->documentosArray as $documento) {
+            $this->documento = $documento;
+            $this->validate([
+                'documento' => 'file|max:10240', // 10MB
+            ]);
+
+            // Generar un nombre de archivo más simple y secuencial
+            $index++;  // Incrementar el índice por cada archivo subido
+            $extension = $documento->getClientOriginalExtension();  // Obtener la extensión del archivo original
+            $nombreDelArchivo = time() . '_' ."documento_{$this->tareaSeleccionadaId}_{$index}.{$extension}";
+            $rutaDocumento = $documento->storeAs('documentos', $nombreDelArchivo, 'public_local');
+            $this->rutasDocumentos[] = $rutaDocumento;
+        }
+
         if ($ordenTrabajo) {
-            $ordenTrabajo->documentos = json_encode($this->rutasDocumentos);
+            // Añadir los nuevos documentos a los existentes y guardar
+            $documentosActualizados = array_merge($documentosExistentes, $this->rutasDocumentos);
+            $ordenTrabajo->documentos = json_encode($documentosActualizados);
             $ordenTrabajo->save();
         }
-    }
 
-    $this->documentosArray = [];
+        // Restablecer la variable para ocultar el formulario
+        $this->tareaSeleccionadaId = null;
+        $this->documentosArray = [];
+        $this->rutasDocumentos = [];
+
+        // Opcional: agregar una notificación de éxito
+        $this->alert('success', 'Archivos subidos correctamente!');
     }
 }
 

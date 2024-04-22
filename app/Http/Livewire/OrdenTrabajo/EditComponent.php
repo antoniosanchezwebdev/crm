@@ -93,7 +93,7 @@ class EditComponent extends Component
         $this->matricula = $this->tarea->presupuesto->matricula;
         $this->precio = $this->tarea->presupuesto->precio;
         $this->origen = $this->tarea->presupuesto->origen;
-        $this->tiempo_lista = json_decode($this->tarea->lista_tiempo, true); 
+        $this->tiempo_lista = json_decode($this->tarea->lista_tiempo, true);
         if($this->tarea->operarios){
             $this->fecha = $this->tarea->fecha;
             $this->id_cliente = $this->tarea->id_cliente;
@@ -136,7 +136,7 @@ class EditComponent extends Component
         $this->documentos = json_encode($this->rutasDocumentos);
         $this->operarios_tiempo = json_encode($this->operarios_tiempo);
         $this->tiempo_lista = json_encode($this->tiempo_lista);
-    
+
         // Validación de datos
         $this->validate(
             [
@@ -244,7 +244,7 @@ class EditComponent extends Component
     public function confirmed()
     {
         // Do something
-        return redirect()->route('orden-trabajo.index');
+        return redirect()->route('orden-trabajo.index' , ['tab' => 'tab1']);
     }
 
     public function agregarSolicitado()
@@ -266,22 +266,39 @@ class EditComponent extends Component
 
     public function subirArchivo()
     {
+        // Encuentra la orden de trabajo
+        $ordenTrabajo =  $this->tarea;
+        $documentosExistentes = $ordenTrabajo ? json_decode($ordenTrabajo->documentos, true) ?? [] : [];
+
+        $index = count($documentosExistentes);
+
         foreach ($this->documentosArray as $documento) {
             $this->documento = $documento;
             $this->validate([
-                'documento' => 'file|max:10000',
+                'documento' => 'file|max:10240', // 10MB
             ]);
 
-            $nombreDelArchivo = time() . '_' . $this->documento->getClientOriginalName();
-            $rutaDocumento = $this->documento->storeAs('assets/documentos', $nombreDelArchivo, 'public_local');
-
-            // Agrega la ruta del archivo al array de rutas de documentos
+            // Generar un nombre de archivo más simple y secuencial
+            $index++;  // Incrementar el índice por cada archivo subido
+            $extension = $documento->getClientOriginalExtension();  // Obtener la extensión del archivo original
+            $nombreDelArchivo = time() . '_' ."documento_{$ordenTrabajo->id}_{$index}.{$extension}";
+            $rutaDocumento = $documento->storeAs('assets/documentos', $nombreDelArchivo, 'public_local');
             $this->rutasDocumentos[] = $rutaDocumento;
-
-            $this->documento = "";
         }
 
+        if ($ordenTrabajo) {
+            // Añadir los nuevos documentos a los existentes y guardar
+            $documentosActualizados = array_merge($documentosExistentes, $this->rutasDocumentos);
+            $ordenTrabajo->documentos = json_encode($documentosActualizados);
+            $ordenTrabajo->save();
+        }
+
+        // Restablecer la variable para ocultar el formulario
         $this->documentosArray = [];
+        $this->rutasDocumentos = [];
+
+        // Opcional: agregar una notificación de éxito
+        $this->alert('success', 'Archivos subidos correctamente!');
     }
 
     public function agregarTrabajador()

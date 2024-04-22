@@ -62,6 +62,8 @@ class CreateComponent extends Component
     public $mueve_existencias = false;
 
     public $almacen;
+    public $nombre;
+
 
     public $existencias_almacenes;
 
@@ -138,7 +140,7 @@ class CreateComponent extends Component
             }
 
             if ($this->mueve_existencias == true) {
-                $this->nombre = ListaAlmacen::where('id', $this->nombre)->first()->nombre;
+                $this->nombre = ListaAlmacen::where('id', $this->almacen)->first()->nombre;
                 $this->existencias_almacenes = $this->existencias;
                 $validateData3 = $this->validate([
                     'nombre' => 'required',

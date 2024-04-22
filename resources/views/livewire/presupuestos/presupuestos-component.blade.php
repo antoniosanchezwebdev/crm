@@ -136,9 +136,9 @@
                 <br>
 
                 <div class="ms-auto col d-grid gap-2">
-                    <a class="btn btn-primary btn-block" href="{{ route('clients.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-block" href="{{ route('clients.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         clientes </a>
-                    <a class="btn btn-primary btn-block" href="{{ route('productos.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-block" href="{{ route('productos.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         productos </a>
                 </div>
             @endif
@@ -238,9 +238,9 @@
                 <br>
 
                 <div class="ms-auto col d-grid gap-2">
-                    <a class="btn btn-primary btn-block" href="{{ route('clients.index') }}"> Consultar y
+                    <a class="btn btn-primary btn-block" href="{{ route('clients.index' , ['tab' => 'tab1']) }}"> Consultar y
                         editar clientes </a>
-                    <a class="btn btn-primary btn-block" href="{{ route('productos.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-block" href="{{ route('productos.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         productos </a>
                 </div>
             @endif
@@ -362,9 +362,9 @@
                 <br>
 
                 <div class="ms-auto col d-grid gap-2">
-                    <a class="btn btn-primary btn-block" href="{{ route('clients.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-block" href="{{ route('clients.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         clientes </a>
-                    <a class="btn btn-primary btn-block" href="{{ route('productos.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-block" href="{{ route('productos.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         productos </a>
                 </div>
             @endif
@@ -455,9 +455,9 @@
                 <br>
 
                 <div class="ms-auto col d-grid gap-2">
-                    <a class="btn btn-primary btn-lg" href="{{ route('clients.index') }}"> Consultar y
+                    <a class="btn btn-primary btn-lg" href="{{ route('clients.index' , ['tab' => 'tab1']) }}"> Consultar y
                         editar clientes </a>
-                    <a class="btn btn-primary btn-lg" href="{{ route('productos.index') }}"> Consultar y editar
+                    <a class="btn btn-primary btn-lg" href="{{ route('productos.index' , ['tab' => 'tab1']) }}"> Consultar y editar
                         productos </a>
                 </div>
             @endif

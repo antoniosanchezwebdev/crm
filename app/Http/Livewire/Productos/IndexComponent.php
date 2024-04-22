@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use App\Models\Productos;
+use App\Models\Reserva;
 use App\Models\Neumatico;
 use App\Models\Almacen;
 use App\Models\Ecotasa;
@@ -50,6 +51,8 @@ class IndexComponent extends Component
     public $almacenes;
     public $listAlmacenes;
     public $tasas;
+    public $reserva;
+
 
 
     public $pagina;
@@ -66,6 +69,7 @@ class IndexComponent extends Component
         $this->neumaticos = Neumatico::all();
         $this->productos = Productos::all();
         $this->almacenes = Almacen::all();
+        $this->reserva = Reserva::all();
         $this->listAlmacenes = ListaAlmacen::all();
         $this->tasas = Ecotasa::all();
 

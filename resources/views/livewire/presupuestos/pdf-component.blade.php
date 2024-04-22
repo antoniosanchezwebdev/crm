@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura - Neumalgex</title>
+    <title>Presupuesto - Neumalgex</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -135,12 +135,8 @@
         </div>
         <div class="cliente">
             <div class="factura-title" >
-                @if ($tipoDocumento == 'factura')
-                <h2>Factura - {{ $factura->metodo_pago }}</h2>
+                <h2>Presupuesto - {{ $presupuesto->numero_presupuesto }}</h2>
                 <h3>Servicio {{ $presupuesto->servicio }}</h3>
-                @else
-                <h2>Albarán de crédito - {{ $factura->metodo_pago }}</h2>
-                @endif
             </div>
             <div class="cliente-datos">
                 <p><strong>Nombre:</strong> {{ $cliente->nombre }}</p>
@@ -153,28 +149,15 @@
         <div class="factura">
             <table>
                 <tr>
-                    <th>Número de factura</th>
                     <th>Fecha de emisión</th>
-                    <th>Fecha de vencimiento</th>
-                    <th>Datos del vehículo</th>
+                    <th>Presupuesto dado en</th>
+                    <th colspan="2">Datos del vehículo</th>
                 </tr>
                 <tr>
-                    <td>{{ $factura->numero_factura }}</td>
-                    <td>{{ $factura->fecha_emision }}</td>
-                    <td>{{ $factura->fecha_vencimiento }}</td>
-                    @if ($tipoDocumento == 'factura')
-                    <td><b>Matrícula:</b> {{ $presupuesto->matricula }}</td>
-                    @else
-                    <td></td>
-                    @endif
-                </tr>
-                <tr>
-                    <td colspan="3"><b>Descripción:</b> {{ $factura->descripcion }}</td>
-                    @if ($tipoDocumento == 'factura')
-                    <td><b>Kilómetros:</b> {{ $presupuesto->kilometros }}</td>
-                    @else
-                    <td></td>
-                    @endif
+                    <td>{{ $presupuesto->fecha_emision }}</td>
+                    <td>{{ $presupuesto->origen }}</td>
+                    <td>Matricula:{{ $presupuesto->matricula }}</td>
+                    <td>Kilometros:{{ $presupuesto->kilometros }}</td>
                 </tr>
             </table>
         </div>
@@ -223,23 +206,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{$factura->precio}}€</td>
+                        <td>{{$presupuesto->precio}}€</td>
                         <td>21%</td>
-                        <td>{{$factura->precio * 0.21}}€</td>
-                        <td>{{$factura->precio_iva}}€</td>
+                        <td>{{$presupuesto->precio * 0.21}}€</td>
+                        <td>{{$presupuesto->precio * 1.21}}€</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div style="margin-top:1%">
-            <p><b>Observaciones:</b></p>
-            @if ($tipoDocumento == 'factura')
-                <p>{{$factura->observaciones}}</p>
-            @else
-                @foreach ((json_decode($factura->observaciones,true))  as $Presupuesto => $Observacion)
-                    <p>{{$Presupuesto}} - {{$Observacion}}</p>
-                @endforeach
-            @endif
+            <p><b>Observaciones:</b></p><p>{{$presupuesto->observaciones}}</p>
         </div>
     </div>
 </body>

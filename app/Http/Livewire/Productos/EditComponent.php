@@ -8,6 +8,7 @@ use App\Models\ProductosCategories;
 use App\Models\TipoProducto;
 use App\Models\Almacen;
 use App\Models\ListaAlmacen;
+use App\Models\Reserva;
 use App\Models\Ecotasa;
 use App\Models\Neumatico;
 use App\Models\Proveedores;
@@ -118,9 +119,10 @@ class EditComponent extends Component
             $this->almacen = ListaAlmacen::find($product->almacen)->id;
             $this->nombre = ListaAlmacen::where('id', $product->almacen)->first()->nombre;
             $almacen = Almacen::where('nombre', $this->nombre)->where('cod_producto', $this->cod_producto)->first();
+            $Reserva = Reserva::where('producto_id',$this->identificador);
             $this->existencias = $almacen->existencias;
             $this->existencias_almacenes = $almacen->existencias_almacenes;
-            $this->existencias_depositos = $almacen->existencias_depositos;
+            $this->existencias_depositos =  Reserva::where('producto_id',$this->identificador)->sum('cantidad');;
         }
     }
 

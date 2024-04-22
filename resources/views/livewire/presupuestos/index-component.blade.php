@@ -44,13 +44,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">Número</th>
-                                <th scope="col">ID de cliente</th>
                                 <th scope="col">Nombre de cliente</th>
                                 <th scope="col">Fecha emisión</th>
                                 <th scope="col">Marca vehículo</th>
                                 <th scope="col">Modelo vehículo</th>
                                 <th scope="col">Matrícula</th>
                                 <th scope="col">Precio</th>
+                                <th scope="col">Pagado</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -60,8 +60,6 @@
                             @foreach ($tabla as $presup)
                                 <tr>
                                     <td>{{ $presup->numero_presupuesto }}</th>
-
-                                    <td>{{ $clientes->where('id', $presup->cliente_id)->first()->id }} </td>
 
                                     <td>{{ $clientes->where('id', $presup->cliente_id)->first()->nombre }} </td>
 
@@ -74,6 +72,20 @@
                                     <td>{{ $presup->matricula }} </td>
 
                                     <td>{{ $presup->precio }} </td>
+
+                                    <td>
+                                        @switch($presup->estado_pago)
+                                            @case('0')
+                                            <span class="badge badge-warning">No pagado</span>
+                                                @break
+                                            @case("1")
+                                            <span class="badge badge-success">Pagado</span>
+                                                @break
+                                            @default
+                                            <span class="badge badge-warning">No pagado</span>
+                                                @break
+                                        @endswitch
+                                    </td>
 
                                     <td>{{ $presup->estado }} </td>
 

@@ -361,15 +361,6 @@
             </div>
 
             <div class="mb-3 row d-flex align-items-center">
-                <label for="existencias" class="col-sm-2 col-form-label">Existencias totales</label>
-                <div class="col-sm-10">
-                    <input type="number" wire:model="existencias" class="form-control" name="existencias" disabled
-                        id="existencias" placeholder="Existencias totales">
-                    @error('existencias')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <br>
                 <label for="existencias" class="col-sm-2 col-form-label">Existencias reservadas</label>
                 <div class="col-sm-10">
                     <input type="number" wire:model="existencias_depositos" class="form-control" name="existencias_depositos" disabled
@@ -380,7 +371,7 @@
                 </div>
                 <br>
 
-                <label for="existencias" class="col-sm-2 col-form-label">Existencias disponibles</label>
+                <label for="existencias" class="col-sm-2 col-form-label">Existencias totales</label>
                 <div class="col-sm-10">
                     <input type="number" wire:model="existencias_almacenes" class="form-control" name="existencias_almacenes"
                         id="existencias_almacenes" placeholder="Existencias disponibles" wire:change="modificarExistencias">

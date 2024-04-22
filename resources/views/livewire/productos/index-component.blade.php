@@ -154,6 +154,8 @@
                             <th scope="col">Código</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Existencias</th>
+                            <th scope="col">Reservado</th>
+                            <th scope="col">Pendiente de aceptar</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -169,6 +171,20 @@
                                         No mueve existencias
                                     @endif
 
+                                </td>
+                                <td>
+                                    @if ($almacenes->where('cod_producto', $producto->cod_producto)->first() != null)
+                                        {{ $reserva->where('producto_id', $producto->id)->where('estado','Aceptado')->sum('cantidad') }}
+                                    @else
+                                        No mueve existencias
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($almacenes->where('cod_producto', $producto->cod_producto)->first() != null)
+                                        {{ $reserva->where('producto_id', $producto->id)->where('estado','Pendiente')->sum('cantidad') }}
+                                    @else
+                                        No mueve existencias
+                                    @endif
                                 </td>
                                 <td><button type="button" class="btn btn-primary boton-producto"
                                         onclick="Livewire.emit('seleccionarProducto', {{ $producto->id }});">Editar</button>

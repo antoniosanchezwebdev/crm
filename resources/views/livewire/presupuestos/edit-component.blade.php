@@ -57,7 +57,7 @@
             var data = $('#select2-cliente-edit').select2("val");
             @this.set('cliente_id', data);
         });
-            
+
         $('#select2-matricula-edit').select2({
             placeholder: "Seleccione un Vehiculo"
         });
@@ -159,7 +159,16 @@
                         @enderror
                     </div>
                 </div>
-
+                <div class="mb-3 row d-flex align-items-center">
+                    <label for="cliente_id" class="col-sm-3 col-form-label">Pagado</label>
+                    <div class="col-sm-9 " wire:ignore>
+                        <select class="form-control" wire:model="estado_pago">
+                            <option value="">-- Esta pagado el presupuesto --</option>
+                            <option value="1">Pagado</option>
+                            <option value="0">No pagado</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
@@ -170,7 +179,7 @@
                     <label for="matricula" class="col-sm-2 col-form-label">Matrícula</label>
                     <div class="col-sm-10" wire:ignore>
                             <select wire:model="matricula"  id="select2-matricula-edit" class="form-control">
-                                
+
                                 @foreach($vehiculosCliente as $vehiculo)
                                     <option value="{{ $vehiculo->matricula }}">{{ $vehiculo->matricula }}</option>
                                 @endforeach
@@ -331,10 +340,12 @@
                     @endif
                 </div>
             </div>
-            <div class="mb-3 row d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary self-center"
-                    style="margin-bottom: 20px !important; width: 80% !important;">Actualizar presupuesto</button>
+            <div class="clo-sm-12 mb-3 row d-flex justify-content-around">
+                <button type="submit" class="btn btn-primary">Actualizar presupuesto</button>
+                <button type="button" wire:click="descargaPdf({{$identificador}})" class="btn btn-info text-white clo-sm-3">Dercargar  PDF</button>
+                <button type="button" wire:click="mandarMail({{$identificador}})" class="btn btn-secondary text-white clo-sm-3">Enviar Por Email</button>
             </div>
+        </div>
     </form>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -396,7 +407,7 @@
                     var data = $('#select2-cliente-edit').select2("val");
                     @this.set('cliente_id', data);
                 });
-                
+
                 $('#select2-matricula-edit').select2({
                     placeholder: "Seleccione un Vehiculo"
                 });

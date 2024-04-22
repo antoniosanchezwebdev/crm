@@ -45,6 +45,14 @@ class Productos extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
+    /**
+     * Obtener las compras del producto.
+     */
+    public function compras()
+    {
+        return $this->hasMany(Compras::class);
+    }
+
     public function categoria(): BelongsTo
     {
         return $this->belongsTo("App\Models\ProductosCategories");

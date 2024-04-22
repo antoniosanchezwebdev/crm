@@ -55,6 +55,7 @@ Route::name('inicio')->get('/', function () {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 // Route::get('/clients', [App\Http\Controllers\ClientController::class, 'index'])->name('clients.index');
 
 Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
@@ -119,7 +120,7 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('trabajadores', [TrabajadorController::class, 'index'])->name('trabajadores.index');
     Route::get('trabajadores-create', [TrabajadorController::class, 'create'])->name('trabajadores.create');
     Route::get('trabajadores-edit/{id}', [TrabajadorController::class, 'edit'])->name('trabajadores.edit');
-       
+
 
 
     // Cursos
@@ -143,6 +144,7 @@ Route::group(['middleware' => 'is.admin', 'prefix' => 'admin'], function () {
     Route::get('facturas-create', [FacturaController::class, 'create'])->name('facturas.create');
     Route::get('facturas-edit/{id}', [FacturaController::class, 'edit'])->name('facturas.edit');
     Route::get('factura/pdf/{id}', [FacturaController::class, 'pdf'])->name('facturas.pdf');
+    Route::get('factura/mail/{id}', [FacturaController::class, 'mandarMail']);
     Route::get('certificado/{id}', [FacturaController::class, 'certificado'])->name('certificado.pdf');
 
     // Productos

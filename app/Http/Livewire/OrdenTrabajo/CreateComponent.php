@@ -66,7 +66,7 @@ class CreateComponent extends Component
 
 
         $this->clientes = Clients::all(); // datos que se envian al select2
-        $this->trabajadores = Trabajador::all(); // datos que se envian al select2
+        $this->trabajadores = User::all(); // datos que se envian al select2
         $this->productos = Productos::all();
         $this->almacenes = ListaAlmacen::all();
         $this->existencias_productos = Almacen::all();

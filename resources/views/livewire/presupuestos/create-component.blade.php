@@ -14,7 +14,7 @@
                         <div class="mb-3 row d-flex align-items-center">
                             <label for="servicio" class="col-sm-3 col-form-label"><strong>Servicio dado
                                     en:</strong></label>
-                            <div x-data="" x-init="$('#select2-servicio-create').select2();
+                            <div class="col-sm-9" x-data="" x-init="$('#select2-servicio-create').select2();
                             $('#select2-servicio-create').on('change', function(e) {
                                 var data = $('#select2-servicio-create').select2('val');
                                 @this.set('servicio', data);
@@ -26,7 +26,7 @@
                                     @this.set('servicio', data);
                                 });
                             });">
-                                <div class="col-sm-9" wire:ignore>
+                                <div class="col-sm-12 p-0" wire:ignore>
                                     <select class="form-control" id="select2-servicio-create">
                                         <option value="">-- Elige un almacén --</option>
                                         @foreach ($almacenes as $listalmacen)
@@ -126,6 +126,16 @@
                                 @error('cliente_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+                        <div class="mb-3 row d-flex align-items-center">
+                            <label for="cliente_id" class="col-sm-3 col-form-label">Pagado</label>
+                            <div class="col-sm-9 " wire:ignore>
+                                <select class="form-control" wire:model="estado_pago">
+                                    <option value="">-- Esta pagado el presupuesto --</option>
+                                    <option value="1">Pagado</option>
+                                    <option value="0">No pagado</option>
+                                </select>
                             </div>
                         </div>
                     </div>

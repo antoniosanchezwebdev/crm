@@ -1,8 +1,6 @@
 <div class="row justify-content-center">
     <style>
-        .dropdown-menu.show {
-            position: relative !important;
-        }
+
     </style>
     <div class="row col-12 justify-content-center">
         <div class="col-12 mb-3 mt-3">
@@ -141,11 +139,7 @@
                                         <div class="col-4">
                                             <button type="button" class="btn btn-info" wire:click="seleccionarTarea({{ $tarea->id }})">Subir Archivo</button>
                                         </div>
-                                        <div class="col-4"><button
-                                                wire:click="completarTarea({{ $tarea->id }})"
-                                                id="delete-button-{{ $tarea->id }}" type="button"
-                                                class="btn btn-secondary">Completar
-                                                tarea</button>
+                                        <div class="col-4"><button id="delete-button-{{ $tarea->id }}" type="button" class="btn btn-secondary">Completar tarea</button>
 
                                             <script>
                                                 document.getElementById('delete-button-{{ $tarea->id }}').addEventListener('click', function(event) {
@@ -170,10 +164,9 @@
                                         </div>
                                         @if ($tareaSeleccionadaId == $tarea->id)
                                         <div class="col-12 mt-2">
-                                            <!-- Aquí coloca el contenido que deseas mostrar, por ejemplo, un formulario -->
-                                            <input type="file" wire:model="documentosArray" multiple>
+                                            <input class="col-6" type="file" wire:model="documentosArray" multiple>
                                             @error('documentosArray.*') <span class="error">{{ $message }}</span> @enderror
-                                            <button type="button" wire:click="subirArchivo" class="btn btn-primary">Subir</button>
+                                            <button type="button" wire:click="subirArchivo" class="btn btn-primary col-5">Subir</button>
                                         </div>
                                         @endif
                                     </div>
@@ -295,10 +288,8 @@
                                                                 tarea</button></div>
                                                     @endif
                                                     <div class="col-6"><button
-                                                            wire:click="completarTarea({{ $tarea_asignada->id }})"
                                                             id="delete-button-{{ $tarea_asignada->id }}" type="button"
-                                                            class="btn btn-secondary">Completar
-                                                            tarea</button>
+                                                            class="btn btn-secondary">Completar tarea</button>
 
                                                         <script>
                                                             document.getElementById('delete-button-{{ $tarea_asignada->id }}').addEventListener('click', function(event) {
@@ -422,11 +413,7 @@
                                                             wire:click="iniciarTarea('{{ $tarea_asignada->id }}', '{{ Auth::id() }}')">Iniciar
                                                             tarea</button></div>
                                                 @endif
-                                                <div class="col-6"><button
-                                                        wire:click="completarTarea({{ $tarea_asignada->id }})"
-                                                        id="delete-button-{{ $tarea_asignada->id }}" type="button"
-                                                        class="btn btn-secondary">Completar
-                                                        tarea</button>
+                                                <div class="col-6"><button id="delete-button-{{ $tarea_asignada->id }}" type="button" class="btn btn-secondary">Completar tarea</button>
 
                                                     <script>
                                                         document.getElementById('delete-button-{{ $tarea_asignada->id }}').addEventListener('click', function(event) {

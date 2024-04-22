@@ -112,6 +112,12 @@ class IndexComponent extends Component
         $presupuesto->update([
             'estado' => "Aceptado"
         ]);
+        $reservas = Reserva::where('presupuesto_id', $id)->get();
+        foreach ($reservas as $reserva) {
+            $reserva->update([
+                'estado' => "Aceptado"
+            ]);
+        }
         $orden = new OrdenTrabajo;
         $orden->fecha = $presupuesto->fecha_emision;
         $orden->id_cliente = $presupuesto->cliente_id;
@@ -145,13 +151,14 @@ class IndexComponent extends Component
         ]);
         $rechazados = Reserva::where('presupuesto_id', $id)->get();
         foreach ($rechazados as $reserva) {
-            $pro = $reserva->producto_id;
-            $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
-                $articulo->update([
-                    'existencias' => ($articulo->existencias_almacenes += $reserva->cantidad),
-                    'existencias_depositos' => ($articulo->existencias_depositos -= $reserva->cantidad)
-                ]);
+            // $pro = $reserva->producto_id;
+            // $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+            //     $articulo->update([
+            //         'existencias' => ($articulo->existencias_almacenes += $reserva->cantidad),
+            //         'existencias_depositos' => ($articulo->existencias_depositos -= $reserva->cantidad)
+            //     ]);
             $reserva->estado = "Rechazado";
+            $reserva->update();
         }
     }
 }

@@ -26,7 +26,8 @@ class Presupuesto extends Model
         'modelo',
         'marca',
         'servicio',
-        'vehiculo_renting'
+        'vehiculo_renting',
+        'estado_pago'
 
     ];
 

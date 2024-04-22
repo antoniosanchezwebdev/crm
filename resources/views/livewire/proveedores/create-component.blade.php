@@ -1,11 +1,9 @@
 <div class="container mx-auto" style="min-height: 100vh">
-    <div class="card text-dark bg-light mb-3">
+    <div class="card mb-3">
         <h5 class="card-header"> Añadir proveedor</h5>
         <div class="card-body">
             <form wire:submit.prevent="submit">
                 <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
-
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="dni" class="col-sm-2 col-form-label">DNI </label>
                     <div class="col-sm-10">
@@ -16,7 +14,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="nombre" class="col-sm-2 col-form-label">Nombre </label>
                     <div class="col-sm-10">
@@ -27,7 +24,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
@@ -38,7 +34,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
                     <div class="col-sm-10">
@@ -49,7 +44,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="direccion" class="col-sm-2 col-form-label">Dirección </label>
                     <div class="col-sm-10">
@@ -60,7 +54,6 @@
                         @enderror
                     </div>
                 </div>
-
                 <div class="mb-3 row d-flex align-items-center">
                     <label for="observaciones" class="col-sm-2 col-form-label">Observaciones </label>
                     <div class="col-sm-10">
@@ -71,10 +64,10 @@
                         @enderror
                     </div>
                 </div>
+            </form>
         </div>
     </div>
-    <div class="mb-3 row d-flex align-items-center">
+    <div class="mb-3 row d-flex align-items-center justify-content-around">
         <button type="submit" class="btn btn-primary">Añadir proveedor</button>
     </div>
-    </form>
 </div>

@@ -6,14 +6,18 @@ use App\Models\Productos;
 use App\Models\Presupuesto;
 use App\Models\Clients;
 use App\Models\Facturas;
-use Barryvdh\DomPDF\Facade;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use PDF;
+use App\Mail\FacturaMail;
+use Illuminate\Support\Facades\Mail;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Carbon\Carbon;
 use DateTime;
 
 class FacturaController extends Controller
 {
+    use LivewireAlert;
+
     /**
      * Display a listing of the resource.
      *
@@ -96,50 +100,41 @@ class FacturaController extends Controller
         //
     }
 
+
+
     public function pdf($id)
     {
         $factura = Facturas::findOrFail($id);
-
-        // Obtener el presupuesto asociado a la factura
-        $presupuesto = Presupuesto::findOrFail($factura->id_presupuesto);
-        // Obtener todos los productos
+        $tipoDocumento = $factura->tipo_documento;
         $productos = Productos::all();
-         // Obtener el articulos asociados al presupuesto
-        $lista = (array) json_decode($presupuesto->listaArticulos);
-        // Obtener el cliente asociado al presupuesto
-        $cliente = Clients::findOrFail($presupuesto->cliente_id);
+        $lista = [];
 
-        // Cargar la vista de la factura y pasar los datos necesarios
-        return view('livewire.facturas.pdf-component', compact('factura', 'presupuesto', 'cliente','lista','productos'));
+        if ($tipoDocumento == 'albaran_credito') {
+            $idsPresupuesto = json_decode($factura->id_presupuesto);
+            $presupuestos = Presupuesto::whereIn('id', $idsPresupuesto)->get();
+            foreach ($presupuestos as $presupuesto) {
+                $listaArticulos = (array) json_decode($presupuesto->listaArticulos, true);
+                foreach ($listaArticulos as $productoID => $pCantidad) {
+                    if (!array_key_exists($productoID, $lista)) {
+                        $lista[$productoID] = 0;
+                    }
+                    $lista[$productoID] += $pCantidad;
+                }
+            }
+        } else {
+            $presupuesto = Presupuesto::findOrFail($factura->id_presupuesto);
+            $lista = (array) json_decode($presupuesto->listaArticulos, true);
+        }
 
+        $cliente = Clients::findOrFail($presupuesto->cliente_id); // Asumiendo que cliente_id es uniforme en todos los presupuestos
+
+        // Cargar la vista adecuada y pasar los datos necesarios
+        $pdf = PDF::loadView('livewire.facturas.pdf-component', compact('factura', 'presupuestos', 'cliente', 'lista', 'productos', 'tipoDocumento'));
+
+        // Devolver el PDF para descargar con un nombre de archivo personalizado
+        $nombreArchivo = $tipoDocumento == 'albaran_credito' ? 'albaran' : 'factura';
+        return $pdf->download($nombreArchivo . '-' . $factura->numero_factura . '.pdf');
     }
 
-    public function certificado($id){
 
-        // Datos a enviar al certificado
-        $factura = Facturas::where('id', $id)->first();
-        $presupuesto = Presupuesto::where('id', $factura->id_presupuesto)->first();
-        $alumno = Alumno::where('id', $presupuesto->alumno_id)->first();
-        $curso = Cursos::where('id', $presupuesto->curso_id)->first();
-        $cursoCelebracion = CursosCelebracion::where('id', $curso->celebracion_id)->first();
-
-        // Fecha del final del curso
-        $date = Carbon::createFromFormat('d/m/Y', $curso->fecha_fin);
-        $diaMes = $date->day;
-        $nombreMes = ucfirst($date->monthName);
-        $numeroMes = $date->month;
-        $anioMes = $date->year;
-        $cursoFechaCelebracion = $diaMes." de ".$nombreMes." de ".$anioMes;
-
-        $cursoFechaCelebracionConBarras = $diaMes."/".$numeroMes."/".$anioMes;
-
-        // Se llama a la vista Liveware y se le pasa los productos. En la vista se epecifican los estilos del PDF
-        $pdf = PDF::loadView('livewire.facturas.certificado-component', compact('cursoCelebracion', 'cursoFechaCelebracion', 'cursoFechaCelebracionConBarras', 'alumno', 'curso'));
-
-        // Establece la orientación horizontal del papel
-        $pdf->setPaper('A4', 'landscape');
-
-        return $pdf->stream();
-
-    }
 }

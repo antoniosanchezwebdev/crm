@@ -48,6 +48,7 @@ class CreateComponent extends Component
     public $cantidad;
     public $orden_id;
     public $vehiculo_renting = false;
+    public $estado_pago;
 
 
     public function mount()
@@ -88,24 +89,25 @@ class CreateComponent extends Component
                 $this->vehiculo_renting = $this->vehiculoSeleccionado->vehiculo_renting;
             }
         }
-    }  
-    
+    }
+
     // Al hacer submit en el formulario
     public function submit()
     {
         $this->estado = "Pendiente";
 
-        foreach ($this->lista as $pro => $cantidad) {
-            if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
-                $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
-                $articulo->update([
-                    'existencias' => ($articulo->existencias_almacenes -= $cantidad),
-                    'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
-                ]);
-            }
-        }
+        // foreach ($this->lista as $pro => $cantidad) {
+        //     if (Productos::where('id', $pro)->first()->mueve_existencias == 1) {
+        //         $articulo = Almacen::where('cod_producto', Productos::where('id', $pro)->first()->cod_producto)->first();
+        //         $articulo->update([
+        //             'existencias' => ($articulo->existencias_almacenes -= $cantidad),
+        //             'existencias_depositos' => ($articulo->existencias_depositos += $cantidad)
+        //         ]);
+        //     }
+        // }
+
         $this->listaArticulos = json_encode($this->lista);
-    
+
 
         // Validación de datos
         $validatedData = $this->validate(
@@ -125,6 +127,7 @@ class CreateComponent extends Component
                 'vehiculo_renting' => 'nullable',
                 'estado' => 'nullable',
                 'observaciones' => 'nullable',
+                'estado_pago' => 'nullable',
 
             ],
             // Mensajes de error

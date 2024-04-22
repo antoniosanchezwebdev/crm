@@ -3,7 +3,7 @@
         <h5 class="card-header">Buscador</h5>
         <div class="card-body">
             <h5>Selecciona el estado de la tarea</h5>
-            <div class="col-sm-10" wire:ignore.self>
+            <div class="col-sm-10">
                 <select name="tipo_producto" id="tipo_producto" wire:model="tipo_producto" wire:change="select_producto"
                     class="form-control">
                     <option selected value="">Todas las tareas</option>
@@ -65,8 +65,12 @@
 
                                     <td>{{ $tarea->presupuesto->precio }} </td>
 
-                                    <td> <button type="button" class="btn btn-primary boton-producto"
+                                    <td>
+                                        <button type="button" class="btn btn-primary boton-producto"
                                             onclick="Livewire.emit('seleccionarProducto', {{ $tarea->id }});">Ver/Editar</button>
+                                        @if ($tarea->estado =='Completada')
+                                        <button type="button" class="btn btn-secondary boton-producto" wire:click="emailCompletado({{ $tarea->presupuesto->id }})">Avisar Cliente</button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Proveedores extends Model
+class Alertas extends Model
 {
     use HasFactory;
-    protected $table = "proveedores";
-
     protected $fillable = [
+        'user_id',
+        'estado_id',
+        'tipo_id',
+        'referencia_id',
+        'roles',
+        'descripcion',
+        'observaciones',
+        'titulo',
 
-        'dni',
-        'nombre',
-        'email',
-        'telefono',
-        'direccion',
-        'observaciones'
     ];
 
     /**
@@ -28,12 +28,4 @@ class Proveedores extends Model
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
     ];
-
-    /**
-     * Obtener las compras del proveedor.
-    */
-    public function compras()
-    {
-        return $this->hasMany(Compras::class);
-    }
 }
