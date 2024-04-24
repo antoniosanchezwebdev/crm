@@ -12,8 +12,8 @@
                     <div class="col-md-6">
                         <input id="username" type="text"
                             class="form-control @error('username') is-invalid @enderror" name="username"
-                            value="{{ old('username') }}" required wire:model="username" autocomplete="username"
-                            autofocus>
+                            value="{{ old('username') }}"  wire:model="username" autocomplete="username"
+                            >
 
                         @error('username')
                             <span class="invalid-feedback" role="alert">
@@ -27,8 +27,8 @@
 
                     <div class="col-md-6">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                            name="name" value="{{ old('name') }}" required wire:model="name" autocomplete="name"
-                            autofocus>
+                            name="name" value="{{ old('name') }}"  wire:model="name" autocomplete="name"
+                            >
 
                         @error('name')
                             <span class="invalid-feedback" role="alert">
@@ -43,8 +43,8 @@
 
                     <div class="col-md-6">
                         <input id="surname" type="text" class="form-control @error('surname') is-invalid @enderror"
-                            name="surname" value="{{ old('surname') }}" required wire:model="surname"
-                            autocomplete="surname" autofocus>
+                            name="surname" value="{{ old('surname') }}"  wire:model="surname"
+                            autocomplete="surname" >
 
                         @error('surname')
                             <span class="invalid-feedback" role="alert">
@@ -60,7 +60,7 @@
                     <div class="col-md-6">
                         <select id="role" wire:model="role"
                             class="form-control @error('role') is-invalid @enderror" name="role"
-                            value="{{ old('role') }}" required autocomplete="role" autofocus>
+                            value="{{ old('role') }}"  autocomplete="role" >
                             <option value="admin">Administrador/Gestor</option>
                             <option value="trabajador">Operario/Trabajador</option>
                         </select>
@@ -78,7 +78,7 @@
 
                     <div class="col-md-6">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" wire:model="email" required
+                            name="email" value="{{ old('email') }}" wire:model="email"
                             autocomplete="email">
 
                         @error('email')
@@ -94,7 +94,7 @@
 
                     <div class="col-md-6">
                         <input id="password" type="password"
-                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            class="form-control @error('password') is-invalid @enderror" name="password"
                             autocomplete="new-password" wire:model="password">
 
                         @error('password')
@@ -104,14 +104,15 @@
                         @enderror
                     </div>
                 </div>
+                <input type="hidden" id="inactive" name="inactive" wire:model="inactive" value="true">
+                <div class="mb-3 row d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary">Añadir trabajador</button>
+                </div>
+            </form>
         </div>
     </div>
     <br>
-    <input type="hidden" id="inactive" name="inactive" wire:model="inactive" value="true">
-    <div class="mb-3 row d-flex align-items-center">
-        <button type="submit" class="btn btn-primary">Añadir trabajador</button>
-    </div>
-    </form>
+
     <br>
     @section('scripts')
         <script>

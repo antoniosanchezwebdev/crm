@@ -31,4 +31,6 @@ class TrabajadoresComponent extends Component
         $this->tab = "tab2";
         $this->user = $user;
     }
+
+
 }
