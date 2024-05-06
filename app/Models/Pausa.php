@@ -19,7 +19,8 @@ class Pausa extends Model
         'user_id',
         'hora_inicio',
         'hora_final',
-        'status'
+        'status',
+        'tipo'
 
     ];
 

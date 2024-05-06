@@ -193,7 +193,31 @@ class Dashboard extends Component
     {
         $hora_inicio = Carbon::now()->toDateTimeString();
         $user_id = Auth::id();
-        Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1]);
+        Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1,'tipo' => 'Pausa']);
+        $this->checkJornada();
+        $this->recalcularHoras();
+    }
+    public function iniciarDesayuno()
+    {
+        $hora_inicio = Carbon::now()->toDateTimeString();
+        $user_id = Auth::id();
+        Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1,'tipo' => 'Desayuno']);
+        $this->checkJornada();
+        $this->recalcularHoras();
+    }
+    public function iniciarCompra()
+    {
+        $hora_inicio = Carbon::now()->toDateTimeString();
+        $user_id = Auth::id();
+        Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1,'tipo' => 'Compra']);
+        $this->checkJornada();
+        $this->recalcularHoras();
+    }
+    public function iniciarMantenimiento()
+    {
+        $hora_inicio = Carbon::now()->toDateTimeString();
+        $user_id = Auth::id();
+        Pausa::create(['user_id' => $user_id, 'hora_inicio' => $hora_inicio, 'status' => 1,'tipo' => 'Mantenimiento']);
         $this->checkJornada();
         $this->recalcularHoras();
     }

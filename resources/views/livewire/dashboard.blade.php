@@ -11,13 +11,13 @@
                 @else
                     <div class="row mt-3">
                         <div class="col-4 px-1">
-                            <button class="btn btn-lg btn-success w-100" wire:click="iniciarPausa">INICIAR DESAYUNO</button>
+                            <button class="btn btn-lg btn-success w-100" wire:click="iniciarDesayuno">INICIAR DESAYUNO</button>
                         </div>
                         <div class="col-4 px-1">
-                            <button class="btn btn-lg btn-secondary w-100" wire:click="iniciarPausa">INICIAR IR A COMPRAR</button>
+                            <button class="btn btn-lg btn-secondary w-100" wire:click="iniciarCompra">INICIAR IR A COMPRAR</button>
                         </div>
                         <div class="col-4 px-1">
-                            <button class="btn btn-lg btn-warning w-100" wire:click="iniciarPausa">INICIAR MANTENIMIENTO</button>
+                            <button class="btn btn-lg btn-warning w-100" wire:click="iniciarMantenimiento">INICIAR MANTENIMIENTO</button>
                         </div>
                     </div>
                 @endif
