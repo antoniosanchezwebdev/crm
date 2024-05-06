@@ -5,11 +5,11 @@
     <div class="row col-12 justify-content-center">
         <div class="col-12 mb-3 mt-3">
             @if ($jornada_activa == 1)
-                <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
-                @if ($pausa_activa == 1)
-                    <br><button class="btn btn-lg btn-danger mt-3 w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
-                @else
-                    <div class="row mt-3">
+            @if ($pausa_activa == 1)
+            <br><button class="btn btn-lg btn-danger mt-3 w-100" wire:click="finalizarPausa">FINALIZAR PAUSA</button>
+            @else
+            <button class="btn btn-lg btn-danger w-100" wire:click="finalizarJornada">FINALIZAR JORNADA</button>
+            <div class="row mt-3">
                         <div class="col-4 px-1">
                             <button class="btn btn-lg btn-success w-100" wire:click="iniciarDesayuno">INICIAR DESAYUNO</button>
                         </div>
